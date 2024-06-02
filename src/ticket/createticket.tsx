@@ -45,7 +45,7 @@ const CreateTicket :React.FC = (props: Props) => {
         setTicketObject(getValues())
         if (getValues()!=null){
             qrCode.update({
-                data: `http://${process.env.REACT_APP_HOST}/ticket/redirect?key=${getValues().key}`
+                data: `${process.env.REACT_APP_HOST}/ticket/redirect?key=${getValues().key}`
               });
         }else{
             alert('값을 입력해주세요');
