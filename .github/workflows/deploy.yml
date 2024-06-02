@@ -22,7 +22,7 @@ jobs:
         with:
           source-directory: 'output'
           destination-github-username: jpark0506
-          destination-repository-name: play-barcode-frontend
+          destination-repository-name: play_barcode_frontend
           user-email: ${{ secrets.EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
