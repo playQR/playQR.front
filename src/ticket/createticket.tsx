@@ -25,6 +25,7 @@ const qrCode = new QRCodeStyling({
   });
 
 const CreateTicket :React.FC = (props: Props) => {
+    
     const token = useCheckAuth();
     const navigate = useNavigate();
 
@@ -45,7 +46,7 @@ const CreateTicket :React.FC = (props: Props) => {
         setTicketObject(getValues())
         if (getValues()!=null){
             qrCode.update({
-                data: `${process.env.REACT_APP_HOST}/ticket/redirect?key=${getValues().key}`
+                data: `http://${process.env.REACT_APP_HOST}/ticket/redirect?key=${getValues().key}`
               });
         }else{
             alert('값을 입력해주세요');
