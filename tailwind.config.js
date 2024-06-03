@@ -20,11 +20,11 @@ module.exports = {
         'primary' : '#1FDA00',
         'secondary' : '#BDC8BB',
         'gray' :{
-          '100' : '#FAFAFA',
-          '200' : '#C5C5C5',
-          '300' : '#474747',
-          '400' : '#2A2A2A',
-          '500' : '#1E1E1E'
+          '1' : '#FAFAFA',
+          '2' : '#C5C5C5',
+          '3' : '#474747',
+          '4' : '#2A2A2A',
+          '5' : '#1E1E1E'
         },
         'text' : {
           'disabled': '#EBEBEB',
@@ -37,6 +37,19 @@ module.exports = {
           'black' : '#000000',
           'white' : '#FFFFFF',
         }
+        },
+        margin : {
+          '10px' : '10px',
+          '14px' : '14px'
+        }
+        ,width : {
+          '38px' : '38px',
+          
+        },height : {
+          '38px' : '38px'
+        },
+        padding : {
+          '10px' : '10px'
         }
       },
 

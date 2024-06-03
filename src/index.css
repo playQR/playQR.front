@@ -12,3 +12,24 @@
     font-style: normal;
   }
 }
+
+.custom-half-circle::before,
+.custom-half-circle::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border: 1px solid #d1d5db; /* gray-300 */
+  border-radius: 50%;
+  bottom: -4px;
+}
+
+.custom-half-circle::before {
+  left: -4px;
+}
+
+.custom-half-circle::after {
+  right: -4px;
+}
