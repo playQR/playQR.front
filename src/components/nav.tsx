@@ -2,24 +2,23 @@ import React from 'react'
 import LoginButton from './nav/components/loginbutton'
 import useAuthStore from '../store/store'
 import LogoutButton from './nav/components/logoutbutton'
+import UserButton from './nav/components/userbutton'
+import TicketButton from './nav/components/ticketbutton'
 
 type Props = {}
 
 const Nav = (props: Props) => {
 
-  const {token} =  useAuthStore(state => state);
+  // const {token} =  useAuthStore(state => state);
 
   return (
-    token === undefined ?
-    <div className='flex flex-row w-full h-16 bg-black justify-between items-center p-5'>
-          <h1 className='text-white'>Logo</h1>
-          <LoginButton/>
-    </div>  
-    : 
-    <div className='flex flex-row w-full h-16 bg-black justify-between items-center p-5'>
-      <h1 className='text-white'>Logo</h1>
-      <LogoutButton/>
-    </div>  
+    <div className='flex flex-row w-full h-16 justify-between items-center'>
+          <h1 className='text-plg text-primary font-yspotlight'>LOGO 위치</h1>
+          <div className='flex flex-row h-full items-center space-x-2'>
+            <TicketButton/>
+            <UserButton/>
+          </div>
+    </div> 
   )
 }
 

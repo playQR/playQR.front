@@ -6,15 +6,15 @@ module.exports = {
   theme: {
     extend: {
       fontFamily : {
-        'Montserrat' : ['Montserrat', 'sans-serif'],
+        'yspotlight' :'Y_Spotlight'
       },
       fontSize : {
-        'xs' : '12px',
-        'sm' : '14px',
-        'base' : '16px',
-        'lg' : '18px',
-        'xl' : '22px',
-        'title' :  '28px',
+        'pxs' : '12px',
+        'psm' : '14px',
+        'pmd' : '16px',
+        'plg' : '18px',
+        'pxl' : '22px',
+        'ptitle' :  '28px',
       },
       colors : {
         'primary' : '#1FDA00',
