@@ -4,6 +4,7 @@ import Footer from '../components/footer';
 import { useForm } from 'react-hook-form';
 import QRCodeStyling from "qr-code-styling";
 import { useNavigate } from 'react-router-dom';
+import useCheckAuth from '../utils/hooks/useCheckAuth';
 
 type Props = {}
 type FormType = {
@@ -24,7 +25,8 @@ const qrCode = new QRCodeStyling({
   });
 
 const CreateTicket :React.FC = (props: Props) => {
-
+    
+    const token = useCheckAuth();
     const navigate = useNavigate();
 
     const ref = useRef<HTMLDivElement>(null);
@@ -44,7 +46,7 @@ const CreateTicket :React.FC = (props: Props) => {
         setTicketObject(getValues())
         if (getValues()!=null){
             qrCode.update({
-                data: `http://localhost:3000/ticket/redirect?key=${getValues().key}`
+                data: `http://${process.env.REACT_APP_HOST}/ticket/redirect?key=${getValues().key}`
               });
         }else{
             alert('값을 입력해주세요');
