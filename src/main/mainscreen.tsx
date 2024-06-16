@@ -12,6 +12,7 @@ type Props = {}
 const MainScreen = (props: Props) => {
     useEffect (() => {
         axiosAPI.get('/promotions').then((res) => {
+            alert('API Server Connected')
             console.log(res);
         }).catch((err) => {
             console.log(err);})
