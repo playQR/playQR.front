@@ -44,11 +44,22 @@ module.exports = {
         }
         ,width : {
           '38px' : '38px',
-          
+          '60px' : '60px',
+          '22px' : '22px',
+          '18px' : '18px'
         },height : {
-          '38px' : '38px'
+          '38px' : '38px',
+          '22px' : '22px',
+          '30px' : '30px',
+          '45px' : '45px',
         },
         padding : {
+          '10px' : '10px'
+        },
+        top : {
+          '10px' : '10px'
+        },
+        right : {
           '10px' : '10px'
         }
       },

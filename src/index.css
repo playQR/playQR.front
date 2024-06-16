@@ -12,6 +12,14 @@
     font-style: normal;
   }
 }
+.body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
 
 .custom-half-circle::before,
 .custom-half-circle::after {

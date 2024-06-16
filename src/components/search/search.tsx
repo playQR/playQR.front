@@ -9,7 +9,9 @@ type Result = {
     title : string,
     location : string,
     date : string, 
-    price : string
+    price : string,
+    like : boolean,
+    like_num : number
   }
 
 const exampleDataList :Result[] = [
@@ -19,7 +21,9 @@ const exampleDataList :Result[] = [
       title: "공연 Title 1",
       location: "위치 1",
       date: "2024.06.01 토",
-      price: "40,000₩"
+      price: "40,000₩",
+      like: true,
+      like_num: 32
     },
     {
       img: undefined,
@@ -27,7 +31,9 @@ const exampleDataList :Result[] = [
       title: "공연 Title 2",
       location: "위치 2",
       date: "2024.06.15 토",
-      price: "50,000₩"
+      price: "50,000₩",
+      like: false,
+      like_num: 29
     },
     {
       img: undefined,
@@ -35,7 +41,9 @@ const exampleDataList :Result[] = [
       title: "공연 Title 3",
       location: "위치 3",
       date: "2024.07.01 일",
-      price: "30,000₩"
+      price: "30,000₩",
+      like: false,
+      like_num: 16
     },
     {
       img: undefined,
@@ -43,7 +51,9 @@ const exampleDataList :Result[] = [
       title: "공연 Title 4",
       location: "위치 4",
       date: "2024.07.20 일",
-      price: "45,000₩"
+      price: "45,000₩",
+      like: false,
+      like_num: 50
     },
     {
       img: undefined,
@@ -51,7 +61,9 @@ const exampleDataList :Result[] = [
       title: "공연 Title 5",
       location: "위치 5",
       date: "2024.08.05 월",
-      price: "35,000₩"
+      price: "35,000₩",
+      like: false,
+      like_num: 16
     }
   ];
 

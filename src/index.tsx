@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import MainScreen from './main/mainscreen';
-import LoginScreen from './login/loginscreen';
+// import LoginScreen from './login/loginscreen';
 import NotFound from './NotFound';
 import Register from './register/registerscreen';
 import reportWebVitals from './reportWebVitals';
@@ -27,10 +27,6 @@ const router = createBrowserRouter(
           index : true,
           path : "",
           element : <MainScreen/>
-        },
-        {
-          path:"login",
-          element : <LoginScreen/>
         },
         {
           path:"register",

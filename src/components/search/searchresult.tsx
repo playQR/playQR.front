@@ -6,7 +6,9 @@ type Result = {
   title : string,
   location : string,
   date : string, 
-  price : string
+  price : string,
+  like : boolean,
+  like_num : number
 }
 
 

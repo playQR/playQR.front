@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import useAuthStore from '../../store/store';
+import store from '../../store/store';
 import { useNavigate } from 'react-router-dom';
+import KakaoModal from '../../login/Modal';
 type Props = {}
 
 const Title = () => {
@@ -21,16 +22,14 @@ const Title = () => {
 
 const InfoComponent = (props: Props) => {
 
+    const { useAuthStore,useModalStore } = store;
     const { token } = useAuthStore(state => state);
-    const navigate = useNavigate();
-    const onClick = () => {
-        navigate('/login');
-      }
-
+    const { openModal } = useModalStore(state => state);
+    
     return (
         token === undefined ? 
             <div className='flex flex-col w-full items-start'>
-                <button onClick={onClick}>
+                <button onClick={openModal}>
                     <div className='text-system-white mb-10px text-psm underline'>
                         로그인을 해주세요
                     </div>
@@ -42,6 +41,7 @@ const InfoComponent = (props: Props) => {
                     안녕하세요, 이정한님!
                 </div>
                 <Title/>
+            
         </div>
   )
 }
