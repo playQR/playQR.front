@@ -6,25 +6,25 @@ module.exports = {
   theme: {
     extend: {
       fontFamily : {
-        'Montserrat' : ['Montserrat', 'sans-serif'],
+        'yspotlight' :'Y_Spotlight'
       },
       fontSize : {
-        'xs' : '12px',
-        'sm' : '14px',
-        'base' : '16px',
-        'lg' : '18px',
-        'xl' : '22px',
-        'title' :  '28px',
+        'pxs' : '12px',
+        'psm' : '14px',
+        'pmd' : '16px',
+        'plg' : '18px',
+        'pxl' : '22px',
+        'ptitle' :  '28px',
       },
       colors : {
         'primary' : '#1FDA00',
         'secondary' : '#BDC8BB',
         'gray' :{
-          '100' : '#FAFAFA',
-          '200' : '#C5C5C5',
-          '300' : '#474747',
-          '400' : '#2A2A2A',
-          '500' : '#1E1E1E'
+          '1' : '#FAFAFA',
+          '2' : '#C5C5C5',
+          '3' : '#474747',
+          '4' : '#2A2A2A',
+          '5' : '#1E1E1E'
         },
         'text' : {
           'disabled': '#EBEBEB',
@@ -37,6 +37,30 @@ module.exports = {
           'black' : '#000000',
           'white' : '#FFFFFF',
         }
+        },
+        margin : {
+          '10px' : '10px',
+          '14px' : '14px'
+        }
+        ,width : {
+          '38px' : '38px',
+          '60px' : '60px',
+          '22px' : '22px',
+          '18px' : '18px'
+        },height : {
+          '38px' : '38px',
+          '22px' : '22px',
+          '30px' : '30px',
+          '45px' : '45px',
+        },
+        padding : {
+          '10px' : '10px'
+        },
+        top : {
+          '10px' : '10px'
+        },
+        right : {
+          '10px' : '10px'
         }
       },
 

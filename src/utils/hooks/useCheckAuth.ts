@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import  useAuthStore  from '../../store/store'; // 경로는 실제 상황에 맞게 조정하세요.
+import  store  from '../../store/store'; // 경로는 실제 상황에 맞게 조정하세요.
 
 function useCheckAuth() {
+    const { useAuthStore } = store;
     const { token } = useAuthStore(state => state);
     const navigate = useNavigate();
 

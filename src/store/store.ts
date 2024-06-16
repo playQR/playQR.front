@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import {create} from "zustand";
 import { createJSONStorage, persist } from 'zustand/middleware';
+import Modal from 'react-modal';
 interface RUser {
     name : string;
     nickname : string;
@@ -56,5 +57,22 @@ const useAuthStore = create<AuthStore>((set) => ({
     
 }));
 
+interface ModalStore {
+    isOpen : boolean;
+    openModal : () => void;
+    closeModal : () => void;
+}
 
-export default useAuthStore;
+const useModalStore = create<ModalStore>((set) => ({
+    isOpen: false,
+    openModal: () => set({ isOpen: true }),
+    closeModal: () => set({ isOpen: false }),
+}));
+
+const store = {
+    useAuthStore,
+    useModalStore,
+};
+
+
+export default store;

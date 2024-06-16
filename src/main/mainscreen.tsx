@@ -2,16 +2,27 @@ import React, { useEffect } from 'react'
 import Nav from '../components/nav';
 import Footer from '../components/footer';
 import  useCheckAuth from '../utils/hooks/useCheckAuth';
+import InfoComponent from '../components/info/infocomponent';
+import Search from '../components/search/search';
+import KakaoModal from '../login/Modal';
+import store from '../store/store';
+import {axiosAPI} from '../axios/index';
 type Props = {}
 
 const MainScreen = (props: Props) => {
+    useEffect (() => {
+        axiosAPI.get('/promotions').then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err);})
+    }, []);
+
     return (
-        <div className='flex flex-col w-full h-screen'>
+        <div className='flex flex-col min-h-screen w-full bg-system-background p-4'>
+            <KakaoModal/>
             <Nav/>
-            <div className='flex flex-col w-full h-full items-center justify-center'>
-                <h1 className='text-2xl'>Main Screen</h1>
-            </div>
-            <Footer/>
+            <InfoComponent/>
+            <Search/>
         </div>
     )
 }
