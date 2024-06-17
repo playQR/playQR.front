@@ -6,9 +6,11 @@ import like_icon_true from './img/like_icon_true.png';
 import like_icon_false from './img/like_icon_false.png';
 import simple_img from './img/simple_img.png';
 import LikeButton from '../buttons/like_button';
+import { useNavigate } from 'react-router-dom';
 
 
 type Result = {
+  promotion_id : number,
   img : string | undefined,
   band_name : string,
   title : string,
@@ -25,10 +27,14 @@ type Props = {
 
 const SearchCard : React.FC<Props> = (props: Props) => {
 
-  const { img, band_name, title, location, date, price, like, like_num } = props.result
+  const navigate = useNavigate();
 
+  const { img, band_name, title, location, date, price, like, like_num } = props.result
+  const onClick = () => {
+    navigate(`/promotion/${props.result.promotion_id}`);
+  }
   return (
-    <div className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
+    <div onClick={onClick} className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
       <div className="relative">
         <div className="h-40 w-full flex items-center justify-center">
           <img src={simple_img} alt="checker" className="h-full w-full object-cover" />

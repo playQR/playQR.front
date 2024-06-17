@@ -1,6 +1,7 @@
 import React from 'react'
 import SearchCard from './searchcard'
 type Result = {
+  promotion_id : number,
   img : string | undefined,
   band_name : string,
   title : string,
