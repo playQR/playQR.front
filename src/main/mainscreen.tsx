@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import Nav from '../components/nav';
-import Footer from '../components/footer';
-import  useCheckAuth from '../utils/hooks/useCheckAuth';
 import InfoComponent from '../components/info/infocomponent';
 import Search from '../components/search/search';
 import KakaoModal from '../login/Modal';
-import store from '../store/store';
 import {axiosAPI} from '../axios/index';
 type Props = {}
 

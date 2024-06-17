@@ -11,6 +11,7 @@ import CreateTicket from './ticket/createticket';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Ticket from './ticket/ticketmain';
 import RedirectPage from './redirect/ticketredirectpage';
+import PromotionView from './promotion/promotionview';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -32,7 +33,12 @@ const router = createBrowserRouter(
           path:"register",
           element: <Register/>
         },
-        
+        {
+          path:"promotion",
+          children : [{
+            path:":id", 
+            element: <PromotionView/>}]
+        },
         {
           path:"ticket",
           children : [{

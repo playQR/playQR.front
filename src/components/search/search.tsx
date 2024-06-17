@@ -4,6 +4,7 @@ import SearchResult from './searchresult';
 type Props = {}
 
 type Result = {
+    promotion_id : number,
     img : string | undefined,
     band_name : string,
     title : string,
@@ -16,6 +17,7 @@ type Result = {
 
 const exampleDataList :Result[] = [
     {
+      promotion_id: 0,
       img: undefined,
       band_name: "밴드 이름 1",
       title: "공연 Title 1",
@@ -26,6 +28,7 @@ const exampleDataList :Result[] = [
       like_num: 32
     },
     {
+      promotion_id: 1,
       img: undefined,
       band_name: "밴드 이름 2",
       title: "공연 Title 2",
@@ -36,6 +39,7 @@ const exampleDataList :Result[] = [
       like_num: 29
     },
     {
+      promotion_id: 2,
       img: undefined,
       band_name: "밴드 이름 3",
       title: "공연 Title 3",
@@ -46,6 +50,7 @@ const exampleDataList :Result[] = [
       like_num: 16
     },
     {
+      promotion_id: 3,
       img: undefined,
       band_name: "밴드 이름 4",
       title: "공연 Title 4",
@@ -56,6 +61,7 @@ const exampleDataList :Result[] = [
       like_num: 50
     },
     {
+      promotion_id: 4,
       img: undefined,
       band_name: "밴드 이름 5",
       title: "공연 Title 5",
