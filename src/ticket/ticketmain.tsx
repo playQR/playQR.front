@@ -8,7 +8,7 @@ type Props = {}
 const Ticket = (props: Props) => {
   const token = useCheckAuth();
   return (
-    <div className='flex flex-col w-full h-screen'>
+    <div className='flex flex-col container max-w-screen-md h-screen'>
             <Nav/>
             <div className='flex flex-col w-full h-full p-10'>
               <div className='flex flex-row w-full justify-between'>

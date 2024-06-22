@@ -2,33 +2,15 @@ import React from 'react'
 import sample_image_lg from './img/sample_image_lg.png'
 import location_icon_white from './img/location_icon_white.png'
 import calendar_icon_white from './img/calendar_icon_white.png'
+import { PromotionType } from './types';
 import ShowInfo from './showinfo'
 import TalkInfo from './talkinfo'
 type Props = {
   promotion_info : PromotionType
 }
 
-type SetListType = {
-  song_title : string,
-  song_artist : string,
-  song_like : boolean,
-  song_like_num : number
-}
-type PromotionType = {
-  img : string | undefined,
-  band_name : string,
-  title : string,
-  location : string,
-  date : string, 
-  price : string,
-  setlist : SetListType [],
-  promotion_info : string,
-  refund_info : string
-}
-
-  
 const PromotionInfo = (props: Props) => {
-  const { img, band_name, title, location, date, price, setlist, promotion_info, refund_info } = props.promotion_info
+  const { img, band_name, title, location, date, price, setlist, promotion_info, refund_info, comment } = props.promotion_info
 
   const [isLeft, setIsLeft] = React.useState<boolean>(true);
 
@@ -75,7 +57,11 @@ const PromotionInfo = (props: Props) => {
           </div>
         </div>
           {
-              isLeft ? <ShowInfo setList={setlist}/> : <TalkInfo/>
+              isLeft ? <ShowInfo 
+                  setList={setlist}
+                  promotionInfo={promotion_info}
+                  refundInfo={refund_info}
+                  /> : <TalkInfo comment = {comment}/>
           }
     </div>
   )

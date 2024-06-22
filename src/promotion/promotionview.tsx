@@ -7,24 +7,8 @@ import PromotionInfo from './promotioninfo';
 import {axiosAPI} from '../axios/index';
 import BottomButton from './bottombutton';
 import {useParams} from 'react-router-dom';
+import { PromotionType, SetListType, CommentType } from './types';
 type Props = {}
-type SetListType = {
-    song_title : string,
-    song_artist : string,
-    song_like : boolean,
-    song_like_num : number
-}
-type PromotionType = {
-    img : string | undefined,
-    band_name : string,
-    title : string,
-    location : string,
-    date : string, 
-    price : string,
-    setlist : SetListType [],
-    promotion_info : string,
-    refund_info : string
-}
 
 const mockSetList: SetListType[] = [
     {
@@ -58,6 +42,21 @@ const mockSetList: SetListType[] = [
       song_like_num: 55,
     },
   ];
+const example_comment_content : CommentType[]= [
+  {
+    nickname: "John Doe",
+    comment_date: "2024.07.04",
+    comment_content: "This is the best concert I have ever been to!",
+    profile_img: undefined
+  },
+  {
+    nickname: "Jane Doe",
+    comment_date: "2024.07.04",
+    comment_content: "I can't wait to see them live!",
+    profile_img: undefined
+  }
+]
+
   const example_promotion_info: PromotionType[] = [{
     img: undefined,
     band_name: "The Rolling Stones",
@@ -68,6 +67,7 @@ const mockSetList: SetListType[] = [
     setlist: mockSetList,
     promotion_info: "Join us for an unforgettable night with The Rolling Stones. Experience the classics live!",
     refund_info: "Refunds are available up to 7 days before the event. No refunds will be given after this period.",
+    comment: example_comment_content,
   }];
 const PromotionView = (props: Props) => {
 
