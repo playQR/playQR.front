@@ -6,7 +6,7 @@ const backgroundStyle = {
     background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 53%, rgba(0, 0, 0, 0.7) 100%)',
 };
   
-
+  
 const BottomButton = (props: Props) => {
   return (
     
