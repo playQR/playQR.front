@@ -17,8 +17,8 @@ const MainScreen = (props: Props) => {
     }, []);
 
     return (
-        <div className="flex justify-center w-screen h-full bg-system-background">
-            <div className='flex flex-col min-h-screen max-w-lg justify-center bg-system-background p-4'>
+        <div className="flex flex-col justify-center w-screen h-full bg-system-background">
+            <div className='flex flex-col min-h-screen justify-center bg-system-background p-4'>
                 <KakaoModal/>
                 <Nav/>
                 <InfoComponent/>
