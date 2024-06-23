@@ -86,7 +86,7 @@ const PromotionView = (props: Props) => {
     // }, [])
 
     return (
-        <div className='w-full'>
+        <div className='w-full relative'>
             <div className='flex flex-col min-h-screen w-full bg-system-background p-4'>
                 <KakaoModal/>
                 <Nav/>
