@@ -52,7 +52,9 @@ module.exports = {
           '38px' : '38px',
           '60px' : '60px',
           '22px' : '22px',
-          '18px' : '18px'
+          '18px' : '18px',
+          '640px': '640px',
+          '768px' : '768px'
         },height : {
           '38px' : '38px',
           '22px' : '22px',
