@@ -47,20 +47,25 @@ module.exports = {
           '14px' : '14px',
           '18px' : '18px',
           '34px' : '34px',
+          '30px' : '30px',
         }
         ,width : {
           '38px' : '38px',
           '60px' : '60px',
           '22px' : '22px',
           '18px' : '18px',
+          '75px' : '75px',
+          '300px' : '300px',
           '640px': '640px',
           '768px' : '768px'
         },height : {
+          '4px' : '4px',
           '38px' : '38px',
           '22px' : '22px',
           '30px' : '30px',
           '45px' : '45px',
           '46px' : '46px',
+          '48px' : '48px',
           '100px' : '100px',
           '268px' : '268px',
           '350px' : '350px',
@@ -72,6 +77,7 @@ module.exports = {
           '54px' : '54px',
           '22px' : '22px',
           '6px' : '6px',
+          '20px' : '20px',
         },
         top : {
           '10px' : '10px'
@@ -83,6 +89,9 @@ module.exports = {
         },
         borderRadius : {
           '5px' : '5px',
+        },
+        borderWidth : {
+          '1px' : '1px',
         }
       },
 

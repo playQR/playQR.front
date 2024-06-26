@@ -9,51 +9,19 @@ interface RUser {
 }
 
 interface AuthStore {
-    token: string | undefined;
-    user: RUser | undefined;
-    setToken: (token: string) => void;
-    unsetToken: () => void;
-    setUser: (user: RUser) => void;
-    unsetUser: (cb?: () => void) => void;
+    accessToken: string | null;
+    refreshToken: string | null;
+    setTokens: (accessToken: string | null, refreshToken: string | null) => void;
+    clearTokens: () => void;
+
 }
 
 const useAuthStore = create<AuthStore>((set) => ({
+    accessToken: null,
+    refreshToken: null,
+    setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
+    clearTokens: () => set({ accessToken: null, refreshToken: null })
 
-    token: localStorage.getItem("access-token") || undefined,
-    // initialize: () => {
-    //     // const savedToken = localStorage.getItem("token");
-    //     // const cookieToken = Cookies.get('access-token');
-
-    //     // if (!savedToken && !!cookieToken) {
-    //     // localStorage.setItem("token", cookieToken);
-    //     // }
-
-    //     // getMyInfo().then((response) => {
-    //     //     if (!response.isOk) {
-    //     //         return;
-    //     //     }
-
-    //     //     set((x:any) => ({ ...x, user: response.user }));
-    //     // });
-
-    // },
-    user : undefined,
-    
-    setToken : (token:string) => {
-        localStorage.setItem("access-token", token);
-        set((x:any) => ({ ...x, token }))
-    },
-    unsetToken: () => {
-        localStorage.removeItem("access-token");
-        set((x:any) => ({ ...x, token: undefined }));
-    },
-    setUser: (user: RUser) => {
-        set((x:any) => ({ ...x, user }));
-    },
-    unsetUser: (cb?: () => void) => {
-        set((x:any) => ({ ...x, user: undefined }));
-        cb?.();
-    },
     
 }));
 

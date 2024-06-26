@@ -1,97 +1,58 @@
-import React,{useState, useRef, useEffect} from 'react'
-import Nav from '../components/nav';
-import Footer from '../components/footer';
-import { useForm } from 'react-hook-form';
-import QRCodeStyling from "qr-code-styling";
-import { useNavigate } from 'react-router-dom';
-import useCheckAuth from '../utils/hooks/useCheckAuth';
-
-type Props = {}
-type FormType = {
-    key: string,
+import React, { useState } from 'react';
+import Step1 from './components/step1';
+interface FormData {
+  textInput1: string;
+  textInput2: string;
+  images: Array<string>; // 이미지 파일의 URL을 저장
+  date: Date;
+  startTime: Date;
+  endTime: Date;
+  textInput3: string;
 }
 
-const qrCode = new QRCodeStyling({
-    width: 300,
-    height: 300,
-    dotsOptions: {
-      color: "#4267b2",
-      type: "square"
-    },
-    imageOptions: {
-      crossOrigin: "anonymous",
-      margin: 20
-    }
+interface StepProps {
+  formData: FormData;
+  setFormData: (formData: FormData) => void;
+  nextStep: () => void;
+}
+
+
+const CreateTicket: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [formData, setFormData] = useState<FormData>({
+    textInput1: '',
+    textInput2: '',
+    images: [],
+    date: new Date(),
+    startTime: new Date(),
+    endTime: new Date(),
+    textInput3: ''
   });
 
-const CreateTicket :React.FC = (props: Props) => {
-    
-    const token = useCheckAuth();
-    const navigate = useNavigate();
-
-    const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (ref.current !== null) {
-            qrCode.append(ref.current);  // 예시로 focus 메서드 사용, 실제로 div에서는 작동하지 않음
-        }
-      }, []);
-    
-
-    const [ticketObject, setTicketObject] = React.useState<FormType>({} as FormType)
-
-    const { register, control, handleSubmit, getValues, formState: { errors } } = useForm<FormType>();
-    
-    const handleGetValues = () => {
-        setTicketObject(getValues())
-        if (getValues()!=null){
-            qrCode.update({
-                data: `http://${process.env.REACT_APP_HOST}/ticket/redirect?key=${getValues().key}`
-              });
-        }else{
-            alert('값을 입력해주세요');
-        }
+  const nextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
     }
+  };
 
-    const onDownloadClick = () => {
-        qrCode.download({
-          extension: "png"
-        });
-      };
+  const previousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
 
-    return (
-        <div className='flex flex-col w-full h-screen'>
-        <Nav/>
-        <div className='flex flex-col w-full h-full p-10'>
-                <div className='flex flex-row w-full justify-between'>
-                    <h1 className='text-2xl'>티켓 생성하기</h1>   
-                </div>
+  const totalSteps = 3; // 총 단계 수 설정
 
+  return (
+    <div>
+      {currentStep === 1 && (
+        <Step1 formData={formData} setFormData={setFormData} nextStep={nextStep} />
+      )}
+      {/* 추가 단계 컴포넌트 렌더링 */}
+      {currentStep > 1 && <button onClick={previousStep}>Previous</button>}
+      {currentStep === totalSteps && <button onClick={() => console.log(formData)}>Submit</button>}
+    </div>
+  );
+};
 
-            
-                <div className='border-b-2 border-gray-300 mt-3'></div>
-                <div className='flex flex-col w-full mt-5'>
-                    <div className='flex flex-row w-full justify-between'>
-                        <div className='flex flex-col'>
-                            <h2 className='text-xl'>KEY</h2>
-                            <input type="text" className="border-2 border-gray-300 rounded p-2"
-                                {...register('key')} />
-                        </div>
-                    </div>
-                    
-                    <div className='flex flex-row w-full justify-between mt-5'>
-                        <button className="px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded text-white" onClick={handleGetValues}>QR 생성</button>
-                    </div>
-                </div>
-                <div className='border-b-2 border-gray-300 mt-3'></div>
-                <div className='flex items-center justify-center mt-10 mb-10'>
-                    <div ref={ref} />
-                </div>
-                <button onClick={onDownloadClick} className="px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded text-white">QR 다운로드</button>
-                <button onClick={()=>navigate('/ticket')}className="px-4 py-2 bg-slate-600 hover:bg-slate-700 rounded text-white mt-5">뒤로가기</button>
-            </div>
-            
-        </div>)
-}
-
-export default CreateTicket
+export default CreateTicket;
