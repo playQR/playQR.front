@@ -1,23 +1,19 @@
 import React from 'react'
-
+import backicon from '../../img/backicon.png'
 type Props = {
-    isFirstStep: boolean;
+    
     prev : () => void;
 }
 
 const BackButton = (props: Props) => {
-    const {isFirstStep, prev} = props
+    const {prev} = props
     return (
-        isFirstStep ? null :  
+         
         <button
-                className={`h-45px w-75px bg-gray-1 border-1px border-gray-2 text-white rounded-lg ${
-                    isFirstStep ? 'invisible' : ''
-                }`}
+                className={`h-30px w-30px p-1 mb-10px`}
                 onClick={prev}
                 >
-                <div className={`text-gray-2 text-sm`}>
-                    이전
-                </div>
+                <img src={backicon} className='w-22px' alt="backicon"/>
         </button>
     )
 }

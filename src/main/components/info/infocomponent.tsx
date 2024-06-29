@@ -1,8 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import {useEffect, useState} from 'react'
+import {axiosSecureAPI} from '../../../axios/index';
 import store from '../../../store/store';
-import { useNavigate } from 'react-router-dom';
-import KakaoModal from '../../../login/Modal';
 type Props = {}
 
 const Title = () => {
@@ -21,13 +19,33 @@ const Title = () => {
 }
 
 const InfoComponent = (props: Props) => {
+    const { useAuthStorePersist, useUserStore, useModalStore } = store;
+    const [user, setUser] = useState(useUserStore.getState().user);
+    const { accessToken, accessTokenExpireTime } = useAuthStorePersist(state => ({
+        accessToken: state.accessToken,
+        accessTokenExpireTime: state.accessTokenExpireTime
+    }));
+    async function fetchUserData() {
+        if (accessToken!==null && accessTokenExpireTime!==null) {
+            try {
+                
+                const res = await axiosSecureAPI.get('/api/members');
+                useUserStore.getState().setUser(res.data.result);
+                setUser(res.data.result);
+                console.log(res);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+    useEffect(()=>{
+        
+        fetchUserData();
+    },[])
 
-    const { useAuthStore,useModalStore } = store;
-    const { token } = useAuthStore(state => state);
     const { openModal } = useModalStore(state => state);
-    
     return (
-        token === undefined ? 
+        user === null ? 
             <div className='flex flex-col w-full items-start'>
                 <button onClick={openModal}>
                     <div className='text-system-white mb-10px text-psm underline'>
@@ -38,7 +56,7 @@ const InfoComponent = (props: Props) => {
             </div> : 
             <div className='flex flex-col w-full'>
                 <div className='text-system-white mb-10px text-psm'>
-                    안녕하세요, 이정한님!
+                    {`${user.name}님, 안녕하세요`}
                 </div>
                 <Title/>
             

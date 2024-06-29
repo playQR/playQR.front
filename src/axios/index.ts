@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from '../store/store'
+import { parseKSTDate } from '../utils/time';
 
-const { useAuthStore } = store;
+const { useAuthStorePersist } = store;
 
 export const BASE_URL = process.env.REACT_APP_API_URL
   
@@ -11,13 +12,15 @@ export const axiosSecureAPI = axios.create({
 });
 
 export const axiosAPI = axios.create({
-     baseURL: BASE_URL,
+    baseURL: BASE_URL,
     headers: { 'Content-Type': 'application/json' },
 });
 
 axiosSecureAPI.interceptors.request.use(config => {
-  const { accessToken } = useAuthStore.getState();
-  if (accessToken) {
+  
+  const { accessToken } = useAuthStorePersist.getState();
+  
+  if (accessToken !== null) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
   return config;
@@ -30,21 +33,37 @@ axiosSecureAPI.interceptors.response.use(
   response => response, // 정상 응답이면 그대로 반환
   async error => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-        const { refreshToken } = useAuthStore.getState();
-        if (refreshToken === null){
-            useAuthStore.getState().setTokens(null, null);
-            window.location.href = '/'
-            alert('세션이 만료되었습니다. 다시 로그인해 주세요.')
-            return Promise.reject(error);
+    if (error.response.status === 400 && !originalRequest._retry) {
+        const { refreshToken, refreshTokenExpireTime } = useAuthStorePersist.getState();
+        const currentTime = new Date().getTime();
+        
+        // if (refreshTokenExpireTime !== null && currentTime > refreshTokenExpireTime.getTime()){
+        //     useAuthStorePersist.getState().setTokens(null, null,null,null);
+        //     window.location.href = '/'
+        //     alert('토큰이 만료되었습니다. 다시 로그인해 주세요.')
+        //     return Promise.reject(error);
+        // }
+        if(refreshToken === null || refreshTokenExpireTime === null){
+          useAuthStorePersist.getState().setTokens(null, null,null,null);
+          window.location.href = '/'
+          alert('토큰이 없습니다. 다시 로그인해 주세요.')
         }
         originalRequest._retry = true;
         try {
-            const tokenResponse = await axiosSecureAPI.post('/refresh', { refreshToken });
-            const { accessToken } = tokenResponse.data;
-            useAuthStore.getState().setTokens(accessToken, refreshToken);
-            originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
-            return (originalRequest);
+            
+            const tokenResponse = await axiosAPI.post('/api/tokens/reissue', null, {
+              params : {
+                refresh: refreshToken
+              }
+            } );
+            const result = tokenResponse.data.result;
+            const accessToken = result.accessToken;
+            const newrefreshToken = result.refreshToken;
+            const accessTokenExpireTime = parseKSTDate(result.code_expire);
+            const refreshTokenExpireTime = parseKSTDate(result.refresh_expire);
+            useAuthStorePersist.getState().setTokens(accessToken, newrefreshToken, accessTokenExpireTime, refreshTokenExpireTime);
+            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+            return axiosSecureAPI(originalRequest);
         } catch (refreshError) {
             return Promise.reject(refreshError);
         }

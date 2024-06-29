@@ -3,7 +3,6 @@ import Nav from '../common/components/nav/nav';
 import { useForm } from 'react-hook-form';
 import QRCodeStyling from "qr-code-styling";
 import { useNavigate } from 'react-router-dom';
-import useCheckAuth from '../utils/hooks/useCheckAuth';
 
 type Props = {}
 type FormType = {
@@ -25,7 +24,7 @@ const qrCode = new QRCodeStyling({
 
 const CreateQR :React.FC = (props: Props) => {
     
-    const token = useCheckAuth();
+   
     const navigate = useNavigate();
 
     const ref = useRef<HTMLDivElement>(null);
