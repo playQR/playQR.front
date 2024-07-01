@@ -10,6 +10,8 @@ const NextButton = (props: Props) => {
 
     const {currentIndex, isValid} = props;
     
+    
+
     return (
         <div className='grid flex-row w-full items-end justify-items-end'>
         <button

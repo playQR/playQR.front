@@ -6,6 +6,9 @@ import { CustomTextInput, CustomLongTextInput } from './common/inputs';
 import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';
+import axiosSecureAPI from '../../../axios';
+import Result from '../promotionview/result';
+import { set } from 'react-hook-form';
 type Props = {
   next : () => void;
   prev : () => void;
@@ -55,39 +58,50 @@ const Step3 = (props: Props) => {
   const {updateData, getFullPromotionData} = useCreatePromotionStore();
   const {next,currentIndex,prev} = props;
   const [isValid,setIsValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  
   const changeIsValid = (value : boolean) => {
     setIsValid(value)
   }
+ 
   const [initialVal, setInitialVal] = useState<Billing>(getFullPromotionData().step3.billing);
   return (
-    <div className='w-full bg-system-white p-4'>
-      <BackButton prev={prev}/>
-      <Formik
-        initialValues={initialVal}
-        validationSchema={validationSchema}
-        onSubmit={
-          (values, {setSubmitting}) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-            updateData({ step3 : {billing :values}})
-            alert(JSON.stringify(getFullPromotionData(), null, 2))
-            next();
-          }
-        }>
+    <div className={`relative w-full bg-system-background
+       `}>
+      <div className={`absolute top-0 w-full bg-system-white p-4
+        ${submitSuccess ? 'invisible h-10px' : 'visible'}`}>
+        <BackButton prev={prev}/>
+        <Formik
+          initialValues={initialVal}
+          validationSchema={validationSchema}
+          onSubmit={
+            async (values, {setSubmitting}) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+              
+              updateData({ step3 : {billing :values}})
+              next();
+            }
+          }>
 
-        <Form>
-          <CustomTextInput label='티켓 가격을 알려주세요' name='price' type='text' placeholder='숫자만 입력해주세요' />
-          <CustomTextInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
-          <CustomTextInput label='입금받을 계좌번호를 알려주세요' name='bankAccount' type='text' placeholder='계좌번호' />
-          <CustomTextInput label='예금주를 알려주세요' name='bankAccountHolder' type='text' placeholder='예금주 이름' />
-          <CustomLongTextInput label='환불 정보를 입력해주세요' name='refundPolicy' type='text' placeholder='환불 조건, 환불 문의 연락처를 입력해주세요' />
-          <CheckIsFilled changeIsValid={changeIsValid}/>
-          <NextButton isValid={isValid} currentIndex={currentIndex}/>
-        </Form>
+          <Form>
+            <CustomTextInput label='티켓 가격을 알려주세요' name='price' type='text' placeholder='숫자만 입력해주세요' />
+            <CustomTextInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
+            <CustomTextInput label='입금받을 계좌번호를 알려주세요' name='bankAccount' type='text' placeholder='계좌번호' />
+            <CustomTextInput label='예금주를 알려주세요' name='bankAccountHolder' type='text' placeholder='예금주 이름' />
+            <CustomLongTextInput label='환불 정보를 입력해주세요' name='refundPolicy' type='text' placeholder='환불 조건, 환불 문의 연락처를 입력해주세요' />
+            <CheckIsFilled changeIsValid={changeIsValid}/>
+            <NextButton isValid={isValid} currentIndex={currentIndex}/>
+            
+          </Form>
+          
+        </Formik>
         
-      </Formik>
+      </div>
+      
     </div>)
 }
 

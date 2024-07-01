@@ -5,6 +5,7 @@ import Step1 from './components/promotionform/step1'
 import Step2 from './components/promotionform/step2'
 import Step3 from './components/promotionform/step3'
 import FormNav from './components/promotionform/formnav'
+import Result from './components/promotionview/result';
 import store from '../store/store'
 type Props = {}
 
@@ -15,10 +16,11 @@ type Step = {
 
 const PromotionCreate = (props: Props) => {
 
-    const {useCreatePromotionStore} = store;
-
-    const [isValid, setIsValid] = React.useState(false);
-    
+    const { useCreatePromotionStore } = store;
+    const { getFullPromotionData } = useCreatePromotionStore();
+    const [promotionUrl, setPromotionUrl] = useState<string>('/');
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [isSuccess, setIsSuccess] = React.useState(false);
     const [currentStepIndex, setCurrentStepIndex] = useState(0);
     
     const prev = () => {
@@ -27,7 +29,27 @@ const PromotionCreate = (props: Props) => {
 
     const next = () => {
       setCurrentStepIndex((index) => (index >= 2 ? index : index + 1));
+      if(currentStepIndex+1 == 3){
+        submitPromotion();
+      }
     };
+    const submitPromotion = () => {
+      const payload = getFullPromotionData();
+      const refinedPayload = {
+        ...payload.step1,
+        ...payload.step2,
+        ...payload.step3
+      }
+      console.log(refinedPayload)
+      setIsSuccess(true);
+      // await axiosSecureAPI.post('/api/promotions').then((res)=>{
+      //   if(res.status === 200 || res.data.isSuccess==true){
+      //     setSubmitSuccess(true);
+      // }}).catch((err)=>{
+      //   console.log(err)
+      //   alert(err)
+      // })
+    }
 
     const [step, setStep] = useState<Step[]>([])
     useEffect(() => {
@@ -48,23 +70,26 @@ const PromotionCreate = (props: Props) => {
     }, [currentStepIndex]);
 
     const title = step.map((s) => s.title);
-  return (
-    <div className="flex flex-col min-h-screen justify-start bg-system-background pt-20px">
-      <div className='px-4'>
-        <Nav/>
-        <TicketCreationInfo/>
+    return (
+      <div className="flex flex-col min-h-screen justify-start bg-system-background pt-20px">
+        <div className='px-4'>
+          <Nav/>
+          <TicketCreationInfo/>
+        </div>
+        <div className="flex flex-col w-full">
+          <FormNav title={title} currentStepIndex={currentStepIndex}/>
+          {!isSuccess ?
+            step.length !== 0 ?
+            step[currentStepIndex].element : <div> No Element </div>
+            :
+            isLoading ? <div>loading...</div> :
+            <Result isLoading={isLoading} isSuccess={isSuccess} promotionUrl={promotionUrl}/>  
+            }
+        
+        </div>
+        
       </div>
-      <div className="flex flex-col w-full">
-        <FormNav title={title} currentStepIndex={currentStepIndex}/>
-        {
-          step.length !== 0 ?
-          step[currentStepIndex].element : null
-        }
-          
-      </div>
-      
-    </div>
-  )
+    )
 }
 
 export default PromotionCreate
