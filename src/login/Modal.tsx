@@ -2,6 +2,8 @@ import React from 'react'
 import Modal from 'react-modal';
 import store from '../store/store';
 import kakao_login from './img/kakao_login_button.png';
+import {axiosAPI} from '../axios/index';
+import axios from 'axios';
 type Props = {}
 
 const customModalStyles: ReactModal.Styles = {
@@ -33,12 +35,11 @@ const customModalStyles: ReactModal.Styles = {
 
 
 const KakaoModal = (props: Props) => {
-    const {useModalStore, useAuthStore} = store;
-    const {setToken} = useAuthStore(state => state);
+    const {useModalStore} = store;
     const {isOpen, closeModal} = useModalStore();
-
     const onClick = () => {
-        setToken('login');
+
+        window.location.href = 'http://play-barcode.ap-northeast-2.elasticbeanstalk.com/oauth2/authorize/kakao';
         closeModal();
     }
     return (
