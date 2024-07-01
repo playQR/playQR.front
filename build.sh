@@ -1,5 +1,5 @@
 #!/bin/sh
 cd ../
 mkdir output
-cp -R ./play_barcode_frontend/* ./output
+cp -R ./bandit.front/* ./output
 cp -R ./output ./play_barcode_frontend/
