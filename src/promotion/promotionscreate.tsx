@@ -7,6 +7,7 @@ import Step3 from './components/promotionform/step3'
 import FormNav from './components/promotionform/formnav'
 import Result from './components/promotionview/result';
 import store from '../store/store'
+import axiosSecureAPI from '../axios'
 type Props = {}
 
 type Step = {
@@ -33,15 +34,56 @@ const PromotionCreate = (props: Props) => {
         submitPromotion();
       }
     };
-    const submitPromotion = () => {
+
+    const convertMerdian = (time : any) => {
+      const sm = time.smeridian;
+      const lm = time.lmeridian;
+      const sh = time.shour;
+      const lh = time.lhour;
+      if (sm === '오후' && sh !== 12) {
+        time.shour = sh + 12;
+      }
+      if (lm === '오후' && lh !== 12) {
+        time.lhour = lh + 12;
+      }
+      if (sm === '오전' && sh === 12) {
+        time.shour = 0;
+      }
+      if (lm === '오전' && lh === 12) {
+        time.lhour = 0;
+      }
+      delete time.smeridian;
+      delete time.lmeridian;
+      return time;
+    }
+    const submitPromotion = async () => {
       const payload = getFullPromotionData();
-      const refinedPayload = {
+      let formData = new FormData();
+      const file = payload.step1.imageList
+      if(file){
+        formData.append('uploadImgFileList', file[0]);
+      }else{
+        alert('이미지를 업로드해주세요')
+      }
+      
+      try{
+        const result = await axiosSecureAPI.post('/api/images', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+        alert('이미지 업로드 성공')
+        const refinedPayload = {
         ...payload.step1,
         ...payload.step2,
         ...payload.step3
       }
+      refinedPayload.time = convertMerdian(refinedPayload.time)
+      refinedPayload.imageList = result.data.result[0]
       console.log(refinedPayload)
       setIsSuccess(true);
+      }catch(e){
+        alert('이미지 업로드 실패')
+        console.log(e)
+      }
+      
+      
       // await axiosSecureAPI.post('/api/promotions').then((res)=>{
       //   if(res.status === 200 || res.data.isSuccess==true){
       //     setSubmitSuccess(true);
