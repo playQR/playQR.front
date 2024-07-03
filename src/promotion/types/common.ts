@@ -13,11 +13,11 @@ export interface MusicInput{
   open: boolean;
 }
 export interface Billing {
-  price: number;
+  entranceFee: number;
   bankName: string;
   bankAccount: string;
   bankAccountHolder: string;
-  refundPolicy: string;
+  refundInfo: string;
 }
 
 export interface Member {
@@ -51,7 +51,6 @@ export interface ViewPromotion {
   location: string;
   date: string;
   startTime: string;
-  
   billing : Billing;
   comment : Comment[];
 }
@@ -61,7 +60,7 @@ export interface PromotionCreate {
     team?: string;
     title?: string;
     imageList?: File[];
-    date?: string;
+    showDate?: string;
     time? : {
     smeridian? : string;
     shour?: number;
@@ -69,8 +68,9 @@ export interface PromotionCreate {
     lmeridian? : string;
     lhour?: number;
     lminute?: number;
-    location?: string;
-  }
+    };
+    showLocation?: string;
+    maxAudience?: number;
   };
 step2:{
   content?: string;
