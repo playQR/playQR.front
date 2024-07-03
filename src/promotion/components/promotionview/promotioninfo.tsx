@@ -60,7 +60,7 @@ const PromotionInfo = (props: Props) => {
               isLeft ? <ShowInfo 
                   musicList={musicList}
                   content={content}
-                  refundPolicy={billing.refundPolicy}
+                  refundPolicy={billing.refundInfo}
                   /> : <TalkInfo comment = {comment}/>
           }
     </div>

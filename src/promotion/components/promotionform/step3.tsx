@@ -17,11 +17,11 @@ type Props = {
 
 
 const initialValues : Billing = {
-  price: 0,
+  entranceFee: 0,
   bankName: '',
   bankAccount: '',
   bankAccountHolder: '',
-  refundPolicy: ''
+  refundInfo: ''
 }
 
 type CheckProps = {
@@ -29,11 +29,11 @@ type CheckProps = {
 }
 
 const validationSchema = Yup.object().shape({
-  price: Yup.number().required('필수항목입니다.'),
+  entranceFee: Yup.number().required('필수항목입니다.'),
   bankName: Yup.string().required('필수항목입니다.'),
   bankAccount: Yup.string().required('필수항목입니다.'),
   bankAccountHolder: Yup.string().required('필수항목입니다.'),
-  refundPolicy: Yup.string().required('필수항목입니다.'),
+  refundInfo: Yup.string().required('필수항목입니다.'),
 })
 
 
@@ -78,7 +78,6 @@ const Step3 = (props: Props) => {
           onSubmit={
             async (values, {setSubmitting}) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
               }, 400);
               
@@ -88,11 +87,11 @@ const Step3 = (props: Props) => {
           }>
 
           <Form>
-            <CustomTextInput label='티켓 가격을 알려주세요' name='price' type='text' placeholder='숫자만 입력해주세요' />
+            <CustomTextInput label='티켓 가격을 알려주세요' name='entranceFee' type='number' placeholder='숫자만 입력해주세요' />
             <CustomTextInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
             <CustomTextInput label='입금받을 계좌번호를 알려주세요' name='bankAccount' type='text' placeholder='계좌번호' />
             <CustomTextInput label='예금주를 알려주세요' name='bankAccountHolder' type='text' placeholder='예금주 이름' />
-            <CustomLongTextInput label='환불 정보를 입력해주세요' name='refundPolicy' type='text' placeholder='환불 조건, 환불 문의 연락처를 입력해주세요' />
+            <CustomLongTextInput label='환불 정보를 입력해주세요' name='refundInfo' type='text' placeholder='환불 조건, 환불 문의 연락처를 입력해주세요' />
             <CheckIsFilled changeIsValid={changeIsValid}/>
             <NextButton isValid={isValid} currentIndex={currentIndex}/>
             

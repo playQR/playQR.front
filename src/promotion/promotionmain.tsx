@@ -107,11 +107,11 @@ const example_comment_content: Comment[] = [
 ];
 
 const example_refund_info : Billing = {
-    price: 32000,
+    entranceFee: 32000,
     bankName: "국민은행",
     bankAccount: "123-456-789012",
     bankAccountHolder: "주식회사 플레이바코드",
-    refundPolicy: "환불은 공연 7일 전까지 가능합니다. 이 기간 이후에는 환불이 불가합니다."
+    refundInfo: "환불은 공연 7일 전까지 가능합니다. 이 기간 이후에는 환불이 불가합니다."
 }
   const example_promotion_info: ViewPromotion[] = [
     {

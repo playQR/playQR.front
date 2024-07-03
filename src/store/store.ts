@@ -99,7 +99,7 @@ const useCreatePromotionStore = create<CreatePromotionStore>((set, get) => ({
       team:'',
       title:'',
       imageList : [],
-      date : '',
+      showDate : '',
       time : {
         smeridian : '오전',
         shour: 12,
@@ -108,7 +108,7 @@ const useCreatePromotionStore = create<CreatePromotionStore>((set, get) => ({
         lhour: 12,
         lminute: 0,
       },
-      location : '',
+      showLocation : '',
     },
     step2:{
       content:'',
@@ -116,11 +116,11 @@ const useCreatePromotionStore = create<CreatePromotionStore>((set, get) => ({
     },
     step3:{
       billing:{
-        price:0,
+        entranceFee:0,
         bankName: '',
         bankAccount: '',
         bankAccountHolder: '',
-        refundPolicy: '',
+        refundInfo: '',
       }
     }
   },
