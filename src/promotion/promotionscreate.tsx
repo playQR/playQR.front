@@ -9,7 +9,7 @@ import Result from './components/promotionview/result';
 import store from '../store/store'
 import axiosSecureAPI from '../axios'
 import { convertMerdian } from '../utils/time'
-import Loading from './components/loading'
+import Loading from '../common/loading'
 type Props = {}
 
 type Step = {
@@ -112,7 +112,7 @@ const PromotionCreate = (props: Props) => {
         </div>
         <div className="flex flex-col w-full">
           <FormNav title={title} currentStepIndex={currentStepIndex}/>
-          {!isSuccess ? isLoading ? <Loading isLoading={isLoading}/> :
+          {!isSuccess ? isLoading ? <Loading text={"공연을 등록중입니다."} isLoading={isLoading}/> :
             step.length !== 0 ?
             step[currentStepIndex].element : <div> No Element </div>
             :
