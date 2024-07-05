@@ -85,7 +85,7 @@ const Search = (props: Props) => {
             <SearchBox value={query} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)} />
             <SearchResult results={results} />
             <div ref={target} style={{ height: '1px' }}></div>
-            {isFetching && <Loading text={"공연을 등록중입니다."} isLoading={isFetching}/>}
+            {isFetching && <Loading text={"프로모션을 가져오는 중입니다."} isLoading={isFetching}/>}
         </div>
     )
 }

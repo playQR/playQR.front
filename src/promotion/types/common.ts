@@ -60,13 +60,20 @@ export interface ViewPromotion {
   title: string;
   content: string;
   team: string;
-  musicList: SetListMusic[];
-  imageList: string[] | undefined;
-  location: string;
+  entranceFee: number;
+  maxAudience: number;
   date: string;
   startTime: string;
-  billing : Billing;
-  comment : Comment[];
+  endTime: string;
+  location: string;
+  bankName: string;
+  account: string;
+  accountHolder: string;
+  refundInfo: string;
+  writer: Member;
+  musicList: Music[];
+  musicLikeList : SetListMusic[];
+  imageList: string[];
 }
 
 export interface PromotionCreate {

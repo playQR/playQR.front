@@ -8,6 +8,7 @@ import simple_img from '../../img/simple_img.png';
 import LikeButton from '../../../common/components/buttons/like_button';
 import { useNavigate } from 'react-router-dom';
 import { PromotionCard } from '../../../promotion/types/common';
+import { convertStringToDate } from '../../../utils/time';
 
 type Props = {
   result: PromotionCard
@@ -29,20 +30,6 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     entranceFee,
     writer: {name: writer_name, nickname: writer_nickname, profileImg: writer_profileImg},
   } = props.result
-
-  const convertStringToDate = (time: string) => {
-    const timeArr = time.split(':');
-    let hour = String(parseInt(timeArr[0]));
-    let minute = String(parseInt(timeArr[1]));
-    if (hour.length === 1) {
-      hour = '0' + hour;
-    }
-    if (minute.length === 1) {
-      minute = '0' + minute;
-    }
-    
-    return `${hour}:${minute}`
-  }
   
   const onClick = () => {
     navigate(`/promotion/${promotionId}`);

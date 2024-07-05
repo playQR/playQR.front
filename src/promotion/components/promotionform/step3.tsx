@@ -6,7 +6,7 @@ import { CustomTextInput, CustomLongTextInput } from './common/inputs';
 import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';
-import axiosSecureAPI from '../../../axios';
+import {axiosSecureAPI} from '../../../axios';
 import Result from '../promotionview/result';
 import { set } from 'react-hook-form';
 type Props = {
