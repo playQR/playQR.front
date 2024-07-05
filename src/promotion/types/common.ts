@@ -41,6 +41,20 @@ export interface Promotion {
  
 }
 
+export interface PromotionCard{
+  promotionId: number;
+  title: string;
+  team: string;
+  thumbnail: string;
+  date: string;
+  location: string;
+  startTime: string;
+  endTime: string;
+  entranceFee: number;
+  writer: Member;
+
+}
+
 export interface ViewPromotion {
   promotionId: number;
   title: string;

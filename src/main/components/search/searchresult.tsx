@@ -1,26 +1,16 @@
 import React from 'react'
 import SearchCard from './searchcard'
-type Result = {
-  promotion_id : number,
-  img : string | undefined,
-  band_name : string,
-  title : string,
-  location : string,
-  date : string, 
-  price : string,
-  like : boolean,
-  like_num : number
-}
+import { PromotionCard } from '../../../promotion/types'
 
 
 type Props = {
-    results : Result []
+    results : PromotionCard[]
 }
 
 
 const searchresult : React.FC<Props>= (props: Props) => {
 
-  const result : Result[]= props.results
+  const result : PromotionCard[]= props.results
   return (
     <div className='flex flex-col w-full space-y-5 items-center justify-center'>
       {
