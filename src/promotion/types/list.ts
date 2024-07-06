@@ -1,13 +1,13 @@
 import * as common from './common';
 
 export interface SetListMusic {
-    song : common.Music,
+    id: number,
     song_like : boolean,
     song_like_num : number
 }
 
 export interface Comment {
     content : string;
-    created_at : string;
-    member : common.Member;
+    createdTime : string;
+    memberResponse : common.Member;
 }

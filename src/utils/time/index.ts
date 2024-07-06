@@ -39,3 +39,26 @@ export const convertMerdian = (time : any) => {
         endTime,
       };
     }
+
+export const convertStringToDate = (time: string) => {
+    const timeArr = time.split(':');
+    let hour = String(parseInt(timeArr[0]));
+    let minute = String(parseInt(timeArr[1]));
+    if (hour.length === 1) {
+      hour = '0' + hour;
+    }
+    if (minute.length === 1) {
+      minute = '0' + minute;
+    }
+    
+    return `${hour}:${minute}`
+}
+
+export function convertformatDate(isoDate: string): string {
+  const date = new Date(isoDate);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}.${month}.${day}`;
+}
