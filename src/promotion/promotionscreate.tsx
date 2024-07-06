@@ -7,7 +7,7 @@ import Step3 from './components/promotionform/step3'
 import FormNav from './components/promotionform/formnav'
 import Result from './components/promotionview/result';
 import store from '../store/store'
-import axiosSecureAPI from '../axios'
+import {axiosSecureAPI }from '../axios'
 import { convertMerdian } from '../utils/time'
 import Loading from '../common/loading'
 type Props = {}
@@ -69,7 +69,7 @@ const PromotionCreate = (props: Props) => {
       try{
         const response = await axiosSecureAPI.post('/api/promotions', refinedPayload);
         if(response.data.isSuccess === true){
-          setPromotionUrl(`/promotions/${response.data.result}`)
+          setPromotionUrl(`/promotion/${response.data.result}`)
           setIsSuccess(true);
         }
       }catch(e){

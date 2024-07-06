@@ -1,10 +1,9 @@
-import React from 'react'
 import Modal from 'react-modal';
-import store from '../store/store';
-import kakao_login from './img/kakao_login_button.png';
-import {axiosAPI} from '../axios/index';
-import axios from 'axios';
-type Props = {}
+type Props = {
+    deleteComment: () => void;
+    isOpen: boolean;
+    closeModal: () => void;
+}
 
 const customModalStyles: ReactModal.Styles = {
     overlay: {
@@ -18,7 +17,7 @@ const customModalStyles: ReactModal.Styles = {
     },
     content: {
       width: "360px",
-      height: "180px",
+      height: "240px",
       zIndex: "150",
       position: "absolute",
       top: "50%",
@@ -34,12 +33,10 @@ const customModalStyles: ReactModal.Styles = {
   };
 
 
-const KakaoModal = (props: Props) => {
-    const {useModalStore} = store;
-    const {isOpen, closeModal} = useModalStore();
+const DeleteModal = (props: Props) => {
+    const {deleteComment,isOpen, closeModal} = props;
     const onClick = () => {
-
-        window.location.href = 'http://play-barcode.ap-northeast-2.elasticbeanstalk.com/oauth2/authorize/kakao';
+        deleteComment();
         closeModal();
     }
     return (
@@ -51,19 +48,19 @@ const KakaoModal = (props: Props) => {
         contentLabel="Pop up Message"
         shouldCloseOnOverlayClick={true}
       >
-        <div className="flex flex-col bg-gray-4 items-center justify-center w-full h-full">
-          <div className="text-center text-400 text-white text-lg">
-            로그인을 해주세요
+        <div className="flex flex-col bg-gray-4 items-center justify-center w-full h-full px-4">
+          <div className='text-plg text-system-white mb-30px'>
+            댓글을 삭제하시겠어요?
           </div>
-          <img src={kakao_login} onClick={onClick} className='h-45px w-full object-cover rounded-md mt-5'/>
-          {/* <button
-            onClick={() => closeModal()}
-            className="bg-primary text-white text-400 text-lg rounded-lg mt-4 px-4 py-2"
-          >
-            확인
-          </button> */}
+          <div className="bg-primary text-center text-400 text-white text-plg w-full py-3 rounded-lg mb-10px" onClick={onClick}>
+            삭제하기
+          </div>
+          <div className='text-center text-psm text-gray-2 mt-10px' onClick={()=>closeModal()}>
+            취소하기
+          </div>
+          
         </div>
       </Modal>)
 }
 
-export default KakaoModal
+export default DeleteModal
