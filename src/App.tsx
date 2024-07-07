@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect,useState } from 'react';
+import useCheckAuth from './utils/hooks/useCheckAuth';
 function App() {
   const width = 640;
     const [containerStyle, setContainerStyle] = useState({
@@ -37,6 +38,7 @@ function App() {
       window.removeEventListener('resize', updateStyle);
     };
   }, []);
+  const {isAuthenticated} = useCheckAuth();
   return (
     <div style={containerStyle}>
       <Outlet/>

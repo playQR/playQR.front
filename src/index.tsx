@@ -16,6 +16,8 @@ import AuthRedirect from './redirect/authredirectpage';
 import Ticketing from './promotion/ticketing';
 import "react-loading-skeleton/dist/skeleton.css";
 import PromotionEdit from './promotion/promotionedit';
+import ProtectedRoute from './routes/protectedroute';
+import AccessDeniedPage from './routes/accessdenied';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -37,36 +39,41 @@ const router = createBrowserRouter(
           element : <AuthRedirect/>
         },
         {
+            path:"accessdenied",
+            element: <AccessDeniedPage /> // 접근 제한 페이지
+        } ,
+        {
           path:"promotion",
           children : [{
             path:":id", 
             element: <PromotionView/>
           },
+          
           {
             path : "create",
-            element : <PromotionCreate/>
+            element : <ProtectedRoute element={<PromotionCreate/>} /> // 접근 제한
           },{
             path:":id/purchase",
-            element : <Ticketing/>
+            element : <ProtectedRoute element={<Ticketing/>} /> // 접근 제한
           },{
             path:":id/edit",
-            element : <PromotionEdit/>
+            element : <ProtectedRoute element={<PromotionEdit/>} /> // 접근 제한
           }]
         },
         {
           path:"ticket",
           children : [{
             path: "",
-            element: <Ticket/>
+            element: <ProtectedRoute element={<Ticket/>} /> // 접근 제한
           
           },{
             path: "createqr",
-            element: <CreateQR/>
+            element: <ProtectedRoute element={<CreateQR/>} /> // 접근 제한
           
           },
           {
             path:"create",
-            element: <CreateTicket/>
+            element: <ProtectedRoute element={<CreateTicket/>} /> // 접근 제한
           },
           {
             path:"redirect",
