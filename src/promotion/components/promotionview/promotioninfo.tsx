@@ -2,7 +2,7 @@ import React,{useState, useEffect} from 'react'
 import sample_image_lg from '../../img/sample_image_lg.png'
 import location_icon_white from '../../img/location_icon_white.png'
 import calendar_icon_white from '../../img/calendar_icon_white.png'
-import { ViewPromotion } from '../../types';
+import { Member, ViewPromotion } from '../../types';
 import ShowInfo from './showinfo'
 import TalkInfo from './talkinfo'
 import { convertStringToDate } from '../../../utils/time';
@@ -11,11 +11,14 @@ import { SetListMusic } from '../../types';
 import { axiosAPI, axiosSemiSecureAPI } from '../../../axios';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
+import store from '../../../store/store';
 type Props = {
   result : ViewPromotion;
   isLoading : boolean;
+  isAuthenticated : boolean;
+  memberInfo : Member;
 }
-
+type LikeStatus = { musicId: number, song_like: boolean };
 const PromotionInfo = (props: Props) => {
 
   const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
@@ -38,6 +41,10 @@ const PromotionInfo = (props: Props) => {
     musicLikeList
   } = props.result;
 
+  const { useModalStore} = store;
+
+  const { isAuthenticated,memberInfo } = props;
+  const { openModal } = useModalStore();
   
   const [likeList, setLikeList] = useState<SetListMusic[]>(musicLikeList);
   const [isLeft, setIsLeft] = React.useState<boolean>(true);
@@ -55,21 +62,29 @@ const PromotionInfo = (props: Props) => {
           return { musicId, likeCount: 0 };
         })
       );
-
-      const likeStatuses = await Promise.all(
-        musicIdList.map(async (musicId) => {
-          try {
-            const response = await axiosSemiSecureAPI.get(`/api/likes/music/${musicId}`);
-            if (response.data.isSuccess) {
-              return { musicId, song_like: response.data.result };
+      
+      let likeStatuses : LikeStatus[]= [];
+      if (isAuthenticated) {
+        likeStatuses = await Promise.all(
+          musicIdList.map(async (musicId) => {
+            try {
+              const response = await axiosSemiSecureAPI.get(`/api/likes/music/${musicId}`);
+              if (response.data.isSuccess) {
+                return { musicId, song_like: response.data.result };
+              }
+              return { musicId, song_like: false };
+            } catch (e) {
+              //console.log(e)
+              return { musicId, song_like: false };
             }
-            return { musicId, song_like: false };
-          } catch (e) {
-            //console.log(e)
-            return { musicId, song_like: false };
-          }
-        })
-      );
+          })
+        );
+      } else {
+        likeStatuses = musicIdList.map((musicId) => ({
+          musicId,
+          song_like: false,
+        }));
+      }
 
       const newLikeList = musicList.map((music) => {
         const likeCount = likeCounts.find((item) => item.musicId === music.id)?.likeCount || 0;
@@ -89,38 +104,42 @@ const PromotionInfo = (props: Props) => {
   };
 
   const updateHeart = async (id:any, value : boolean) =>{
-    if (value) {
-      try {
-          await toast.promise(
-            axiosSemiSecureAPI.delete(`/api/likes/music/${id}`),
-            {
-              loading: '좋아요 처리중..',
-              success: <b>좋아요가 취소되었습니다.</b>,
-              error: <b>좋아요를 처리할 수 없습니다.</b>,
-            }
-        );
-      } catch (e) {
-        console.log(e);
+    if(isAuthenticated){
+      if (value) {
+        try {
+            await toast.promise(
+              axiosSemiSecureAPI.delete(`/api/likes/music/${id}`),
+              {
+                loading: '좋아요 처리중..',
+                success: <b>좋아요가 취소되었습니다.</b>,
+                error: <b>좋아요를 처리할 수 없습니다.</b>,
+              }
+          );
+        } catch (e) {
+          console.log(e);
+        }
+        finally{
+          fetchData();
+        }
       }
-      finally{
-        fetchData();
+      else{
+        try {
+            await toast.promise(
+              axiosSemiSecureAPI.post(`/api/likes/music/${id}`),
+              {
+                loading: '좋아요 처리중..',
+                success: <b>좋아요가 완료되었습니다.</b>,
+                error: <b>좋아요를 처리할 수 없습니다.</b>,
+              }
+          );
+        } catch (e) {
+          console.log(e);
+        }finally{
+          fetchData();
+        }
       }
-    }
-    else{
-      try {
-          await toast.promise(
-            axiosSemiSecureAPI.post(`/api/likes/music/${id}`),
-            {
-              loading: '좋아요 처리중..',
-              success: <b>좋아요가 완료되었습니다.</b>,
-              error: <b>좋아요를 처리할 수 없습니다.</b>,
-            }
-        );
-      } catch (e) {
-        console.log(e);
-      }finally{
-        fetchData();
-      }
+    }else{
+      openModal();
     }
   }
 
@@ -130,7 +149,6 @@ const PromotionInfo = (props: Props) => {
 
   useEffect(()=>{
     console.log(likeList)
-  
   },[likeList])
 
   const onLeftClick = () => {
@@ -201,7 +219,9 @@ const PromotionInfo = (props: Props) => {
         ) : (
           <TalkInfo
             writer={writer}
-            promotionId = {promotionId}/>
+            isAuthenticated={isAuthenticated}
+            promotionId = {promotionId}
+            memberInfo={memberInfo}/>
         )
       }
     </div>

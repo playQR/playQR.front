@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react'
-import calendar_icon from '../../img/calendar_icon.png';
-import location_icon from '../../img/location_icon.png';
-import checker_img from '../../img/checker_img.png';
-import { useNavigate } from 'react-router-dom';
+import calendar_icon from '../../../main/img/calendar_icon.png';
+import location_icon from '../../../main/img/location_icon.png';
+import checker_img from '../../../main/img/checker_img.png';
 import { PromotionCard } from '../../../promotion/types/common';
 import { convertStringToDate } from '../../../utils/time';
-import Skeleton from 'react-loading-skeleton';
 
 type Props = {
   result: PromotionCard,
+  isLoading : boolean
 }
 
 const SearchCard : React.FC<Props> = (props: Props) => {
-
-  const navigate = useNavigate();
   const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
   const {
     promotionId,
@@ -28,11 +25,10 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     writer: {name: writer_name, nickname: writer_nickname, profileImg: writer_profileImg},
   } = props.result
   
-  const onClick = () => {
-    navigate(`/promotion/${promotionId}`);
-  }
+  const {isLoading} = props;
+  
   return (
-    <div onClick={onClick} className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
+    <div className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
       <div className="relative">
         <div className="h-40 w-full flex items-center justify-center">
           <img src={thumbnail === '' ? checker_img : thumbnail} alt="checker" className="h-full w-full object-cover" />
@@ -40,7 +36,7 @@ const SearchCard : React.FC<Props> = (props: Props) => {
         {/* <LikeButton like={true} like_num={1}/> */}
       </div>
       <div className="pt-2 px-10px">
-        <h2 className="text-pxs text-text-plain">{team}</h2>
+        <p className="text-pxs text-text-plain">{team}</p>
         <p className="text-plg text-text-plain">{title}</p>
       </div>
       <div className="">

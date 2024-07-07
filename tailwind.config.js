@@ -9,6 +9,7 @@ module.exports = {
         'yspotlight' :'Y_Spotlight'
       },
       fontSize : {
+        'pxxs' : '10px',
         'pxs' : '12px',
         'psm' : '14px',
         'pmd' : '16px',
@@ -61,6 +62,7 @@ module.exports = {
           '768px' : '768px'
         },height : {
           '4px' : '4px',
+          '10px' : '10px',
           '38px' : '38px',
           '22px' : '22px',
           '30px' : '30px',
@@ -70,6 +72,7 @@ module.exports = {
           '48px' : '48px',
           '100px' : '100px',
           '140px' : '140px',
+          '200px' : '200px',
           '268px' : '268px',
           '300px' : '300px',
           '350px' : '350px',

@@ -18,7 +18,7 @@ type CheckProps = {
 type IFormInput = {
   team?:string;
   title?:string;
-  imageList ?: File[] | string[];
+  imageList ?: File[] |  string[];
   showDate ?: string;
   time ?: {
     smeridian ?: string;

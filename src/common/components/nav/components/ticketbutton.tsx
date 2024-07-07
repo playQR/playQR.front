@@ -1,13 +1,28 @@
 import React from 'react'
 import { Link, useNavigation, useNavigate } from 'react-router-dom';
 import ticket_icon from './img/ticket_icon.png'
-type Props = {}
+import store from '../../../../store/store';
+
+type Props = {
+  isAuthenticated : boolean;
+}
 
 const TicketButton = (props: Props) => {
   const navigate = useNavigate();
 
+  const {useModalStore} = store;
+
+  const {openModal} = useModalStore(state => state);
+  
+
   const onClick = () => {
-    navigate('/ticket');
+    if(!props.isAuthenticated) {
+      openModal();
+    }
+    else{
+      navigate('/ticket');
+    }
+    
   }
   return (
     <button onClick={onClick} className='text-white'>

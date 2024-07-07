@@ -13,6 +13,9 @@ import RedirectPage from './redirect/ticketredirectpage';
 import PromotionView from './promotion/promotionmain';
 import PromotionCreate from './promotion/promotionscreate';
 import AuthRedirect from './redirect/authredirectpage';
+import Ticketing from './promotion/ticketing';
+import "react-loading-skeleton/dist/skeleton.css";
+import PromotionEdit from './promotion/promotionedit';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -42,6 +45,12 @@ const router = createBrowserRouter(
           {
             path : "create",
             element : <PromotionCreate/>
+          },{
+            path:":id/purchase",
+            element : <Ticketing/>
+          },{
+            path:":id/edit",
+            element : <PromotionEdit/>
           }]
         },
         {

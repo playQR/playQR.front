@@ -7,9 +7,12 @@ import { convertformatDate } from '../../../utils/time/index';
 import toast, { Toaster } from 'react-hot-toast';
 import deleteIcon from '../../img/delete_icon.png';
 import DeleteModal from '../../modals/deletemodal';
+import store from '../../../store/store';
 type Props = {
   promotionId : number;
   writer: Member;
+  isAuthenticated: boolean;
+  memberInfo: Member;
 }
 
 const TalkInfo = (props: Props) => {
@@ -24,6 +27,9 @@ const TalkInfo = (props: Props) => {
   const [stop, setStop] = useState(false);
   const [page, setPage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {useModalStore} = store;
+  const { openModal } = useModalStore();
+  const { isAuthenticated,memberInfo } = props;
 
   const fetchResults = useCallback(async () => {
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
@@ -87,31 +93,35 @@ const TalkInfo = (props: Props) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      console.log('adsfasdfafs')
-    await toast.promise(
-      axiosSemiSecureAPI.post(`/api/comments/${promotionId}`, {
-        content: message,
-      }),
-      {
-        loading: 'Posting comment...',
-        success: <b>Comment posted!</b>,
-        error: <b>Could not post comment.</b>,
-      }
-    );
-  } catch (e) {
-    console.log(e);
-  }
-    setComments([]);
-    setPage(0);
-    setStop(false);
+    if(isAuthenticated === false){
+      openModal();
+    }
+    else{
+      try {
+        console.log('adsfasdfafs')
+      await toast.promise(
+        axiosSemiSecureAPI.post(`/api/comments/${promotionId}`, {
+          content: message,
+        }),
+        {
+          loading: 'Posting comment...',
+          success: <b>Comment posted!</b>,
+          error: <b>Could not post comment.</b>,
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+      setComments([]);
+      setPage(0);
+      setStop(false);
+    }
   };
   const handleDelete  = () => {
     setIsModalOpen(true);
   }
   const deleteComment = async () => {
     try {
-      console.log('adsfasdfafs')
       await toast.promise(
         axiosSemiSecureAPI.delete(`/api/comments/${promotionId}`),
         {
@@ -200,7 +210,7 @@ const TalkInfo = (props: Props) => {
                 <div className="text-xs text-gray-2">{convertformatDate(comment.createdTime)}</div>
               </div>
               </div>
-              {writer.nickname===comment.memberResponse.nickname && <img onClick={handleDelete} src={deleteIcon} className='w-5 h-5'/>}
+              {isAuthenticated && memberInfo.id === comment.memberResponse.id ? <img onClick={handleDelete} src={deleteIcon} className='w-5 h-5'/> : <div></div>}
             </div>
             <div className="text-xs mt-10px text-system-white">{comment.content}</div>
             {index < comments.length - 1 && (<div className='w-full h-0.4px my-10px bg-gray-4'></div>

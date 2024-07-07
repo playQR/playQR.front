@@ -7,7 +7,7 @@ import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';
 import {axiosSecureAPI} from '../../../axios';
-import Result from './result';
+import Result from '../promotionform/result';
 import { set } from 'react-hook-form';
 import Warning from '../common/warning';
 type Props = {

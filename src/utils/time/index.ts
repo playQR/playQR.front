@@ -17,8 +17,8 @@ export function parseKSTDate(dateString : string | null) : Date | null{
 export const convertMerdian = (time : any) => {
       const sm = time.smeridian;
       const lm = time.lmeridian;
-      const sh = time.shour;
-      const lh = time.lhour;
+      const sh = Number(time.shour);
+      const lh = Number(time.lhour);
       if (sm === '오후' && sh !== 12) {
         time.shour = sh + 12;
       }
