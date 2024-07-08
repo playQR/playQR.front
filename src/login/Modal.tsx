@@ -36,8 +36,7 @@ const KakaoModal = (props: Props) => {
     const {useModalStore} = store;
     const {isOpen, closeModal} = useModalStore();
     const onClick = () => {
-
-        window.location.href = 'http://play-barcode.ap-northeast-2.elasticbeanstalk.com/oauth2/authorize/kakao';
+        window.location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorize/kakao`
         closeModal();
     }
     return (
