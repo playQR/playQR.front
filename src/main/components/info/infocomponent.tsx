@@ -29,11 +29,10 @@ const InfoComponent = (props: Props) => {
     async function fetchUserData() {
         if (accessToken!==null && accessTokenExpireTime!==null) {
             try {
-                console.log(accessToken)
+               
                 const res = await axiosSecureAPI.get('/api/members');
                 useUserStore.getState().setUser(res.data.result);
                 setUser(res.data.result);
-                console.log(res);
                 
             } catch (e) {
                 console.log(e);
