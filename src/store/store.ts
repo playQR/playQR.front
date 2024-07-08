@@ -23,8 +23,11 @@ interface AuthStore{
     refreshToken: string | null;
     accessTokenExpireTime: Date | null;
     refreshTokenExpireTime: Date | null;
+    isAuthenticated: boolean;
+    setAuthenticated: (isAuthenticated: boolean) => void;
     setTokens: (accessToken: string|null, refreshToken: string|null, accessTokenExpireTime : Date | null, refreshTokenExpireTime : Date | null) => void;
     clearTokens: () => void;
+    
 
 }
 
@@ -33,10 +36,10 @@ const useAuthStore = create<AuthStore>((set) => ({
     refreshToken: null,
     accessTokenExpireTime: null,
     refreshTokenExpireTime: null,
+    isAuthenticated: false,
     setTokens: (accessToken, refreshToken, accessTokenExpireTime, refreshTokenExpireTime) => set({ accessToken, refreshToken, accessTokenExpireTime, refreshTokenExpireTime }),
-    clearTokens: () => set({ accessToken: null, refreshToken: null, accessTokenExpireTime: null, refreshTokenExpireTime: null})
-
-    
+    clearTokens: () => set({ accessToken: null, refreshToken: null, accessTokenExpireTime: null, refreshTokenExpireTime: null}),
+    setAuthenticated: (isAuthenticated) => set({ isAuthenticated })
 }));
 
 const useAuthStorePersist = create(persist<AuthStore>(
@@ -45,10 +48,10 @@ const useAuthStorePersist = create(persist<AuthStore>(
     refreshToken: null,
     accessTokenExpireTime: null,
     refreshTokenExpireTime: null,
+    isAuthenticated: false,
     setTokens: (accessToken, refreshToken, accessTokenExpireTime, refreshTokenExpireTime) => set({ accessToken, refreshToken, accessTokenExpireTime, refreshTokenExpireTime }),
-    clearTokens: () => set({ accessToken: null, refreshToken: null, accessTokenExpireTime: null, refreshTokenExpireTime: null})
-
-  }),
+    clearTokens: () => set({ accessToken: null, refreshToken: null, accessTokenExpireTime: null, refreshTokenExpireTime: null}),
+    setAuthenticated: (isAuthenticated) => set({ isAuthenticated })}),
   {
     name: 'token-storage'
 
@@ -91,6 +94,7 @@ interface CreatePromotionStore {
   promotionData: PromotionCreate;
   updateData: (newData: Partial<PromotionCreate>) => void;
   getFullPromotionData: () => PromotionCreate;
+  clearData : () => void;
 }
 
 const useCreatePromotionStore = create<CreatePromotionStore>((set, get) => ({
@@ -118,8 +122,8 @@ const useCreatePromotionStore = create<CreatePromotionStore>((set, get) => ({
       billing:{
         entranceFee:0,
         bankName: '',
-        bankAccount: '',
-        bankAccountHolder: '',
+        account: '',
+        accountHolder: '',
         refundInfo: '',
       }
     }
@@ -127,7 +131,37 @@ const useCreatePromotionStore = create<CreatePromotionStore>((set, get) => ({
   updateData: (newData) => set(state => ({
     promotionData: { ...state.promotionData, ...newData }
   })),
-  getFullPromotionData: () => get().promotionData
+  getFullPromotionData: () => get().promotionData,
+  clearData : () => set({promotionData: {
+    step1:{
+      team:'',
+      title:'',
+      imageList : [],
+      showDate : '',
+      time : {
+        smeridian : '오전',
+        shour: 12,
+        sminute: 0,
+        lmeridian : '오전',
+        lhour: 12,
+        lminute: 0,
+      },
+      showLocation : '',
+    },
+    step2:{
+      content:'',
+      musicList:[],
+    },
+    step3:{
+      billing:{
+        entranceFee:0,
+        bankName: '',
+        account: '',
+        accountHolder: '',
+        refundInfo: '',
+      }
+    }
+  }})
 }));
 const store = {
     useAuthStore,

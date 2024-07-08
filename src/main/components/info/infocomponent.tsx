@@ -41,7 +41,6 @@ const InfoComponent = (props: Props) => {
         }
     }
     useEffect(()=>{
-        
         fetchUserData();
     },[])
 

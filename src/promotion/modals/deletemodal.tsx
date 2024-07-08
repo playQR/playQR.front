@@ -1,5 +1,6 @@
 import Modal from 'react-modal';
 type Props = {
+    commentId: number;
     deleteComment: () => void;
     isOpen: boolean;
     closeModal: () => void;
@@ -55,7 +56,7 @@ const DeleteModal = (props: Props) => {
           <div className="bg-primary text-center text-400 text-white text-plg w-full py-3 rounded-lg mb-10px" onClick={onClick}>
             삭제하기
           </div>
-          <div className='text-center text-psm text-gray-2 mt-10px' onClick={()=>closeModal()}>
+          <div className='text-center text-psm text-gray-2 mt-10px underline' onClick={()=>closeModal()}>
             취소하기
           </div>
           

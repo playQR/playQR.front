@@ -1,20 +1,24 @@
 import React,{useState ,useRef, useEffect, useCallback} from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import { Comment, Member } from '../../types';
-import {axiosSecureAPI, axiosSemiSecureAPI, axiosAPI } from '../../../axios';
+import {axiosSecureAPI, axiosSemiSecureAPI } from '../../../axios';
 import Loading from '../../../common/loading';
 import { convertformatDate } from '../../../utils/time/index';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import deleteIcon from '../../img/delete_icon.png';
 import DeleteModal from '../../modals/deletemodal';
+import store from '../../../store/store';
 type Props = {
   promotionId : number;
   writer: Member;
+  isAuthenticated: boolean;
+  memberInfo: Member;
 }
 
 const TalkInfo = (props: Props) => {
   const [message, setMessage] = useState('');
   const { promotionId,writer } = props;
+  const [commentId, setCommentId] = useState<number>(-1);
   const charLimit = 200;
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
@@ -24,6 +28,9 @@ const TalkInfo = (props: Props) => {
   const [stop, setStop] = useState(false);
   const [page, setPage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {useModalStore} = store;
+  const { openModal } = useModalStore();
+  const { isAuthenticated,memberInfo } = props;
 
   const fetchResults = useCallback(async () => {
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
@@ -87,33 +94,40 @@ const TalkInfo = (props: Props) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      console.log('adsfasdfafs')
-    await toast.promise(
-      axiosSemiSecureAPI.post(`/api/comments/${promotionId}`, {
-        content: message,
-      }),
-      {
-        loading: 'Posting comment...',
-        success: <b>Comment posted!</b>,
-        error: <b>Could not post comment.</b>,
-      }
-    );
-  } catch (e) {
-    console.log(e);
-  }
-    setComments([]);
-    setPage(0);
-    setStop(false);
+    if(isAuthenticated === false){
+      openModal();
+    }
+    else{
+      try {
+        console.log('adsfasdfafs')
+      await toast.promise(
+        axiosSemiSecureAPI.post(`/api/comments/${promotionId}`, {
+          content: message,
+        }),
+        {
+          loading: 'Posting comment...',
+          success: <b>Comment posted!</b>,
+          error: <b>Could not post comment.</b>,
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+      setComments([]);
+      setPage(0);
+      setStop(false);
+    }
   };
-  const handleDelete  = () => {
+  
+  const handleDelete  = (id : number) => {
+    setCommentId(id);
     setIsModalOpen(true);
   }
+  
   const deleteComment = async () => {
     try {
-      console.log('adsfasdfafs')
       await toast.promise(
-        axiosSemiSecureAPI.delete(`/api/comments/${promotionId}`),
+        axiosSemiSecureAPI.delete(`/api/comments/${commentId}`),
         {
           loading: 'Deleting comment...',
           success: <b>Comment Deleted!</b>,
@@ -140,7 +154,7 @@ const TalkInfo = (props: Props) => {
 
   return (
     <div className='w-full flex flex-col mt-5'>
-      <DeleteModal deleteComment={deleteComment} isOpen={isModalOpen} closeModal={closeModal}/>
+      
       <div className='text-primary text-pxl font-semibold mb-3'>
         {`응원 Talk ${comments.length}개`}
       </div>
@@ -200,11 +214,12 @@ const TalkInfo = (props: Props) => {
                 <div className="text-xs text-gray-2">{convertformatDate(comment.createdTime)}</div>
               </div>
               </div>
-              {writer.nickname===comment.memberResponse.nickname && <img onClick={handleDelete} src={deleteIcon} className='w-5 h-5'/>}
+              {isAuthenticated && memberInfo.id === comment.memberResponse.id ? <img onClick={()=>handleDelete(comment.id)} src={deleteIcon} className='w-5 h-5'/> : <div></div>}
             </div>
             <div className="text-xs mt-10px text-system-white">{comment.content}</div>
             {index < comments.length - 1 && (<div className='w-full h-0.4px my-10px bg-gray-4'></div>
             )}
+           
           </div>
           )
         }): <div className='text-gray-1 text-pmd w-full text-center'>댓글이 없습니다.</div>}
@@ -215,6 +230,7 @@ const TalkInfo = (props: Props) => {
       <div className='h-100px'>
                 {/* 모든 정보를 보여주기 위한 마진 */}
       </div>
+       <DeleteModal deleteComment={deleteComment} isOpen={isModalOpen} closeModal={closeModal} commentId={commentId}/>
     </div>
   )
 }

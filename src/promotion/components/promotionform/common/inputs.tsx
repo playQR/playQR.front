@@ -3,9 +3,11 @@ import {useRef, useState, useEffect} from 'react';
 import upload_icon from '../../../img/upload_icon.png';
 import Calendar, {CalendarProps} from 'react-calendar';
 import {useFormikContext} from 'formik';
-import calendar_icon_form from '../../../img/calendar_icon_form.png';
+import calendar_icon from '../../../img/calendar_icon.png';
+import calendar_icon_white from '../../../img/calendar_icon_white.png';
 import 'react-calendar/dist/Calendar.css';
 import TextareaAutosize from 'react-textarea-autosize';
+import { set } from 'react-hook-form';
 export const CustomTextInput = ({label, ...props}:any) => {
   
 const [field, meta] = useField(props);
@@ -14,6 +16,21 @@ const [field, meta] = useField(props);
     <div className = "mb-30px">
       <label htmlFor={props.id || props.name} className='pl-6px text-md font-normal text-system-black'>{label}</label>
       <input className='w-full mt-10px h-48px border border-gray-2 rounded-lg px-4' {...field} {...props} />
+       {meta.touched && meta.error ? (
+        <div className="text-red-600 text-sm mt-2">{meta.error}</div>
+      ) : null}
+    </div>
+  )
+}
+
+export const CustomTextInputDark = ({label, ...props}:any) => {
+  
+const [field, meta] = useField(props);
+  return (
+    
+    <div className = "mb-30px">
+      <label htmlFor={props.id || props.name} className='pl-6px text-md font-normal text-system-white'>{label}</label>
+      <input className='w-full mt-10px h-48px rounded-lg px-4 bg-gray-5 text-system-white' {...field} {...props} />
        {meta.touched && meta.error ? (
         <div className="text-red-600 text-sm mt-2">{meta.error}</div>
       ) : null}
@@ -40,50 +57,39 @@ export const CustomLongTextInput = ({label, ...props}:any) => {
     </div>
   )
 }
-export const CustomFileInput = ({ label, ...props }:any) => {
+export const CustomFileInput = ({ label, ...props }: any) => {
   const [field, meta, helpers] = useField(props);
   const { setValues, values } = useFormikContext();
-  const [previews, setPreviews] = useState<string[]>([]);
+  const [preview, setPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const {initialval} = props;
+  const { initialval } = props;
   const [showFullScreen, setShowFullScreen] = useState<boolean>(false);
   const [currentPreview, setCurrentPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (initialval.length) {
-      const initialPreviews = initialval.map((file: File) => URL.createObjectURL(file));
-      setPreviews(initialPreviews);
-      helpers.setValue(initialval);
+      setPreview(initialval[0]);
+      helpers.setValue(initialval[0]);
     }
   }, [initialval, helpers]);
-  
+
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.currentTarget.files;
-    if (files) {
-      const newFilesArray = Array.from(files);
-    const currentFiles = field.value || [];
-    const updatedFilesArray = [...currentFiles, ...newFilesArray];
-    console.log(updatedFilesArray);
-    setValues({ ...values as Object, imageList: updatedFilesArray })
-    helpers.setValue(updatedFilesArray); // Formik value 설정
-
-    const newPreviews = await Promise.all(
-      newFilesArray.map(file => {
-        return new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            if (typeof reader.result === 'string') {
-              resolve(reader.result);
-            } else {
-              reject('FileReader error');
-            }
-          };
-          reader.readAsDataURL(file);
-        });
-      })
-    );
-
-    setPreviews([...previews, ...newPreviews]);
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (!file.type.startsWith('image/')) {
+        alert('이미지 파일만 업로드 가능합니다.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setPreview(reader.result);
+          helpers.setValue(file); // Formik value 설정
+          setValues({ ...values as Object, imageList: [file] });
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -92,90 +98,79 @@ export const CustomFileInput = ({ label, ...props }:any) => {
       fileInputRef.current.click();
     }
   };
-  const handlePreviewClick = (preview: string) => {
-    setCurrentPreview(preview);
-    setShowFullScreen(true);
-  };
 
-  const handleCloseFullScreen = () => {
-    setShowFullScreen(false);
-    setCurrentPreview(null);
-  };
-
-  
-  const handleRemove = (index: number) => {
-    const newPreviews = previews.filter((_, i) => i !== index);
-    setPreviews(newPreviews);
-    const newFiles = field.value.filter((_ : any, i:any) => i !== index);
-    helpers.setValue(newFiles);
+  const handleRemove = () => {
+    setPreview(null);
+    helpers.setValue(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ''; // Reset the file input value
+      fileInputRef.current.value = ''; // 파일 인풋 값을 초기화
     }
   };
 
   return (
-    <div className='mb-30px'>
+    <div className='mb-30px flex flex-col'>
       <label htmlFor="files" className="">{label}</label>
       <br />
-     <input
+      <input
         className='mt-10px'
         ref={fileInputRef}
         type="file"
-        multiple
         onChange={handleChange}
-         style={{ display: 'none' }}
+        style={{ display: 'none' }}
         {...props}
       />
       <button type="button" className="custom-button" onClick={handleClick}>
-        <div className='flex flex-row justify-center items-center rounded-lg border-gray-1 border-1px p-14px mt-10px hover:bg-gray-1'>
-          <img src={upload_icon} className='h-4 w-4'></img>
+        <div className='flex flex-row justify-center items-center rounded-lg border-gray-1 border-1px p-14px mt-10px hover:bg-gray-1 w-1/3'>
+          <img src={upload_icon} className='h-4 w-4' alt="Upload icon"></img>
           <div className='text-gray-3 text-sm'>
             업로드 (JPG, PNG 5MB)
           </div>
         </div>
-        
       </button>
       {meta.touched && meta.error ? (
         <div style={{ color: "red" }}>{meta.error}</div>
       ) : null}
-      <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
-      {previews.length > 0 && (
-        <div className="inline-block w-full mt-10px overflow-x-auto whitespace-nowrap space-x-4">
-          {previews.map((preview, index) => (
-            <div key={index} className="relative inline-block w-300px h-300px ">
-              <img
-                src={preview}
-                alt={`preview ${index}`}
-                className="min-w-full h-full cursor-pointer object-contain rounded-lg bg-gray-1"
-                onClick={() => handlePreviewClick(preview)}
-              />
-               <button
-                  type="button"
-                  onClick={() => handleRemove(index)}
-                  className="text-psm absolute top-2 right-2 bg-system-white text-system-error hover:text-system-white hover:bg-system-error text-center border-system-error border-1px px-10px py-1 rounded-md "
-                >
-                삭제
-              </button>
-            </div>
-          ))}
-        </div>
+      {preview && (
+        <div className='flex flex-row w-full mt-10px items-end'>
+          <div className=" w-300px h-300px mr-10px">
+            <img
+              src={preview}
+              alt="preview"
+              className="min-w-full h-full cursor-pointer object-contain rounded-lg border-gray-3 border-1px bg-gray-1"
+              onClick={() => {
+                setCurrentPreview(preview);
+                setShowFullScreen(true);
+              }}
+            />
+            
+          </div>
+          <button
+              type="button"
+              onClick={handleRemove}
+              className="h-8 text-psm bg-system-white text-system-error hover:text-system-white hover:bg-system-error text-center border-system-error border-1px px-10px py-1 rounded-md"
+            >
+              삭제
+            </button>
+          </div>
       )}
-        
-        {showFullScreen && currentPreview && (
+      {showFullScreen && currentPreview && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <button
             className="absolute top-4 right-4 text-white text-2xl"
-            onClick={handleCloseFullScreen}
+            onClick={() => {
+              setShowFullScreen(false);
+              setCurrentPreview(null);
+            }}
           >
             X
           </button>
           <img src={currentPreview} alt="fullscreen preview" className="max-w-full max-h-full" />
         </div>
       )}
-      </div>
     </div>
   );
-}
+};
+
 export const CustomDateInput = ({label, ...props}:any) => {
   const [field, meta, helpers] = useField(props);
   const {initialval} = props;
@@ -214,7 +209,7 @@ export const CustomDateInput = ({label, ...props}:any) => {
         onClick={handleButtonClick}
       >
         <div className='flex flex-row justify-center items-center'>
-          <img src={calendar_icon_form} className='h-4 w-4 mr-6px'></img>
+          <img src={calendar_icon} className='h-4 w-4 mr-6px'></img>
           {!meta.touched && !hasSelected ? `날짜를 선택해주세요` : formattedDate}
         </div>
       </button>
@@ -234,6 +229,61 @@ export const CustomDateInput = ({label, ...props}:any) => {
   )
 
 }
+
+export const CustomDateInputTicket = ({label, ...props}:any) => {
+  const [field, meta, helpers] = useField(props);
+  const {initialval} = props;
+  const [hasSelected, setHasSelected] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const WEEKDAY = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+  
+  const handleDateChange: CalendarProps['onChange'] = (value) => {
+    if (value instanceof Date) {
+      setSelectedDate(value);
+      helpers.setValue(value.toISOString().split('T')[0]); // Formik value 설정
+      setShowCalendar(false);
+    }
+  };
+
+  const handleButtonClick = () => {
+    helpers.setTouched(true);
+    setShowCalendar(!showCalendar);
+  };
+
+  const formattedDate = `${selectedDate.toLocaleDateString()} ${WEEKDAY[selectedDate.getDay()]}`;
+
+  return (
+    <div className="mb-30px">
+      <label htmlFor={props.id || props.name} className='pl-6px text-md font-normal text-system-white'>{label}</label>
+      <br/>
+      <button
+        type="button"
+        className='flex flex-row justify-center bg-gray-5 items-center rounded-lg border-gray-1 border-1px p-14px mt-10px hover:bg-gray-4'
+        onClick={handleButtonClick}
+      >
+        <div className='flex flex-row justify-center items-center text-gray-1'>
+          <img src={calendar_icon_white} className='h-4 w-4 mr-6px'></img>
+          {!meta.touched && !hasSelected ? `날짜를 선택해주세요` : formattedDate}
+        </div>
+      </button>
+      {showCalendar && (
+        <div className="calendar-container bg-white w-300px items-center" style={{ position: 'absolute', zIndex: 1000}}>
+          <Calendar
+            onChange={handleDateChange}
+            value={selectedDate}
+            minDate={new Date(Date.now())}
+          />
+        </div>
+      )}
+      {meta.touched && meta.error ? (
+        <div style={{ color: "red" }}>{meta.error}</div>
+      ) : null}
+    </div>
+  )
+
+}
+
 export const CustomTimeInput = ({ label, ...props }: any) => {
   const [field, meta] = useField(props);
   const { setValues, values } = useFormikContext();
@@ -363,3 +413,11 @@ export const CustomTimeInput = ({ label, ...props }: any) => {
     </div>
   );
 };
+
+export const CustomToggleSwitch = ({ label, ...props }: any) => {
+  
+}
+
+export const CustomCounterInput = ({ label, ...props }: any) => {
+
+}

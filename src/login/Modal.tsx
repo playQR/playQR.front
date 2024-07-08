@@ -2,8 +2,6 @@ import React from 'react'
 import Modal from 'react-modal';
 import store from '../store/store';
 import kakao_login from './img/kakao_login_button.png';
-import {axiosAPI} from '../axios/index';
-import axios from 'axios';
 type Props = {}
 
 const customModalStyles: ReactModal.Styles = {

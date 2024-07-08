@@ -6,7 +6,7 @@ export function parseKSTDate(dateString : string | null) : Date | null{
     
         // Remove 'KST' and parse the date in local time
         const localDate = new Date(dateString.replace(' KST ', ' '));
-        console.log(localDate)
+        
         // Adjust the time to UTC by subtracting the timezone offset
         const utcDate = new Date(localDate.getTime() - kstOffset);
         
@@ -17,8 +17,8 @@ export function parseKSTDate(dateString : string | null) : Date | null{
 export const convertMerdian = (time : any) => {
       const sm = time.smeridian;
       const lm = time.lmeridian;
-      const sh = time.shour;
-      const lh = time.lhour;
+      const sh = Number(time.shour);
+      const lh = Number(time.lhour);
       if (sm === '오후' && sh !== 12) {
         time.shour = sh + 12;
       }

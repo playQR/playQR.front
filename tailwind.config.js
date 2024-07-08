@@ -9,6 +9,7 @@ module.exports = {
         'yspotlight' :'Y_Spotlight'
       },
       fontSize : {
+        'pxxs' : '10px',
         'pxs' : '12px',
         'psm' : '14px',
         'pmd' : '16px',
@@ -27,7 +28,7 @@ module.exports = {
           '5' : '#1E1E1E'
         },
         'text' : {
-          'disabled': '#EBEBEB',
+          'disabled': '#CCCCCC',
           'input' : '#252525',
           'plain' : '#1A1A1A'
         },
@@ -48,6 +49,7 @@ module.exports = {
           '18px' : '18px',
           '34px' : '34px',
           '30px' : '30px',
+          '50px' : '50px',
           '350px' : '350px',
         }
         ,width : {
@@ -56,11 +58,13 @@ module.exports = {
           '22px' : '22px',
           '18px' : '18px',
           '75px' : '75px',
+          '114px':'114px',
           '300px' : '300px',
           '640px': '640px',
           '768px' : '768px'
         },height : {
           '4px' : '4px',
+          '10px' : '10px',
           '38px' : '38px',
           '22px' : '22px',
           '30px' : '30px',
@@ -69,7 +73,9 @@ module.exports = {
           '46px' : '46px',
           '48px' : '48px',
           '100px' : '100px',
+          '114px' : '114px',
           '140px' : '140px',
+          '200px' : '200px',
           '268px' : '268px',
           '300px' : '300px',
           '350px' : '350px',
