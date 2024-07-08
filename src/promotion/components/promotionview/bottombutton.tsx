@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import {useCallback} from 'react';
 import store from '../../../store/store';
@@ -6,6 +6,7 @@ import store from '../../../store/store';
 type Props = {
   id : number | undefined;
   isAuthenticated : boolean;
+  isAuthLoading : boolean;
 }
 
 const backgroundStyle = {
@@ -17,20 +18,25 @@ const BottomButton = (props: Props) => {
 
   const {id} = props;
   const navigate = useNavigate();
-  const { isAuthenticated } = props;
-  
+  const { isAuthenticated,isAuthLoading } = props;
 
   const {useModalStore} = store;
   const { openModal } = useModalStore();
 
   const onClick = useCallback(() => {
-    if(!isAuthenticated){
-      openModal();
-      return;
+    
+    if(!isAuthLoading){
+      if(!isAuthenticated){
+          openModal();
+        return;
+      }else{
+        navigate(`/promotion/${id}/purchase`);
+      }
     }else{
-      navigate(`/promotion/${id}/purchase`);
+      return;
     }
-  },[id]);
+    
+  },[id, isAuthLoading,isAuthenticated]);
 
   return (
     <div style={backgroundStyle} className='fixed w-full md:w-640px bottom-0 h-100px'>

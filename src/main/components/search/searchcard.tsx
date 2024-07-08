@@ -35,7 +35,7 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     <div onClick={onClick} className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
       <div className="relative">
         <div className="h-40 w-full flex items-center justify-center">
-          <img src={thumbnail === '' ? checker_img : thumbnail} alt="checker" className="h-full w-full object-cover" />
+          <img src={thumbnail ? thumbnail : checker_img} className="h-full w-full object-cover" />
         </div>
         {/* <LikeButton like={true} like_num={1}/> */}
       </div>

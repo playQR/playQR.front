@@ -6,7 +6,7 @@ export function parseKSTDate(dateString : string | null) : Date | null{
     
         // Remove 'KST' and parse the date in local time
         const localDate = new Date(dateString.replace(' KST ', ' '));
-        console.log(localDate)
+        
         // Adjust the time to UTC by subtracting the timezone offset
         const utcDate = new Date(localDate.getTime() - kstOffset);
         

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import userButton from './img/user_icon.png'
 import store from '../../../../store/store';
 type Props = {

@@ -7,7 +7,6 @@ type Props = {
     like_num : number | undefined,
     updateHeart : (id: any, value: boolean) => Promise<void>
 }
-{/* 10px가 안되는 부분 */}
 const MusicLikeButton = (props: Props) => {
     const { id,like,like_num,updateHeart} = props;
     return (

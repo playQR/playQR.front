@@ -9,17 +9,19 @@ const useCheckAuth = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    
     const authenticate = async () => {
       try {
         const response = await axiosSemiSecureAPI.get('/api/members');
+        
         if (response.data.isSuccess === false) throw new Error('Not authenticated.');
-        setIsAuthenticated(true);
-        setMemberInfo(response.data.result);
+          setIsAuthenticated(true);
+          setMemberInfo(response.data.result);
       } catch (error) {
-        setIsAuthenticated(false);
-        setMemberInfo({ id: -1, name: '', nickname: '', profileImg: ''});
+          setIsAuthenticated(false);
+          setMemberInfo({ id: -1, name: '', nickname: '', profileImg: ''});
       } finally {
-        setIsLoading(false);
+          setIsLoading(false);
       }
     };
 

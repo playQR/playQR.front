@@ -1,9 +1,9 @@
 import Modal from 'react-modal';
+import store from '../../../store/store';
 type Props = {
-    commentId: number;
-    deleteComment: () => void;
     isOpen: boolean;
-    closeModal: () => void;
+    deletePromotion: () => void;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const customModalStyles: ReactModal.Styles = {
@@ -35,28 +35,29 @@ const customModalStyles: ReactModal.Styles = {
 
 
 const DeleteModal = (props: Props) => {
-    const {deleteComment,isOpen, closeModal} = props;
+    const {deletePromotion,isOpen, setIsOpen} = props;
     const onClick = () => {
-        deleteComment();
-        closeModal();
+        deletePromotion();
+        setIsOpen(false);
     }
     return (
       <Modal
         isOpen={isOpen}
-        onRequestClose={() => closeModal()}
+        onRequestClose={() => setIsOpen(false)}
         style={customModalStyles}
         ariaHideApp={false}
         contentLabel="Pop up Message"
         shouldCloseOnOverlayClick={true}
       >
         <div className="flex flex-col bg-gray-4 items-center justify-center w-full h-full px-4">
-          <div className='text-plg text-system-white mb-30px'>
-            댓글을 삭제하시겠어요?
+          <div className='text-plg text-system-white'>
+            예매자 정보와 공연 정보가 삭제됩니다.
           </div>
-          <div className="bg-primary text-center text-400 text-white text-plg w-full py-3 rounded-lg mb-10px" onClick={onClick}>
+           <div className='text-plg text-system-white mb-30px'>정말로 공연을 삭제하시겠어요?</div>
+          <div className="bg-system-error text-center text-400 text-white text-plg w-full py-3 rounded-lg mb-10px" onClick={onClick}>
             삭제하기
           </div>
-          <div className='text-center text-psm text-gray-2 mt-10px underline' onClick={()=>closeModal()}>
+          <div className='text-center text-psm text-gray-2 mt-10px underline' onClick={()=>setIsOpen(false)}>
             취소하기
           </div>
           

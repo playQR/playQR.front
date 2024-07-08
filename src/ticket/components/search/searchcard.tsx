@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
-import calendar_icon from '../../img/calendar_icon.png';
-import location_icon from '../../img/location_icon.png';
-import checker_img from '../../img/checker_img.png';
+import calendar_icon from '../img/calendar_icon.png';
+import location_icon from '../img/location_icon.png';
+import checker_img from '../img/checker_img.png';
 import { useNavigate } from 'react-router-dom';
 import { PromotionCard } from '../../../promotion/types/common';
 import { convertStringToDate } from '../../../utils/time';
-import Skeleton from 'react-loading-skeleton';
 
 type Props = {
   result: PromotionCard,
@@ -32,7 +31,7 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     navigate(`/promotion/${promotionId}`);
   }
   return (
-    <div onClick={onClick} className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
+    <div className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
       <div className="relative">
         <div className="h-40 w-full flex items-center justify-center">
           <img src={thumbnail === '' ? checker_img : thumbnail} alt="checker" className="h-full w-full object-cover" />

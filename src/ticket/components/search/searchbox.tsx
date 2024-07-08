@@ -1,5 +1,5 @@
 import React from 'react'
-import search_icon from '../../img/search_icon.png'
+import search_icon from '../img/search_icon.png'
 type Props = {
     value:string
     onChange : (e: React.ChangeEvent<HTMLInputElement>) => void

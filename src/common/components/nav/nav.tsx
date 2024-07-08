@@ -1,8 +1,6 @@
 import UserButton from './components/userbutton'
 import TicketButton from './components/ticketbutton'
 import { useNavigate } from 'react-router-dom'
-import store from '../../../store/store'
-import { useEffect } from 'react'
 import useCheckAuth from '../../../utils/hooks/useCheckAuth'
 
 type Props = {}

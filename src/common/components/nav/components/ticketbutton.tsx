@@ -1,5 +1,4 @@
-import React from 'react'
-import { Link, useNavigation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ticket_icon from './img/ticket_icon.png'
 import store from '../../../../store/store';
 

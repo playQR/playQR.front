@@ -1,10 +1,10 @@
 import React,{useState ,useRef, useEffect, useCallback} from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import { Comment, Member } from '../../types';
-import {axiosSecureAPI, axiosSemiSecureAPI, axiosAPI } from '../../../axios';
+import {axiosSecureAPI, axiosSemiSecureAPI } from '../../../axios';
 import Loading from '../../../common/loading';
 import { convertformatDate } from '../../../utils/time/index';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import deleteIcon from '../../img/delete_icon.png';
 import DeleteModal from '../../modals/deletemodal';
 import store from '../../../store/store';
@@ -18,6 +18,7 @@ type Props = {
 const TalkInfo = (props: Props) => {
   const [message, setMessage] = useState('');
   const { promotionId,writer } = props;
+  const [commentId, setCommentId] = useState<number>(-1);
   const charLimit = 200;
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
@@ -117,13 +118,16 @@ const TalkInfo = (props: Props) => {
       setStop(false);
     }
   };
-  const handleDelete  = () => {
+  
+  const handleDelete  = (id : number) => {
+    setCommentId(id);
     setIsModalOpen(true);
   }
+  
   const deleteComment = async () => {
     try {
       await toast.promise(
-        axiosSemiSecureAPI.delete(`/api/comments/${promotionId}`),
+        axiosSemiSecureAPI.delete(`/api/comments/${commentId}`),
         {
           loading: 'Deleting comment...',
           success: <b>Comment Deleted!</b>,
@@ -150,7 +154,7 @@ const TalkInfo = (props: Props) => {
 
   return (
     <div className='w-full flex flex-col mt-5'>
-      <DeleteModal deleteComment={deleteComment} isOpen={isModalOpen} closeModal={closeModal}/>
+      
       <div className='text-primary text-pxl font-semibold mb-3'>
         {`응원 Talk ${comments.length}개`}
       </div>
@@ -210,11 +214,12 @@ const TalkInfo = (props: Props) => {
                 <div className="text-xs text-gray-2">{convertformatDate(comment.createdTime)}</div>
               </div>
               </div>
-              {isAuthenticated && memberInfo.id === comment.memberResponse.id ? <img onClick={handleDelete} src={deleteIcon} className='w-5 h-5'/> : <div></div>}
+              {isAuthenticated && memberInfo.id === comment.memberResponse.id ? <img onClick={()=>handleDelete(comment.id)} src={deleteIcon} className='w-5 h-5'/> : <div></div>}
             </div>
             <div className="text-xs mt-10px text-system-white">{comment.content}</div>
             {index < comments.length - 1 && (<div className='w-full h-0.4px my-10px bg-gray-4'></div>
             )}
+           
           </div>
           )
         }): <div className='text-gray-1 text-pmd w-full text-center'>댓글이 없습니다.</div>}
@@ -225,6 +230,7 @@ const TalkInfo = (props: Props) => {
       <div className='h-100px'>
                 {/* 모든 정보를 보여주기 위한 마진 */}
       </div>
+       <DeleteModal deleteComment={deleteComment} isOpen={isModalOpen} closeModal={closeModal} commentId={commentId}/>
     </div>
   )
 }

@@ -80,11 +80,13 @@ const Ticketing = (props: Props) => {
     },[])
     const onSubmit = async (values : Request) => {
         setIsSubmitting(true);
+        console.log(values)
         try{
-          const res = await axiosSecureAPI.post(`/api/guests/${id}`, {
+          const res = await axiosSecureAPI.post(`/api/guests/${id}`,
             values
-          })
+          )
           if(res.data.isSuccess){ 
+            console.log(res)
             const ticketid = res.data.result;
             setTicketUrl(`/ticket/${ticketid}`)
             setIsSuccess(true);

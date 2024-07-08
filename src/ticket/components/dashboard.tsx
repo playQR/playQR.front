@@ -1,7 +1,7 @@
 import React from 'react'
 import CreateButton from './buttons/createbutton';
 import Line from '../../common/components/line/line';
-
+import Search from './search/search';
 type Props = {}
 
 const Dashboard = (props: Props) => {
@@ -30,6 +30,7 @@ const Dashboard = (props: Props) => {
                 <div className="w-full ">
                     <CreateButton/>
                     <Line/>
+                    <Search/>
                 </div>
             }
         </div>

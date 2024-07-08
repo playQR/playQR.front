@@ -6,10 +6,11 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({ element }:ProtectedRouteProps) => {
-  const { isAuthenticated } = useCheckAuth();
+  const { isAuthenticated,isLoading } = useCheckAuth();
   
-
-  return isAuthenticated ? element : <Navigate to="/accessdenied" />;
+  if(isLoading) return <div></div>
+  else
+  return isAuthenticated === true ? element : <Navigate to="/accessdenied" />;
 };
 
 export default ProtectedRoute;
