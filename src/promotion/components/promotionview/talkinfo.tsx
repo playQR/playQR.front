@@ -99,16 +99,15 @@ const TalkInfo = (props: Props) => {
     }
     else{
       try {
-        console.log('adsfasdfafs')
-      await toast.promise(
-        axiosSemiSecureAPI.post(`/api/comments/${promotionId}`, {
-          content: message,
-        }),
-        {
-          loading: 'Posting comment...',
-          success: <b>Comment posted!</b>,
-          error: <b>Could not post comment.</b>,
-        }
+        await toast.promise(
+          axiosSemiSecureAPI.post(`/api/comments/${promotionId}`, {
+            content: message,
+          }),
+          {
+            loading: 'Posting comment...',
+            success: <b>Comment posted!</b>,
+            error: <b>Could not post comment.</b>,
+          }
       );
     } catch (e) {
       console.log(e);

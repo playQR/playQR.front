@@ -138,8 +138,8 @@ const PromotionInfo = (props: Props) => {
             : music
         )
       );
-    } catch (error) {
-      //console.log(error);
+    } catch (e) {
+      console.log(e)
     } finally {
       setIsLikeLoading(false);
     }

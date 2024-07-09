@@ -33,17 +33,14 @@ const PromotionEdit = (props: Props) => {
       setIsLoading(true);
       try{
         const res = await axiosSecureAPI.get(`/api/promotions/${id}`);
-        console.log(res)
         if(res.data.isSuccess){
           const result = convertViewPromotionToPromotionCreate(res.data.result)
-          console.log(result);
           clearData();
           updateData(result);
         }
       }
       catch(e){
         alert('프로모션 정보를 불러오는데 실패했습니다.');
-        console.log(e)
         navigate('/');
       }
       finally{
@@ -100,12 +97,10 @@ const PromotionEdit = (props: Props) => {
       
         if (payload.step1.imageList && typeof payload.step1.imageList[0] !=='string') {
           const result = await uploadImage();
-          console.log('uploadImage',result);
           refinedPayload.imageList = [result]
         }
         else{
           if(payload.step1.imageList && typeof payload.step1.imageList[0] ==='string'){
-            console.log('not uploading');
             refinedPayload.imageList = [payload.step1.imageList[0]]
           }
           else{

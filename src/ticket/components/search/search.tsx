@@ -21,12 +21,10 @@ const Search = (props: Props) => {
 
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
-        console.log('fetchResults')
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
         try {
             const res = await axiosSemiSecureAPI.get(`/api/promotions/my?currentPage=${page}`)
-            console.log(res)
             const promotionResult = res.data.result.promotionList;
             if (promotionResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
@@ -58,8 +56,8 @@ const Search = (props: Props) => {
                 }
             );
         }
-        catch(err){
-        console.log(err);
+        catch(e){
+            console.log(e);
         }finally{
             setResults([]);
             setPage(0);

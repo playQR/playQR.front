@@ -22,7 +22,6 @@ const Search = (props: Props) => {
             const res = query === "" 
                 ? await axiosAPI.get(`/api/promotions?currentPage=${page}`)
                 : await axiosAPI.get(`/api/promotions/search?currentPage=${page}&keyword=${encodeURIComponent(query)}`);
-            console.log(res)
             const promotionResult = res.data.result.promotionList;
             if (promotionResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정

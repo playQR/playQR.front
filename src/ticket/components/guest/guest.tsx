@@ -21,7 +21,6 @@ const Guest = (props: Props) => {
         setIsFetching(true);
         try {
             const res = await axiosSemiSecureAPI.get(`/api/guests/promotions/${id}/page?currentPage=${page}`)
-            console.log(res)
             const guestResult = res.data.result.guestList;
             if (guestResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정

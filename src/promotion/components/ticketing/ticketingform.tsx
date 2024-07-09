@@ -79,7 +79,6 @@ export const TicketingForm = (props : Prop) => {
           validationSchema={validationSchema}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              console.log(values);
               const req = {
                 name: values?.depositor,
                 reservationCount: values?.ticketCount,

@@ -14,7 +14,6 @@ const AuthHandler = () => {
     const refreshToken = query.get('refresh');
     const accessTokenExpireTime = parseKSTDate(query.get('code_expire'));
     const refreshTokenExpireTime = parseKSTDate(query.get('refresh_expire'));
-    console.log(refreshToken)
     if (accessToken && refreshToken && accessTokenExpireTime && refreshTokenExpireTime) {
       setTokens(accessToken, refreshToken, accessTokenExpireTime, refreshTokenExpireTime);
       

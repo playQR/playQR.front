@@ -52,11 +52,10 @@ const CheckIsFilled = (props:CheckProps) => {
   useEffect(() => {
     const allFieldsFilled = Object.values(values).every(value => value !== '');
     if (allFieldsFilled && isValidTime) {
-      console.log('valid');
       changeIsValid(true);
     }
     else{
-      console.log('not valid');
+
       changeIsValid(false);
     }
   }, [values, submitForm, isValidTime]);
@@ -84,7 +83,6 @@ const Step1 = (props: Props) => {
         validationSchema={validationSchema}
         onSubmit={
           (values, {setSubmitting}) => {
-            console.log(values)
             setTimeout(() => {
               setSubmitting(false);
             }, 400);
