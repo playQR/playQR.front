@@ -5,7 +5,7 @@ import Step1 from './components/promotionform/step1'
 import Step2 from './components/promotionform/step2'
 import Step3 from './components/promotionform/step3'
 import FormNav from './components/promotionform/formnav'
-import Result from './components/promotionview/result';
+import Result from './components/promotionform/result';
 import store from '../store/store'
 import {axiosSecureAPI }from '../axios'
 import { convertMerdian } from '../utils/time'
@@ -20,7 +20,7 @@ type Step = {
 const PromotionCreate = (props: Props) => {
 
     const { useCreatePromotionStore } = store;
-    const { getFullPromotionData } = useCreatePromotionStore();
+    const { getFullPromotionData,clearData } = useCreatePromotionStore();
     const [promotionUrl, setPromotionUrl] = useState<string>('/');
     const [isLoading, setIsLoading] = React.useState(false);
     const [isSuccess, setIsSuccess] = React.useState(false);
@@ -70,6 +70,7 @@ const PromotionCreate = (props: Props) => {
         const response = await axiosSecureAPI.post('/api/promotions', refinedPayload);
         if(response.data.isSuccess === true){
           setPromotionUrl(`/promotion/${response.data.result}`)
+          clearData();
           setIsSuccess(true);
         }
       }catch(e){
@@ -117,7 +118,7 @@ const PromotionCreate = (props: Props) => {
             step[currentStepIndex].element : <div> No Element </div>
             :
             <Result isLoading={isLoading} isSuccess={isSuccess} promotionUrl={promotionUrl}/>  
-            }
+          }
         
         </div>
         

@@ -40,7 +40,6 @@ axiosSecureAPI.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 400 && !originalRequest._retry) {
         const { refreshToken, refreshTokenExpireTime } = useAuthStorePersist.getState();
-        const currentTime = new Date().getTime();
         
         // if (refreshTokenExpireTime !== null && currentTime > refreshTokenExpireTime.getTime()){
         //     useAuthStorePersist.getState().setTokens(null, null,null,null);
@@ -97,7 +96,6 @@ axiosSemiSecureAPI.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 400 && !originalRequest._retry) {
         const { refreshToken, refreshTokenExpireTime } = useAuthStorePersist.getState();
-        const currentTime = new Date().getTime();
         
         // if (refreshTokenExpireTime !== null && currentTime > refreshTokenExpireTime.getTime()){
         //     useAuthStorePersist.getState().setTokens(null, null,null,null);

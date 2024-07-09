@@ -7,6 +7,7 @@ export interface SetListMusic {
 }
 
 export interface Comment {
+    id : number;
     content : string;
     createdTime : string;
     memberResponse : common.Member;

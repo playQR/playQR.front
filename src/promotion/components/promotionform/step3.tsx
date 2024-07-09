@@ -7,8 +7,9 @@ import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';
 import {axiosSecureAPI} from '../../../axios';
-import Result from '../promotionview/result';
+import Result from './result';
 import { set } from 'react-hook-form';
+import Warning from '../common/warning';
 type Props = {
   next : () => void;
   prev : () => void;
@@ -19,8 +20,8 @@ type Props = {
 const initialValues : Billing = {
   entranceFee: 0,
   bankName: '',
-  bankAccount: '',
-  bankAccountHolder: '',
+  account: '',
+  accountHolder: '',
   refundInfo: ''
 }
 
@@ -31,8 +32,8 @@ type CheckProps = {
 const validationSchema = Yup.object().shape({
   entranceFee: Yup.number().required('필수항목입니다.'),
   bankName: Yup.string().required('필수항목입니다.'),
-  bankAccount: Yup.string().required('필수항목입니다.'),
-  bankAccountHolder: Yup.string().required('필수항목입니다.'),
+  account: Yup.string().required('필수항목입니다.'),
+  accountHolder: Yup.string().required('필수항목입니다.'),
   refundInfo: Yup.string().required('필수항목입니다.'),
 })
 
@@ -89,9 +90,10 @@ const Step3 = (props: Props) => {
           <Form>
             <CustomTextInput label='티켓 가격을 알려주세요' name='entranceFee' type='number' placeholder='숫자만 입력해주세요' />
             <CustomTextInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
-            <CustomTextInput label='입금받을 계좌번호를 알려주세요' name='bankAccount' type='text' placeholder='계좌번호' />
-            <CustomTextInput label='예금주를 알려주세요' name='bankAccountHolder' type='text' placeholder='예금주 이름' />
+            <CustomTextInput label='입금받을 계좌번호를 알려주세요' name='account' type='text' placeholder='계좌번호' />
+            <CustomTextInput label='예금주를 알려주세요' name='accountHolder' type='text' placeholder='예금주 이름' />
             <CustomLongTextInput label='환불 정보를 입력해주세요' name='refundInfo' type='text' placeholder='환불 조건, 환불 문의 연락처를 입력해주세요' />
+            <Warning/>
             <CheckIsFilled changeIsValid={changeIsValid}/>
             <NextButton isValid={isValid} currentIndex={currentIndex}/>
             

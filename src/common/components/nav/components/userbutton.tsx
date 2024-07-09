@@ -1,13 +1,25 @@
 import React from 'react'
-import { Link, useNavigation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import userButton from './img/user_icon.png'
-type Props = {}
+import store from '../../../../store/store';
+type Props = {
+  isAuthenticated : boolean;
+}
 
 const UserButton = (props: Props) => {
   const navigate = useNavigate();
 
+  const {useModalStore} = store;
+
+  const {openModal} = useModalStore(state => state);
+
   const onClick = () => {
-    navigate('/mypage');
+    if(!props.isAuthenticated) {
+      openModal();
+    }
+    else{
+      navigate('/mypage');
+    }
   }
   return (
     <button onClick={onClick} className=''>

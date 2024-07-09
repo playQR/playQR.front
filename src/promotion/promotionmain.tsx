@@ -9,6 +9,8 @@ import { axiosAPI } from '../axios';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../common/loading';
 import { Toaster } from 'react-hot-toast';
+import useCheckAuth from '../utils/hooks/useCheckAuth';
+import CustomToast from '../common/components/toast/customtoast';
 type Props = {}
 
 const PromotionView = (props: Props) => {
@@ -17,8 +19,8 @@ const PromotionView = (props: Props) => {
     const { id } = useParams()
     const navigate = useNavigate();
     const [result, setResult] = useState<ViewPromotion | null>(null);
-    const [musicLikeList, setMusicLikeList] = useState<SetListMusic[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const {isAuthenticated, memberInfo,isLoading : isAuthLoading } = useCheckAuth();
   
     const fetchData = async () => {
       try{
@@ -29,50 +31,28 @@ const PromotionView = (props: Props) => {
           };
         }
       catch(e:any){
-        // console.log(e)
         alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.')
         navigate('/')
       }
     }
+    
 
     useEffect(()=>{
       setIsLoading(true);
       fetchData()
       setIsLoading(false);
     },[])
-    useEffect(()=>{
-      console.log(result)
-    },[result])
+
     return (
         <div className='w-full relative'>
           
             <div className='flex flex-col min-h-screen w-full bg-system-background p-4'>
                 <KakaoModal/>
-                 <Toaster
-                  position="top-center"
-                  reverseOrder={false}
-                  gutter={8}
-                  containerClassName=""
-                  containerStyle={{}}
-                  toastOptions={{
-                    // Define default options
-                    className: '',
-                    duration: 5000,
-                    style: {
-                      background: '#363636',
-                      color: '#fff',
-                    },
-
-                    // Default options for specific types
-                    success: {
-                      duration: 3000,
-                    },
-                  }}
-                />
+                <CustomToast/>
                 <Nav/>
-                {result === null ? <Loading isLoading={result===null} text={"정보를 가져오는 중입니다."}/> : <PromotionInfo result={result} isLoading={isLoading}/>}
+                {result === null || isAuthLoading ? <Loading isLoading={result===null} text={"정보를 가져오는 중입니다."}/> : <PromotionInfo isAuthenticated={isAuthenticated} result={result} isLoading={isLoading} memberInfo={memberInfo}/>}
             </div>
-            <BottomButton/>
+            <BottomButton isAuthenticated={isAuthenticated} id={Number(id)} isAuthLoading={isAuthLoading}/>
         </div>
     )
 }

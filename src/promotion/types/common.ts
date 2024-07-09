@@ -8,6 +8,7 @@ export interface Music {
 }
 
 export interface MusicInput{
+  id :number | null;
   title: string;
   artist: string;
   open: boolean;
@@ -15,15 +16,23 @@ export interface MusicInput{
 export interface Billing {
   entranceFee: number;
   bankName: string;
-  bankAccount: string;
-  bankAccountHolder: string;
+  account: string;
+  accountHolder: string;
   refundInfo: string;
 }
 
 export interface Member {
+  id: number;
   name: string;
   nickname: string;
   profileImg: string | undefined;
+}
+
+export interface ViewMemember{
+  name: string;
+  nickname: string;
+  profileImg: string | undefined;
+
 }
 
 export interface Promotion {
@@ -51,7 +60,7 @@ export interface PromotionCard{
   startTime: string;
   endTime: string;
   entranceFee: number;
-  writer: Member;
+  writer: ViewMemember;
 
 }
 
@@ -80,7 +89,7 @@ export interface PromotionCreate {
   step1 : {
     team?: string;
     title?: string;
-    imageList?: File[];
+    imageList?: File[] | string[];
     showDate?: string;
     time? : {
     smeridian? : string;

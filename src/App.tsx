@@ -37,6 +37,7 @@ function App() {
       window.removeEventListener('resize', updateStyle);
     };
   }, []);
+
   return (
     <div style={containerStyle}>
       <Outlet/>

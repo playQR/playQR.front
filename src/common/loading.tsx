@@ -1,15 +1,9 @@
-import React, {CSSProperties} from 'react'
+import React from 'react'
 import HashLoader from 'react-spinners/HashLoader'
 type Props = {
     text: string;
     isLoading: boolean;
 }
-
-const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "#1FDA00",
-};
 
 const Loading = (props: Props) => {
     const { isLoading, text } = props

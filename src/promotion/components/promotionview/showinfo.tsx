@@ -2,6 +2,8 @@ import React,{useEffect} from 'react'
 import LikeButton from '../../../common/components/buttons/like_button'
 import MusicLikeButton from '../../../common/components/buttons/like_button_music'
 import { Music, SetListMusic } from '../../types/index';
+import Footer from '../../../common/components/footer';
+import store from '../../../store/store';
 type Props = {
     musicList : Music [],
     musicLikeList : SetListMusic[],
@@ -11,8 +13,8 @@ type Props = {
 }
 const ShowInfo = (props: Props) => {
     
-    const { musicList, content, refundInfo,musicLikeList,updateHeart } = props
 
+    const { musicList, content, refundInfo,musicLikeList,updateHeart } = props
     return (
         <div className='w-full flex flex-col mt-5 py-10px'>
             {musicList.length > 0 ? 
@@ -60,9 +62,7 @@ const ShowInfo = (props: Props) => {
                     {refundInfo}
                 </div>
             </div>
-            <div className='h-100px'>
-                {/* 모든 정보를 보여주기 위한 마진 */}
-            </div>
+            <Footer/>
         </div>
         
         

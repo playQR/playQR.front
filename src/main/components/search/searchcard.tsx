@@ -2,16 +2,13 @@ import React, { useEffect } from 'react'
 import calendar_icon from '../../img/calendar_icon.png';
 import location_icon from '../../img/location_icon.png';
 import checker_img from '../../img/checker_img.png';
-import like_icon_true from '../../img/like_icon_true.png';
-import like_icon_false from '../../img/like_icon_false.png';
-import simple_img from '../../img/simple_img.png';
-import LikeButton from '../../../common/components/buttons/like_button';
 import { useNavigate } from 'react-router-dom';
 import { PromotionCard } from '../../../promotion/types/common';
 import { convertStringToDate } from '../../../utils/time';
+import Skeleton from 'react-loading-skeleton';
 
 type Props = {
-  result: PromotionCard
+  result: PromotionCard,
 }
 
 const SearchCard : React.FC<Props> = (props: Props) => {
@@ -38,7 +35,7 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     <div onClick={onClick} className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
       <div className="relative">
         <div className="h-40 w-full flex items-center justify-center">
-          <img src={thumbnail === '' ? checker_img : thumbnail} alt="checker" className="h-full w-full object-cover" />
+          <img src={thumbnail ? thumbnail : checker_img} className="h-full w-full object-cover" />
         </div>
         {/* <LikeButton like={true} like_num={1}/> */}
       </div>
