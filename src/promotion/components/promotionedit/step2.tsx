@@ -151,7 +151,7 @@ const Step2 = (props: Props) => {
                   </Droppable>
                   <button
                     type="button"
-                    onClick={() => arrayHelpers.push({ title: '', artist: '', open: false })}
+                    onClick={() => arrayHelpers.push({ title: '', artist: '', open: true })}
                     className="w-full h-48px text-pmd border-gray-1 border-1px text-system-black rounded-xl"
                   >
                     곡 추가하기

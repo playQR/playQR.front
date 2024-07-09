@@ -81,6 +81,10 @@ export const CustomFileInput = ({ label, ...props }: any) => {
         alert('이미지 파일만 업로드 가능합니다.');
         return;
       }
+      if (file.size > 5 * 1024 * 1024) {
+        alert('파일 크기는 5MB 이하로 업로드 가능합니다.');
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
