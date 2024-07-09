@@ -11,7 +11,6 @@ const TicketRedirectPage = (props: Props) => {
         //     const response = await fetch('https://api.example.com/data');
         //     const data = await response.json();
         // };
-
         // fetchData();
         alert('key : ' +  key)
     }, []);
