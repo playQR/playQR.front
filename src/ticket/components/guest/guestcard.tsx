@@ -27,8 +27,8 @@ const GuestCard : React.FC<Props> = (props: Props) => {
       <div className="text-plg text-system-white">이정한</div>
       <table className='w-full'>
         <colgroup>
-          <col width='15%'/>
-          <col width='85%'/>
+          <col width='20%'/>
+          <col width='80%'/>
         </colgroup>
         <tr>
           <td className='text-text-disabled text-psm'>
