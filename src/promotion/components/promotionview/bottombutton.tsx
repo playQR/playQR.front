@@ -39,7 +39,7 @@ const BottomButton = (props: Props) => {
   },[id, isAuthLoading,isAuthenticated]);
 
   return (
-    <div style={backgroundStyle} className='fixed w-full md:w-640px bottom-0 h-100px'>
+    <div style={backgroundStyle} className='fixed w-full sm:w-640px bottom-0 h-100px'>
         <div className='flex h-full justify-end items-end px-4 pb-54px flex-end'>
             <button onClick={onClick} className='w-full bg-primary h-46px rounded-xl text-system-white text-plg'>예매하기</button>
         </div>

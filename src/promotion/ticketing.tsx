@@ -107,7 +107,7 @@ const Ticketing = (props: Props) => {
               <SearchCard result={card} isLoading={isLoading}/>
               <InfoTable info={info}/>
               <Line/>
-              <div className='px-4 mt-3'>
+              <div className='mt-3'>
                   <TicketingForm 
                   onSubmit={onSubmit}
                   id={Number(id)}/>
