@@ -93,6 +93,7 @@ export const TicketingForm = (props : Prop) => {
             }
           }}>
         <Form>
+          <div className='w-full px-4'>
             <div className="flex flex-row w-full items-center justify-between mb-30px">
                 <div className="flex flex-col justify-center text-left">
                     <span className="text-pmd text-system-white">공연 예매는 선입금 후 가능합니다.</span>
@@ -110,7 +111,9 @@ export const TicketingForm = (props : Prop) => {
             </div>
             <CustomDateInputTicket label='입금한 날짜' name='showDate' type='date' initialval = {null} />
             <CustomTextInputDark label='입금자명' name='depositor' type='text' placeholder='입금자명을 입력해주세요' initialval = {null} />
-            <BottomButton/>
+          </div>
+          <BottomButton/>
+
         </Form>
       </Formik>
     )
