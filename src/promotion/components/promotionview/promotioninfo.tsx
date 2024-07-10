@@ -20,6 +20,12 @@ type Props = {
   isAuthenticated : boolean;
   memberInfo : Member;
 }
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 type LikeStatus = { musicId: number, song_like: boolean };
 const PromotionInfo = (props: Props) => {
 
@@ -52,25 +58,14 @@ const PromotionInfo = (props: Props) => {
   const [isLeft, setIsLeft] = React.useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLikeLoading, setIsLikeLoading] = useState<boolean>(false);
-
+  const { Kakao } = window;
   useEffect(() => {
-      const script = document.createElement('script');
-      script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
-      script.async = true;
-      script.onload = () => {
-        if (window.Kakao) {
-          window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
-        }
-      };
-      
-      document.body.appendChild(script);
-
-      return () => {
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-      };
-    }, []);
+    if(Kakao){
+      if(Kakao.isInitialized()){
+          Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
+      }
+    }
+    }, [Kakao]);
 
   const fetchData = async () => {
     setIsLoading(true);

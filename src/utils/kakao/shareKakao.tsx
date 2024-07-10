@@ -1,14 +1,12 @@
 import { KakaoTemplate } from "../../common/types";
 
-
-
-export const shareKakao = (template : KakaoTemplate) => {
+export const shareKakao = async (template : KakaoTemplate) => {
   if (window.Kakao) {
     const kakao = window.Kakao;
+    
     if (!kakao.isInitialized()) {
       kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
-      alert('not init')
-
+    
 
     // kakao.Link.sendDefault({
     //   objectType: "feed",
@@ -31,9 +29,14 @@ export const shareKakao = (template : KakaoTemplate) => {
     //     }
     //   ]
     // });
-    kakao.Share.sendScrap({
+    try{
+      kakao.Share.sendScrap({
       requestUrl: 'https://www.naver.com',
-      templateId: '109927',
+      templateId: 109927,
     });
+    }catch(err){
+      console.log(err)
+    }
+    
   }
 }};
