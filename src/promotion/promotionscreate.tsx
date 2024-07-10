@@ -67,6 +67,7 @@ const PromotionCreate = (props: Props) => {
 
       refinedPayload.imageList = [result.data.result[0]]
       try{
+        console.log(refinedPayload)
         const response = await axiosSecureAPI.post('/api/promotions', refinedPayload);
         if(response.data.isSuccess === true){
           setPromotionUrl(`/promotion/${response.data.result}`)

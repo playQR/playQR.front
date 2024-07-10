@@ -7,7 +7,6 @@ import calendar_icon from '../../../img/calendar_icon.png';
 import calendar_icon_white from '../../../img/calendar_icon_white.png';
 import 'react-calendar/dist/Calendar.css';
 import TextareaAutosize from 'react-textarea-autosize';
-import { set } from 'react-hook-form';
 export const CustomTextInput = ({label, ...props}:any) => {
   
 const [field, meta] = useField(props);

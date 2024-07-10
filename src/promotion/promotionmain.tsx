@@ -4,11 +4,10 @@ import KakaoModal from '../login/Modal';
 import PromotionInfo from './components/promotionview/promotioninfo';
 import BottomButton from './components/promotionview/bottombutton';
 import {useParams} from 'react-router-dom';
-import { SetListMusic,Comment,ViewPromotion, Billing } from './types';
+import { ViewPromotion, } from './types';
 import { axiosAPI } from '../axios';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../common/loading';
-import { Toaster } from 'react-hot-toast';
 import useCheckAuth from '../utils/hooks/useCheckAuth';
 import CustomToast from '../common/components/toast/customtoast';
 type Props = {}

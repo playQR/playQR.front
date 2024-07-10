@@ -1,14 +1,11 @@
-import React,{useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import { Billing } from '../../types';
 import * as Yup from 'yup';
-import { Formik, Form, useFormikContext, FieldArray,Field, ErrorMessage, FormikProps,FieldArrayRenderProps, FieldProps } from 'formik';
+import { Formik, Form, useFormikContext, } from 'formik';
 import { CustomTextInput, CustomLongTextInput } from './common/inputs';
 import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';
-import {axiosSecureAPI} from '../../../axios';
-import Result from '../promotionform/result';
-import { set } from 'react-hook-form';
 import Warning from '../common/warning';
 type Props = {
   next : () => void;
@@ -59,7 +56,6 @@ const Step3 = (props: Props) => {
   const {updateData, getFullPromotionData} = useCreatePromotionStore();
   const {next,currentIndex,prev} = props;
   const [isValid,setIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false);
   
   const changeIsValid = (value : boolean) => {
@@ -83,6 +79,7 @@ const Step3 = (props: Props) => {
               }, 400);
               
               updateData({ step3 : {billing :values}})
+              console.log({ step3 : {billing :values}})
               next();
             }
           }>

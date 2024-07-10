@@ -7,11 +7,18 @@ const backgroundStyle = {
 };
   
   
-const BottomButton = (props: Props) => {
+const BottomButton = ({ disabled }: { disabled: boolean }) => {
   return (
+    
     <div style={backgroundStyle} className='fixed w-full sm:w-640px bottom-0 h-100px -mx-4'>
         <div className='flex h-full justify-end items-end px-4 pb-54px flex-end'>
-            <button type="submit" className='w-full bg-primary h-46px rounded-xl text-system-white text-plg'>예매하기</button>
+             <button
+                type="submit"
+                className={`w-full py-3 rounded ${disabled ? 'bg-gray-2' : 'bg-primary'}`}
+                disabled={disabled}
+              >
+                예매하기
+              </button>
         </div>
     </div>
   )

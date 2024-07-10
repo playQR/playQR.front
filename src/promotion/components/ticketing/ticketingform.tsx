@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Formik, Form,Field,FieldProps,ErrorMessage } from 'formik'
 import { CustomTextInput, CustomDateInput, CustomDateInputTicket, CustomTextInputDark} from '../../components/promotionform/common/inputs'
 import * as Yup from 'yup'
 import BottomButton from './bottombutton';
 import { axiosSecureAPI } from '../../../axios';
+import { error } from 'console';
+import { useField } from 'formik';
 
 type Prop={
   id : number;
@@ -34,17 +37,20 @@ const CustomToggleSwitch: React.FC<FieldProps> = ({ field, form }) => {
 };
 
 const CustomCouterSwitch: React.FC<FieldProps> = ({ field, form }) => {
+    const [error, setError]=useState(false)
+  
     return(
         <div>
             <div className='flex flex-row items-center justify-items-center'>
                 <button type='button' className='text-gray-3 text-ptitle'
                 onClick={()=>{
                   
-                  if(field.value <= 1){
-                    form.setFieldValue(field.name, 1)
-                    
-                  }else{
-                    form.setFieldValue(field.name, field.value-1)
+                 if (field.value <= 1) {
+                    form.setFieldError(field.name, '1매 이상 예매 가능합니다');
+                    setError(true)
+                  } else {
+                      form.setFieldValue(field.name, field.value - 1);
+                      setError(false)
                   }
                 }}>-</button>
                 <div className='text-system-white text-pxl mx-3'>
@@ -53,9 +59,13 @@ const CustomCouterSwitch: React.FC<FieldProps> = ({ field, form }) => {
                 <button type='button' className='text-gray-3 text-ptitle'
                 onClick={
                     ()=>{
-                        form.setFieldValue(field.name, field.value+1)
+                        form.setFieldValue(field.name, field.value+1);
+                        setError(false)
                     }
                 }>+</button>
+            </div>
+            <div className={`${error ? 'visible' : 'invisible'} text-red-500 text-psm`}>
+              1매 이상 예매 가능합니다.
             </div>
         </div>
     )
@@ -91,29 +101,29 @@ export const TicketingForm = (props : Prop) => {
               setSubmitting(false);
             }
           }}>
+             {({ errors, isValid, dirty }) => (
         <Form>
           <div className='w-full px-4'>
             <div className="flex flex-row w-full items-center justify-between mb-30px">
-                <div className="flex flex-col justify-center text-left">
-                    <span className="text-pmd text-system-white">공연 예매는 선입금 후 가능합니다.</span>
-                    <span className="text-pmd text-system-white mb-10px">입금을 완료하셨습니까?</span>
-                    <Field name={`accountChecked`} component={CustomToggleSwitch} />
-                    <ErrorMessage name={`accountChecked`} component="div" className="text-red-500 text-psm" />
-                </div>
+              <div className="flex flex-col justify-center text-left">
+                <span className="text-pmd text-system-white">공연 예매는 선입금 후 가능합니다.</span>
+                <span className="text-pmd text-system-white mb-10px">입금을 완료하셨습니까?</span>
+                <Field name="accountChecked" component={CustomToggleSwitch} />
+                <ErrorMessage name="accountChecked" component="div" className="text-red-500 text-psm" />
+              </div>
             </div>
             <div className="flex flex-row w-full items-center justify-between mb-30px">
-                <div className="flex flex-col items-start justify-center text-left">
-                    <span className="text-pmd text-system-white pb-14px">티켓 매수</span>
-                    <Field name={`ticketCount`} component={CustomCouterSwitch} />
-                    <ErrorMessage name={`ticketCount`} component="div" className="text-red-500 text-psm" />
-                </div>
+              <div className="flex flex-col items-start justify-center text-left">
+                <span className="text-pmd text-system-white pb-14px">티켓 매수</span>
+                <Field name="ticketCount" component={CustomCouterSwitch} />
+              </div>
             </div>
-            <CustomDateInputTicket label='입금한 날짜' name='showDate' type='date' initialval = {null} />
-            <CustomTextInputDark label='입금자명' name='depositor' type='text' placeholder='입금자명을 입력해주세요' initialval = {null} />
+            <CustomDateInputTicket label='입금한 날짜' name='showDate' type='date' initialval={null} />
+            <CustomTextInputDark label='입금자명' name='depositor' type='text' placeholder='입금자명을 입력해주세요' initialval={null} />
           </div>
-          <BottomButton/>
-
+          <BottomButton disabled={!(isValid && dirty)} />
         </Form>
+      )}
       </Formik>
     )
 }
