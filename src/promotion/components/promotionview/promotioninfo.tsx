@@ -12,6 +12,8 @@ import { axiosAPI, axiosSemiSecureAPI } from '../../../axios';
 import toast from 'react-hot-toast';
 import store from '../../../store/store';
 import share_icon from '../../img/share.png'
+import { KakaoTemplate } from '../../../common/types';
+import { shareKakao } from '../../../utils/kakao/shareKakao';
 type Props = {
   result : ViewPromotion;
   isLoading : boolean;
@@ -50,6 +52,25 @@ const PromotionInfo = (props: Props) => {
   const [isLeft, setIsLeft] = React.useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLikeLoading, setIsLikeLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+      const script = document.createElement('script');
+      script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
+      script.async = true;
+      script.onload = () => {
+        if (window.Kakao) {
+          window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
+        }
+      };
+      
+      document.body.appendChild(script);
+
+      return () => {
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+      };
+    }, []);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -199,7 +220,17 @@ const PromotionInfo = (props: Props) => {
     setIsLeft(false);
   };
   const onShareClick = () => {
-    alert('shareClicked')
+    const template : KakaoTemplate = {
+      route : `https://band-it-dev.vercel.app/promotion/${promotionId}`,
+      title : '친구가 Bandit에서 공연을 공유했어요!',
+      description : 'Bandit에서 공연을 확인해보세요!',
+      imageUrl: process.env.REACT_APP_SAMPLE_IMG as string,
+      webUrl : `https://band-it-dev.vercel.app/promotion/${promotionId}`,
+      mobileWebUrl : `https://band-it-dev.vercel.app//promotion/${promotionId}`,
+      buttonTitle : '바로가기'
+    }
+    
+    shareKakao(template);
   }
 
   return (

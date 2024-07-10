@@ -21,6 +21,13 @@ import Manage from './ticket/manage';
 import MyPage from './mypage/mypage';
 import Promotions from './mypage/promotions';
 import Comments from './mypage/comments';
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

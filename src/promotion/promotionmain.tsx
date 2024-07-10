@@ -37,9 +37,11 @@ const PromotionView = (props: Props) => {
     
 
     useEffect(()=>{
+      
       setIsLoading(true);
       fetchData()
       setIsLoading(false);
+      
     },[])
 
     return (
