@@ -14,7 +14,7 @@ const BottomButton = ({ disabled }: { disabled: boolean }) => {
         <div className='flex h-full justify-end items-end px-4 pb-54px flex-end'>
              <button
                 type="submit"
-                className={`w-full py-3 rounded ${disabled ? 'bg-gray-2' : 'bg-primary'}`}
+                className={`w-full py-3 rounded-xl text-plg text-system-white ${disabled ? 'bg-gray-2' : 'bg-primary'} transition-colors duration-500`}
                 disabled={disabled}
               >
                 예매하기

@@ -77,9 +77,7 @@ const Step3 = (props: Props) => {
               setTimeout(() => {
                 setSubmitting(false);
               }, 400);
-              
               updateData({ step3 : {billing :values}})
-              console.log({ step3 : {billing :values}})
               next();
             }
           }>

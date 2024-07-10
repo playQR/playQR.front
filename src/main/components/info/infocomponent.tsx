@@ -40,7 +40,6 @@ const InfoComponent = (props: Props) => {
         }
     }
     useEffect(()=>{
-        console.log(accessToken)
         fetchUserData();
     },[])
 
