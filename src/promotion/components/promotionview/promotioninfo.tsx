@@ -12,20 +12,16 @@ import { axiosAPI, axiosSemiSecureAPI } from '../../../axios';
 import toast from 'react-hot-toast';
 import store from '../../../store/store';
 import share_icon from '../../img/share.png'
-import { KakaoTemplate } from '../../../common/types';
 import { shareKakao } from '../../../utils/kakao/shareKakao';
 type Props = {
   result : ViewPromotion;
   isLoading : boolean;
   isAuthenticated : boolean;
   memberInfo : Member;
+  id : number;
 }
 
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
+
 type LikeStatus = { musicId: number, song_like: boolean };
 const PromotionInfo = (props: Props) => {
 
@@ -58,14 +54,7 @@ const PromotionInfo = (props: Props) => {
   const [isLeft, setIsLeft] = React.useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLikeLoading, setIsLikeLoading] = useState<boolean>(false);
-  const { Kakao } = window;
-  useEffect(() => {
-    if(Kakao){
-      if(Kakao.isInitialized()){
-          Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
-      }
-    }
-    }, [Kakao]);
+  
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -215,17 +204,17 @@ const PromotionInfo = (props: Props) => {
     setIsLeft(false);
   };
   const onShareClick = () => {
-    const template : KakaoTemplate = {
-      route : `https://band-it-dev.vercel.app/promotion/${promotionId}`,
-      title : '친구가 Bandit에서 공연을 공유했어요!',
-      description : 'Bandit에서 공연을 확인해보세요!',
-      imageUrl: process.env.REACT_APP_SAMPLE_IMG as string,
-      webUrl : `https://band-it-dev.vercel.app/promotion/${promotionId}`,
-      mobileWebUrl : `https://band-it-dev.vercel.app//promotion/${promotionId}`,
-      buttonTitle : '바로가기'
-    }
+    // const template : KakaoTemplate = {
+    //   route : `https://band-it-dev.vercel.app/promotion/${promotionId}`,
+    //   title : '친구가 Bandit에서 공연을 공유했어요!',
+    //   description : 'Bandit에서 공연을 확인해보세요!',
+    //   imageUrl: process.env.REACT_APP_SAMPLE_IMG as string,
+    //   webUrl : `https://band-it-dev.vercel.app/promotion/${promotionId}`,
+    //   mobileWebUrl : `https://band-it-dev.vercel.app//promotion/${promotionId}`,
+    //   buttonTitle : '바로가기'
+    // }
     
-    shareKakao(template);
+    shareKakao(props.id);
   }
 
   return (

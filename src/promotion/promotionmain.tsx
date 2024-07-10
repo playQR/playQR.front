@@ -51,7 +51,7 @@ const PromotionView = (props: Props) => {
                 <KakaoModal/>
                 <CustomToast/>
                 <Nav/>
-                {result === null || isAuthLoading ? <Loading isLoading={result===null} text={"정보를 가져오는 중입니다."}/> : <PromotionInfo isAuthenticated={isAuthenticated} result={result} isLoading={isLoading} memberInfo={memberInfo}/>}
+                {result === null || isAuthLoading ? <Loading isLoading={result===null} text={"정보를 가져오는 중입니다."}/> : <PromotionInfo id={Number(id)} isAuthenticated={isAuthenticated} result={result} isLoading={isLoading} memberInfo={memberInfo}/>}
             </div>
             <BottomButton isAuthenticated={isAuthenticated} id={Number(id)} isAuthLoading={isAuthLoading}/>
         </div>
