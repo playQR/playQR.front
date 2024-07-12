@@ -2,6 +2,7 @@ import React from 'react'
 import CreateButton from './buttons/createbutton';
 import Line from '../../common/components/line/line';
 import Search from './search/search';
+import MyTicket from './myticket/myticket';
 type Props = {}
 
 const Dashboard = (props: Props) => {
@@ -26,7 +27,9 @@ const Dashboard = (props: Props) => {
                 </div>
             </div>
             {
-                isLeft? <div>왼쪽</div>:
+                isLeft? <div className='w-full'>
+                    <MyTicket/>
+                </div>:
                 <div className="w-full ">
                     <CreateButton/>
                     <Line/>
