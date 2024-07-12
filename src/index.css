@@ -11,6 +11,12 @@
     font-weight: normal;
     font-style: normal;
   }
+  @font-face {
+    font-family: 'Montserrat';
+    src: url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap") format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
 }
 .body {
   -ms-overflow-style: none; /* IE and Edge */

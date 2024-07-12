@@ -6,7 +6,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily : {
-        'yspotlight' :'Y_Spotlight'
+        'yspotlight' :'Y_Spotlight',
+        'montserrat' : 'Montserrat',
       },
       fontSize : {
         'pxxs' : '10px',
@@ -16,6 +17,7 @@ module.exports = {
         'plg' : '18px',
         'pxl' : '22px',
         'ptitle' :  '28px',
+        'plogo' : '26px'
       },
       colors : {
         'primary' : '#1FDA00',
@@ -69,6 +71,7 @@ module.exports = {
           '22px' : '22px',
           '30px' : '30px',
           '36px' : '36px',
+          '42px' : '42px',
           '45px' : '45px',
           '46px' : '46px',
           '48px' : '48px',
