@@ -19,7 +19,7 @@ const ConfimationRoute = ({ element }: ConfirmationRouteProps ) => {
     setIsConfirming(true);
     try{
       const response = await axiosSemiSecureAPI.post(`/api/guests/entrance?uuid=${uuid}`)
-      if(response.data.isSucess && response.data.result){
+      if(response.data.isSuccess && response.data.result){
         setIsConfirmed(true)
         alert('입장 성공')
       }
