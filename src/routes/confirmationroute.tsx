@@ -4,6 +4,7 @@ import useCheckAuth from '../utils/hooks/useCheckAuth';
 import { axiosSemiSecureAPI } from '../axios';
 import Confirmation from '../ticket/components/confirmation/confirmation';
 import ConfirmationError from '../ticket/components/confirmation/confirmationerror';
+import Loading from '../common/loading';
 interface ConfirmationRouteProps {
   element: ReactElement;
 }
@@ -20,6 +21,7 @@ const ConfimationRoute = ({ element }: ConfirmationRouteProps ) => {
       const response = await axiosSemiSecureAPI.post(`/api/guests/entrance?uuid=${uuid}`)
       if(response.data.isSucess && response.data.result){
         setIsConfirmed(true)
+        alert('입장 성공')
       }
     }catch(e){
       alert('입장 실패')
@@ -37,7 +39,7 @@ const ConfimationRoute = ({ element }: ConfirmationRouteProps ) => {
   
   if(isLoading) return <div></div>
   else
-  return isAuthenticated === true ? isConfirmed ? <Confirmation/> : <ConfirmationError/> : element;
+  return isAuthenticated === true ? isConfirming ? <Loading text="가져오는중.." isLoading={isConfirming}/> : isConfirmed ? <Confirmation/> : <ConfirmationError/> : element;
 };
 
 export default ConfimationRoute;
