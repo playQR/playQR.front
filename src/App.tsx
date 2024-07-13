@@ -7,8 +7,10 @@ function App() {
     margin: '0 auto',
   });
   useEffect(() => {
-
-    window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
+    if(!window.Kakao.isInitialized()){
+      window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
+    }
+    
     window.Kakao.isInitialized();
     const updateStyle = () => {
       if (window.innerWidth >= width){

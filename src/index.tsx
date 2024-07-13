@@ -21,6 +21,8 @@ import Manage from './ticket/manage';
 import MyPage from './mypage/mypage';
 import Promotions from './mypage/promotions';
 import Comments from './mypage/comments';
+import TicketLogin from './routes/ticketlogin';
+import ConfimationRoute from './routes/confirmationroute';
 declare global {
   interface Window {
     Kakao: any;
@@ -87,6 +89,10 @@ const router = createBrowserRouter(
           {
             path:"redirect",
             element: <RedirectPage/>
+          },
+          {
+            path: "confirm/:uuid",
+            element: <ConfimationRoute element={<TicketLogin/>}/>
           }
           ]
         },

@@ -194,7 +194,7 @@ const QrCard : React.FC<Props> = (props: Props) => {
             size={256}
             style={{ height: "100%", maxWidth: "80%", width: "80%" }}
             className='p-8'
-            value={ticket.uuid}
+            value={`${process.env.REACT_APP_WEB_DOMAIN}/ticket/confirm/${ticket.uuid}`}
             viewBox={`0 0 256 256`}
               />
             

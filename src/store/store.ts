@@ -163,13 +163,36 @@ const useCreatePromotionStore = create<CreatePromotionStore>((set, get) => ({
     }
   }})
 }));
+
+interface prevUri{
+    uri : string;
+    params : any;
+}
+interface PrevUriStore {
+    prevUri : prevUri;
+    setPrevUri : (prevUri : prevUri) => void;
+}
+
+const useUriStore = create(persist<PrevUriStore>((set) => ({
+    prevUri : {
+        uri : '',
+        params : {}
+    },
+    setPrevUri : (prevUri) => set({ prevUri })
+  }),{
+    name: 'uri-storage'
+  }
+))
 const store = {
     useAuthStore,
     useAuthStorePersist,
     useModalStore,
     useUserStore,
-    useCreatePromotionStore
+    useCreatePromotionStore,
+    useUriStore
 };
+
+
 
 
 export default store;
