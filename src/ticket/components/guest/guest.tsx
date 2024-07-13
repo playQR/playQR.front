@@ -4,6 +4,8 @@ import { axiosSemiSecureAPI } from '../../../axios';
 import Loading from '../../../common/loading';
 import { GuestCardType } from '../../types';
 import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { set } from 'react-hook-form';
 type Props = {}
 
 const Guest = (props: Props) => {
@@ -13,6 +15,12 @@ const Guest = (props: Props) => {
     const [isFetching, setIsFetching] = useState(false);
     const [stop, setStop] = useState(false);
     const [page, setPage] = useState(0); // 현재 페이지를 추적
+    const [isOpen, setIsOpen] = useState(false);
+    const [gid, setGid] = useState<number>(-1);
+    
+    const closeModal = () => {
+        setIsOpen(false)
+    }
 
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
@@ -70,9 +78,56 @@ const Guest = (props: Props) => {
         };
     }, [isFetching, stop]);
 
+    const handleConfirmation = async (guestId : number) => {
+        try{
+            await toast.promise(
+                axiosSemiSecureAPI.post(`/api/guests/${guestId}/reservation/confirmation`, ),
+                {
+                    loading: '예매 승인 중...',
+                    success: <b>예매가 승인되었습니다.</b>,
+                    error: <b>예매 승인 실패</b>,
+                }
+            );
+        }
+        catch(e){
+            console.log(e);
+        }finally{
+            setResults([]);
+            setPage(0);
+            setStop(false);
+        }
+    }
+    const handleCancel = async () => {
+        try{
+            await toast.promise(
+                axiosSemiSecureAPI.delete(`/api/guests/${gid}`, ),
+                {
+                    loading: '예매 취소 중...',
+                    success: <b>예매가 취소되었습니다.</b>,
+                    error: <b>예매 취소 실패</b>,
+                }
+            );
+        }
+        catch(e){
+            console.log(e);
+        }finally{
+            setResults([]);
+            setPage(0);
+            setStop(false);
+            setGid(-1);
+            closeModal();
+        }
+    }
     return (
         <div className='flex flex-col h-full w-full mt-5'>
-            <SearchResult results={results} />
+            <SearchResult 
+                results={results} 
+                handleCancel={handleCancel} 
+                handleConfirmation={handleConfirmation}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                setGid = {setGid}
+                />
             <div ref={target} style={{ height: '1px' }}></div>
             {isFetching && <Loading text={"게스트를 가져오는 중입니다."} isLoading={isFetching}/>}
         </div>

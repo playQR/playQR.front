@@ -35,6 +35,12 @@ export interface ViewMemember{
 
 }
 
+export interface Ticket{
+  ticketId : number;
+  uuid : string;
+  dueDate : string;
+}
+
 export interface Promotion {
   promotionId: number;
   title: string;
