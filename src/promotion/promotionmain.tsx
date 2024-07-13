@@ -26,7 +26,6 @@ const PromotionView = (props: Props) => {
         const response = await axiosAPI.get(`/api/promotions/${id}`)
         if(response.data.isSuccess === true){
           const result = response.data.result
-          console.log(result)
           setResult({...result, musicLikeList: []}) 
           };
         }

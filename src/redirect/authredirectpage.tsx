@@ -10,7 +10,6 @@ const AuthHandler = () => {
     const {prevUri, setPrevUri} = useUriStore();
 
   useEffect(() => {
-    alert('auth 거침')
     const query = new URLSearchParams(location.search);
     const accessToken = query.get('code');
     const refreshToken = query.get('refresh');
@@ -18,7 +17,6 @@ const AuthHandler = () => {
     const refreshTokenExpireTime = parseKSTDate(query.get('refresh_expire'));
     if (accessToken && refreshToken && accessTokenExpireTime && refreshTokenExpireTime) {
       setTokens(accessToken, refreshToken, accessTokenExpireTime, refreshTokenExpireTime);
-      alert(prevUri.uri)
       if(prevUri.uri===''){
         navigate('/');
       }else{

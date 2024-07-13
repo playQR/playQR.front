@@ -11,10 +11,8 @@ const TicketLogin = (props: Props) => {
     
 
     const onClick = () => {
-        
         setPrevUri({uri: window.location.pathname,params: {}})
         window.location.href = `${process.env.REACT_APP_API_URL}/oauth2/authorize/kakao`
-        
     }
 
   return (

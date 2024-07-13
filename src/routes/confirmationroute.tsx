@@ -21,11 +21,8 @@ const ConfimationRoute = ({ element }: ConfirmationRouteProps ) => {
       const response = await axiosSemiSecureAPI.post(`/api/guests/entrance?uuid=${uuid}`)
       if(response.data.isSuccess && response.data.result){
         setIsConfirmed(true)
-        alert('입장 성공')
       }
     }catch(e){
-      alert('입장 실패')
-      //사유에 따라 리턴 나뉠거
       console.log(e)
     }
     setIsConfirming(false);
@@ -39,7 +36,7 @@ const ConfimationRoute = ({ element }: ConfirmationRouteProps ) => {
   
   if(isLoading) return <div></div>
   else
-  return isAuthenticated === true ? isConfirming ? <Loading text="가져오는중.." isLoading={isConfirming}/> : isConfirmed ? <Confirmation/> : <ConfirmationError/> : element;
+  return isAuthenticated === true ? isConfirming ? <Loading text="유효성 확인 중.." isLoading={isConfirming}/> : isConfirmed ? <Confirmation/> : <ConfirmationError/> : element;
 };
 
 export default ConfimationRoute;

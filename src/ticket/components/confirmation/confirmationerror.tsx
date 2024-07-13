@@ -2,7 +2,8 @@ import React from 'react'
 import checkIcon from '../img/check_icon.png'
 import { useNavigate } from 'react-router-dom'
 import logo from '../../../common/components/img/logo.png'
-type Props = {}
+type Props = {
+}
 
 const ConfirmationError = (props: Props) => {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ const ConfirmationError = (props: Props) => {
             <img src={logo} className='h-100px mb-10 object-cover' style={{ objectFit: 'cover' }}/>
             <img className='h-16 w-20 mb-8' src={checkIcon} />
                 <span className='text-lg text-system-error font-bold mb-5 text-pxl'>입장이 실패했습니다.</span>
+                
                 <button className ='bg-gray-4 text-pmd text-gray-2 py-10px px-6 rounded-xl'
                 onClick={()=>navigate('/')} >
                     응원하러 가기
