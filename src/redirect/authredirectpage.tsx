@@ -10,6 +10,7 @@ const AuthHandler = () => {
     const {prevUri, setPrevUri} = useUriStore();
 
   useEffect(() => {
+    alert('auth 거침')
     const query = new URLSearchParams(location.search);
     const accessToken = query.get('code');
     const refreshToken = query.get('refresh');

@@ -12,7 +12,7 @@ const TicketRedirectPage = (props: Props) => {
         //     const data = await response.json();
         // };
         // fetchData();
-        alert('key : ' +  key)
+        //alert('key : ' +  key)
     }, []);
 
 
