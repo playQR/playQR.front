@@ -1,4 +1,3 @@
-import React from 'react'
 import logo from '../common/components/img/logo.png'
 import kakao_login from '../login/img/kakao_login_button.png'
 import store from '../store/store'

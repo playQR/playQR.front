@@ -1,7 +1,5 @@
-import React from 'react'
 import Nav from '../common/components/nav/nav';
 import Title from './components/title';
-import { Toaster } from 'react-hot-toast';
 import Dashboard from './components/dashboard';
 import CustomToast from '../common/components/toast/customtoast';
 type Props = {}

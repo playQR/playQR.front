@@ -86,7 +86,7 @@ const Ticketing = (props: Props) => {
           )
           if(res.data.isSuccess){ 
             const ticketid = res.data.result;
-            setTicketUrl(`/ticket/${ticketid}`)
+            setTicketUrl(`/ticket`)
             setIsSuccess(true);
           }
         }catch(e){

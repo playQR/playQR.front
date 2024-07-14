@@ -52,13 +52,13 @@ const ShowInfo = (props: Props) => {
                 <div className='text-primary text-pxl font-semibold'>
                     공연정보
                 </div>
-                <div className='flex flex-col bg-white rounded-xl p-22px mt-10px -mx-4'>
+                <div className='flex flex-col bg-white rounded-xl p-22px mt-10px -mx-4 break-all'>
                     {content}
                 </div>
                 <div className='text-plg text-gray-2 pb-10px pt-5'>
                     환불정보
                 </div>
-                <div className='text-plg text-gray-2'>
+                <div className='text-plg text-gray-2 break-all'>
                     {refundInfo}
                 </div>
             </div>

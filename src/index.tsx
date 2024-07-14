@@ -1,11 +1,9 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import MainScreen from './main/mainscreen';
 import NotFound from './NotFound';
 import reportWebVitals from './reportWebVitals';
-import CreateQR from './ticket/createqr';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Ticket from './ticket/ticketmain';
 import RedirectPage from './redirect/ticketredirectpage';
@@ -80,10 +78,6 @@ const router = createBrowserRouter(
           children : [{
             path: "",
             element: <ProtectedRoute element={<Ticket/>} /> // 접근 제한
-          
-          },{
-            path: "createqr",
-            element: <ProtectedRoute element={<CreateQR/>} /> // 접근 제한
           
           },
           {
