@@ -254,13 +254,6 @@ const PromotionInfo = (props: Props) => {
             </div>
             </div>
           </div>
-          {/* <div className="flex flex-row justify-between items-center">
-            <div className="flex flex-row items-center">
-              <img src={calendar_icon_white} alt="calendar" className="w-4 h-4 mr-1"/>
-              <div className="text-gray-2 text-psm">최대&nbsp;{maxAudience}명</div>
-            </div>
-          </div> */}
-          
         </div>
         <div className="text-ptitle font-semibold text-primary">{`${entranceFee}₩`}</div>
       </div>

@@ -45,6 +45,7 @@ module.exports = {
           '20px' : '20px'
         },
         margin : {
+          '3px' : '3px',
           '6px' : '6px',
           '10px' : '10px',
           '14px' : '14px',
@@ -56,6 +57,7 @@ module.exports = {
           '350px' : '350px',
         }
         ,width : {
+          '10px' : '10px',
           '38px' : '38px',
           '60px' : '60px',
           '22px' : '22px',
