@@ -36,7 +36,7 @@ export function convertViewPromotionToPromotionCreate(response: ViewPromotion): 
         id: music.id,
         title: music.title,
         artist: music.artist,
-        isOpen: music.isOpen,
+        open: music.open,
       })),
     },
     step3: {
