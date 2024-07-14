@@ -21,6 +21,7 @@ import Promotions from './mypage/promotions';
 import Comments from './mypage/comments';
 import TicketLogin from './routes/ticketlogin';
 import ConfimationRoute from './routes/confirmationroute';
+import ViewReservation from './ticket/components/viewreservation';
 declare global {
   interface Window {
     Kakao: any;
@@ -61,23 +62,23 @@ const router = createBrowserRouter(
           
           {
             path : "create",
-            element : <ProtectedRoute element={<PromotionCreate/>} /> // 접근 제한
+            element : <ProtectedRoute element={<PromotionCreate/>} />
           },{
             path:":id/purchase",
-            element : <ProtectedRoute element={<Ticketing/>} /> // 접근 제한
+            element : <ProtectedRoute element={<Ticketing/>} /> 
           },{
             path:":id/edit",
-            element : <ProtectedRoute element={<PromotionEdit/>} /> // 접근 제한
+            element : <ProtectedRoute element={<PromotionEdit/>} />
           },{
             path:":id/manage",
-            element : <ProtectedRoute element={<Manage/>} /> // 접근 제한
+            element : <ProtectedRoute element={<Manage/>} /> 
           }]
         },
         {
           path:"ticket",
           children : [{
             path: "",
-            element: <ProtectedRoute element={<Ticket/>} /> // 접근 제한
+            element: <ProtectedRoute element={<Ticket/>} />
           
           },
           {
@@ -87,6 +88,10 @@ const router = createBrowserRouter(
           {
             path: "confirm/:uuid",
             element: <ConfimationRoute element={<TicketLogin/>}/>
+          },
+          {
+            path : ":pid/reservation/:gid",
+            element : <ProtectedRoute element = {<ViewReservation/>}/>
           }
           ]
         },
@@ -94,7 +99,7 @@ const router = createBrowserRouter(
           path:"mypage",
           children : [{
               path: "",
-              element: <ProtectedRoute element={<MyPage/>} /> // 접근 제한
+              element: <ProtectedRoute element={<MyPage/>} /> 
             },
             {
               path: "like/promotions",

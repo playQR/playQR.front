@@ -1,4 +1,5 @@
 import React from 'react'
+import Search from '../reservation/search'
 
 type Props = {}
 
@@ -7,7 +8,7 @@ type Props = {}
 const MyTicket = (props: Props) => {
     
   return (
-    <div>MyTicket</div>
+    <Search/>
   )
 }
 

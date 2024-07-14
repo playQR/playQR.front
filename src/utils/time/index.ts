@@ -62,3 +62,5 @@ export function convertformatDate(isoDate: string): string {
 
   return `${year}.${month}.${day}`;
 }
+
+export const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];

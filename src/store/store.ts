@@ -1,7 +1,6 @@
-import Cookies from "js-cookie";
-import {create, State, StateCreator } from "zustand";
-import { createJSONStorage, persist, StateStorage } from 'zustand/middleware';
-import {PromotionCreate, MusicInput,Billing} from "../promotion/types/common";
+import {create } from "zustand";
+import { persist } from 'zustand/middleware';
+import {PromotionCreate} from "../promotion/types/common";
 interface RUser {
     name : string;
     nickname : string;
