@@ -1,9 +1,8 @@
-import React,{useEffect} from 'react'
-import LikeButton from '../../../common/components/buttons/like_button'
 import MusicLikeButton from '../../../common/components/buttons/like_button_music'
 import { Music, SetListMusic } from '../../types/index';
 import Footer from '../../../common/components/footer';
-import store from '../../../store/store';
+import lockIcon from '../../img/lock_icon.png'
+import {useRef} from 'react';
 type Props = {
     musicList : Music [],
     musicLikeList : SetListMusic[],
@@ -13,7 +12,7 @@ type Props = {
 }
 const ShowInfo = (props: Props) => {
     
-
+    const ref = useRef();
     const { musicList, content, refundInfo,musicLikeList,updateHeart } = props
     return (
         <div className='w-full flex flex-col mt-5 py-10px'>
@@ -27,10 +26,14 @@ const ShowInfo = (props: Props) => {
                                 <div key={song.id} className='flex flex-col justify-between items-center w-full'>
                                 <div className='flex w-full flex-row justify-between items-center'>
                                     <div className='flex flex-row w-full items-center justify-between px-14px'>
+                                        {song.open === false ? <div className='flex flex-row items-center my-2'>
+                                            <img src={lockIcon} className='h-4 mr-2 object-cover'/>
+                                            <div className='text-white text-pmd'>공연에서 확인하세요</div>
+                                        </div> :
                                         <div className='flex flex-col items-start'>
                                             <div className='text-white text-pmd'>{song.title}</div>
                                             <div className='text-white text-psm'>{song.artist}</div>
-                                        </div>
+                                        </div>}
                                         <div className='flex flex-row items-center'>
                                             <MusicLikeButton updateHeart={updateHeart} id={musicLikeList[index]?.id} like={musicLikeList[index]?.song_like} like_num={musicLikeList[index]?.song_like_num}/>
                                         </div>
