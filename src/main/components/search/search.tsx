@@ -46,6 +46,7 @@ const Search = (props: Props) => {
                                 return {...promotion, like : response.data.result, likecount : likeCount};
                             }
                         }catch(e){
+                            return {...promotion, like : false, likecount : likeCount};
                             console.log(e)
                         }
                     }else{
