@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
     Yup.object({
       title: Yup.string().required('곡 제목은 필수 항목입니다.'),
       artist: Yup.string().required('가수는 필수 항목입니다.'),
-      isOpen: Yup.boolean(),
+      open: Yup.boolean(),
     })
   ),
   content: Yup.string().required('공연 설명은 필수 항목입니다.'),
@@ -127,7 +127,7 @@ const Step2 = (props: Props) => {
                                   <div className="flex flex-row w-full items-center justify-between">
                                     <div className="flex flex-row items-center justify-center">
                                       <span className="text-psm mr-10px">곡 공개</span>
-                                      <Field name={`musicList.${index}.isOpen`} component={CustomToggleSwitch} />
+                                      <Field name={`musicList.${index}.open`} component={CustomToggleSwitch} />
                                     </div>
                                     <button
                                       type="button"
@@ -151,7 +151,7 @@ const Step2 = (props: Props) => {
                   </Droppable>
                   <button
                     type="button"
-                    onClick={() => arrayHelpers.push({ title: '', artist: '', isOpen: true })}
+                    onClick={() => arrayHelpers.push({ title: '', artist: '', open: true })}
                     className="w-full h-48px text-pmd border-gray-1 border-1px text-system-black rounded-xl"
                   >
                     곡 추가하기

@@ -89,7 +89,7 @@ const PromotionEdit = (props: Props) => {
                 startTime: '',
                 endTime: '',
               }
-
+        
         const convertedTime = convertMerdian(refinedPayload.time)
         delete refinedPayload.time
         refinedPayload.startTime = convertedTime.startTime
@@ -108,6 +108,7 @@ const PromotionEdit = (props: Props) => {
           }
         }
         try{
+          console.log(refinedPayload)
           const response = await axiosSecureAPI.put(`/api/promotions/${id}`, refinedPayload);
           if(response.data.isSuccess === true){
             setPromotionUrl(`/promotion/${response.data.result}`)
