@@ -22,7 +22,7 @@ const TicketReservationButton = (props: Props) => {
                 <button className='w-full bg-secondary p-3 text-center rounded-xl  text-system-white text-plg mt-10px'>
                         내 티켓 확인하기
                 </button>
-                <div className='text-psm text-system-white font-normal'>
+                <div className='text-psm text-system-white font-normal mt-1'>
                     공연 주최자가 입금을 확인하고 있어요!
                 </div>
             </div>

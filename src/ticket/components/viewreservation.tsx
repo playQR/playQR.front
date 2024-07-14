@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { axiosSemiSecureAPI } from '../../axios'
 import { GuestCardType, TicketCardType } from '../types'
 import { PromotionCard } from '../../promotion/types/common';
@@ -23,6 +23,7 @@ type CardProps = {
 
 const ViewReservationCard = (props:CardProps) => {
     const {guest, promotion} = props;
+    
     const {title, team, thumbnail, location, date, startTime, endTime, entranceFee} = promotion;
     
     return (
@@ -105,7 +106,7 @@ const ViewReservationCard = (props:CardProps) => {
 const ViewReservation = (props: Props) => {
 
     const {pid,gid} = useParams();
-
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [isOpen, setIsOpen] = React.useState<boolean>(false);
     const [result, setResult] = React.useState<TicketCardType>(
@@ -133,6 +134,8 @@ const ViewReservation = (props: Props) => {
                 startTime: '',
                 endTime: '',
                 entranceFee: 0,
+                like: false,
+                likecount : 0,
                 writer: {
                     name: '',
                     nickname: '',
@@ -144,45 +147,52 @@ const ViewReservation = (props: Props) => {
 
     
 
-    // const fetchData = async () => {
-    //     setIsLoading(true)
-    //     try{
-    //         const [guestResponse, promotionResponse] = await Promise.all([
-    //             axiosSemiSecureAPI.get(`/api/guests/${gid}`),
-    //             axiosSemiSecureAPI.get(`/api/promotions/${pid}`)
-    //         ]);
+    const fetchData = async () => {
+        setIsLoading(true)
+        try{
+            const [guestResponse, promotionResponse] = await Promise.all([
+                axiosSemiSecureAPI.get(`/api/guests/${gid}`),
+                axiosSemiSecureAPI.get(`/api/promotions/${pid}`)
+            ]);
 
-    //         if (guestResponse.data.isSuccess && promotionResponse.data.isSuccess) {
-    //             setResult({
-    //                 guest: guestResponse.data.result,
-    //                 promotion: promotionResponse.data.result
-    //             });
-    //         } else {
-    //             // 각 요청의 실패를 처리하는 로직 추가
-    //             console.error('Error: One or both API calls failed.');
-    //         }
-    //     }catch(e){
-    //         console.log(e)
-    //     }
-    //     setIsLoading(false)
-    // }
-    // useEffect(()=>{
-    //     fetchData();
-    // },[])
+            if (guestResponse.data.isSuccess && promotionResponse.data.isSuccess) {
+                setResult({
+                    guest: guestResponse.data.result,
+                    promotion: {
+                      ...promotionResponse.data.result,
+                      thumbnail : promotionResponse.data.result.imageList[0]
+                    }
+                });
+            } else {
+                // 각 요청의 실패를 처리하는 로직 추가
+                console.error('Error: One or both API calls failed.');
+            }
+        }catch(e){
+            console.log(e)
+        }
+        setIsLoading(false)
+    }
+    useEffect(()=>{
+        fetchData();
+    },[])
     const cancelPromotion = async () => {
-        // try {
-        //     await toast.promise(
-        //         axiosSemiSecureAPI.delete(`/api/guests/${gid}`),
-        //         {
-        //         loading: '예매 취소중..',
-        //         success: <b>예매 취소 성공</b>,
-        //         error: <b>예매 취소 오류</b>,
-        //         }
-        //     );
-        // } catch (e) {
-        //     console.log(e);
-        // }
-        alert('기능 구현중입니다!')
+        try {
+            await toast.promise(
+                axiosSemiSecureAPI.delete(`/api/guests/guest/${gid}`),
+                {
+                loading: '예매 취소중..',
+                success: <b>예매 취소 성공</b>,
+                error: <b>예매 취소 오류</b>,
+                }
+            ).then(()=>{
+                navigate('/ticket');
+            }).catch((e)=>{
+                console.log(e);
+            })
+            
+        } catch (e) {
+            console.log(e);
+        }
     }
     return (
         <div className='flex flex-col min-h-screen justify-start bg-system-background p-4'>
@@ -193,7 +203,7 @@ const ViewReservation = (props: Props) => {
                         </div>
                 </div>
                 <ViewReservationCard guest = {result.guest} promotion = {result.promotion}/>
-                <CancelModal isOpen={isOpen} setIsOpen={setIsOpen} cancelPromotion={cancelPromotion}/>
+                <CancelModal gid={Number(gid)} isOpen={isOpen} setIsOpen={setIsOpen} cancelPromotion={cancelPromotion}/>
                 <CancelButton setIsOpen={setIsOpen}/>
                 <CustomToast/>
         </div>

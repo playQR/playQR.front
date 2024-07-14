@@ -26,7 +26,7 @@ const ShowInfo = (props: Props) => {
                                 <div key={song.id} className='flex flex-col justify-between items-center w-full'>
                                 <div className='flex w-full flex-row justify-between items-center'>
                                     <div className='flex flex-row w-full items-center justify-between px-14px'>
-                                        {song.open === false ? <div className='flex flex-row items-center my-2'>
+                                        {song.isOpen === false ? <div className='flex flex-row items-center my-2'>
                                             <img src={lockIcon} className='h-4 mr-2 object-cover'/>
                                             <div className='text-white text-pmd'>공연에서 확인하세요</div>
                                         </div> :

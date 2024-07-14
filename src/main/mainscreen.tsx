@@ -5,6 +5,7 @@ import Search from './components/search/search';
 import KakaoModal from '../login/Modal';
 import store from '../store/store';
 import {axiosAPI, axiosSecureAPI} from '../axios/index';
+import CustomToast from '../common/components/toast/customtoast';
 type Props = {}
 
 const MainScreen = (props: Props) => {
@@ -16,6 +17,7 @@ const MainScreen = (props: Props) => {
                 <Nav/>
                 <InfoComponent/>
                 <Search/>
+                <CustomToast/>
             </div>
         </div>
     )

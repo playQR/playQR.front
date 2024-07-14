@@ -49,8 +49,8 @@ const CustomCouterSwitch: React.FC<FieldProps> = ({ field, form }) => {
                     form.setFieldError(field.name, '1매 이상 예매 가능합니다');
                     setError(true)
                   } else {
-                      form.setFieldValue(field.name, field.value - 1);
-                      setError(false)
+                    form.setFieldValue(field.name, field.value - 1);
+                    setError(false)
                   }
                 }}>-</button>
                 <div className='text-system-white text-pxl mx-3'>
@@ -59,13 +59,17 @@ const CustomCouterSwitch: React.FC<FieldProps> = ({ field, form }) => {
                 <button type='button' className='text-gray-3 text-ptitle'
                 onClick={
                     ()=>{
-                        form.setFieldValue(field.name, field.value+1);
-                        setError(false)
+                        if (field.value >= 5) {
+                          setError(true)
+                        } else {
+                          form.setFieldValue(field.name, field.value + 1);
+                          setError(false)
+                        }
                     }
                 }>+</button>
             </div>
             <div className={`${error ? 'visible' : 'invisible'} text-red-500 text-psm`}>
-              1매 이상 예매 가능합니다.
+              {field.value <= 1? '1매 이상 예매 가능합니다.': '5매 이하로 예매 가능합니다'}
             </div>
         </div>
     )

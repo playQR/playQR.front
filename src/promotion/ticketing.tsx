@@ -27,7 +27,7 @@ const Ticketing = (props: Props) => {
     const navigate = useNavigate();
     const [result, setResult] = useState<ViewPromotion|null>(null);
     const [info, setInfo] = useState<InfoType>({bankName:'', entranceFee:0, account:'', accountHolder:'', refundInfo:''});
-    const [card, setCard] = useState<PromotionCard>({promotionId:0, title:'', team:'', thumbnail:'', date:'', location:'', startTime:'', endTime:'', entranceFee:0, writer:{name:'', nickname:'', profileImg:''}});
+    const [card, setCard] = useState<PromotionCard>({promotionId:0, title:'', team:'', thumbnail:'', date:'', location:'', startTime:'', endTime:'', entranceFee:0, like:false, likecount:0, writer:{name:'', nickname:'', profileImg:''}});
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -56,6 +56,8 @@ const Ticketing = (props: Props) => {
               startTime: resdata.startTime,
               endTime: resdata.endTime,
               entranceFee: resdata.entranceFee,
+              like: false,
+              likecount: 0,
               writer: {
                 name: resdata.writer.name,
                 nickname: resdata.writer.nickname,

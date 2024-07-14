@@ -10,21 +10,19 @@ type Props = {}
 const Search = (props: Props) => {
 
     const [results, setResults] = useState<TicketCardType[]>([]);
-    const target = useRef<HTMLDivElement | null>(null);
+    const target = useRef<HTMLDivElement>(null);
     const [isFetching, setIsFetching] = useState(false);
     const [stop, setStop] = useState(false);
     const [page, setPage] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [promotionId, setPromotionId] = useState<number>(-1);
-    const {useModalStore} = store;
-    const {closeModal} = useModalStore();
 
     const fetchResults = useCallback(async () => {
-        if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
+        if (isFetching || stop) return;
         setIsFetching(true);
         try {
-            const res = await axiosSemiSecureAPI.get(`/api/guests/guest/page?page=${page}`)
-            const result = res.data.result;
+            const res = await axiosSemiSecureAPI.get(`/api/guests/guest/page?currentPage=${page}`)
+            const result = res.data.result.promotionList;
             
             if (result.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
@@ -34,7 +32,7 @@ const Search = (props: Props) => {
                 if(result.length > 0 && result.length < 10) {
                   setStop(true);
                 }
-                setResults((prevResults) => [...prevResults, ...res.data.result]);
+                setResults((prevResults) => [...prevResults, ...res.data.result.promotionList]);
             }
         } catch (err) {
             setStop(true); // 에러 발생 시 중지 상태로 설정

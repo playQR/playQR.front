@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import { PromotionCard } from '../../../promotion/types/common';
 import { convertStringToDate } from '../../../utils/time';
 import Skeleton from 'react-loading-skeleton';
+import LikeButton from '../../../common/components/buttons/like_button';
 
 type Props = {
   result: PromotionCard,
+  updateLike: (id:number, value:boolean) => void;
 }
 
 const SearchCard : React.FC<Props> = (props: Props) => {
@@ -25,8 +27,13 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     startTime,
     endTime,
     entranceFee,
+    like,
+    likecount,
     writer: {name: writer_name, nickname: writer_nickname, profileImg: writer_profileImg},
   } = props.result
+  const {updateLike} = props;
+
+ 
   
   const onClick = () => {
     navigate(`/promotion/${promotionId}`);
@@ -37,7 +44,7 @@ const SearchCard : React.FC<Props> = (props: Props) => {
         <div className="h-40 w-full flex items-center justify-center">
           <img src={thumbnail ? thumbnail : checker_img} className="h-full w-full object-cover" />
         </div>
-        {/* <LikeButton like={true} like_num={1}/> */}
+        <LikeButton id={promotionId} like={like} like_num={likecount} onClick={updateLike}/>
       </div>
       <div className="pt-2 px-10px">
         <h2 className="text-pxs text-text-plain">{team}</h2>

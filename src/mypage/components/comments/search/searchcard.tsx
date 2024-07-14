@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import calendar_icon from '../img/calendar_icon.png';
-import location_icon from '../img/location_icon.png';
-import checker_img from '../img/checker_img.png';
-import { useNavigate } from 'react-router-dom';
-import { PromotionCard } from '../../../promotion/types/common';
-import { convertStringToDate } from '../../../utils/time';
+import calendar_icon from '../../../img/calendar_icon.png';
+import location_icon from '../../../img/location_icon.png';
+import checker_img from '../../../img/checker_img.png';
+import { PromotionCard } from '../../../../promotion/types/common';
+import { convertStringToDate } from '../../../../utils/time';
 
 type Props = {
   result: PromotionCard,
@@ -12,11 +11,8 @@ type Props = {
 
 const SearchCard : React.FC<Props> = (props: Props) => {
 
-  const navigate = useNavigate();
   const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
-  const { result } = props;
   const {
-    promotionId,
     title,
     team,
     thumbnail,
@@ -25,14 +21,10 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     startTime,
     endTime,
     entranceFee,
-    writer: {name: writer_name, nickname: writer_nickname, profileImg: writer_profileImg},
-  } = result
+  } = props.result
   
-  const onClick = () => {
-    navigate(`/promotion/${promotionId}`);
-  }
   return (
-    <div className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
+    <div className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative mb-10px">
       <div className="relative">
         <div className="h-40 w-full flex items-center justify-center">
           <img src={thumbnail === '' ? checker_img : thumbnail} alt="checker" className="h-full w-full object-cover" />
