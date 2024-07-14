@@ -19,6 +19,7 @@ const PromotionView = (props: Props) => {
     const navigate = useNavigate();
     const [result, setResult] = useState<ViewPromotion | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLikeLoading, setIsLikeLoading] = useState<boolean>(false);
     const {isAuthenticated, memberInfo,isLoading : isAuthLoading } = useCheckAuth();
   
     const fetchData = async () => {
@@ -37,11 +38,9 @@ const PromotionView = (props: Props) => {
     
 
     useEffect(()=>{
-      
       setIsLoading(true);
-      fetchData()
+      fetchData();
       setIsLoading(false);
-      
     },[])
 
     return (

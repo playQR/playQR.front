@@ -130,7 +130,6 @@ const PromotionInfo = (props: Props) => {
           songLike = false;
         }
       }
-
       // 기존 음악 목록에서 해당 음악의 상태 업데이트
       setLikeList((prevLikeList) =>
         prevLikeList.map((music) =>

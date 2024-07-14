@@ -209,7 +209,7 @@ const TalkInfo = (props: Props) => {
                 
               </div>
               <div className="flex flex-col items-start" ref={contentRef as React.RefObject<HTMLDivElement>}>
-                <div className="text-xs text-gray-1">{comment.memberResponse.nickname}</div>
+                <div className="text-xs text-gray-1">{comment.memberResponse.name}</div>
                 <div className="text-xs text-gray-2">{convertformatDate(comment.createdTime)}</div>
               </div>
               </div>

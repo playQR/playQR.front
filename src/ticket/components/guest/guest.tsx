@@ -100,7 +100,7 @@ const Guest = (props: Props) => {
     const handleCancel = async () => {
         try{
             await toast.promise(
-                axiosSemiSecureAPI.delete(`/api/guests/${gid}`, ),
+                axiosSemiSecureAPI.delete(`/api/guests/host/${gid}`, ),
                 {
                     loading: '예매 취소 중...',
                     success: <b>예매가 취소되었습니다.</b>,

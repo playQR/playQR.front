@@ -24,7 +24,7 @@ const Search = (props: Props) => {
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
         try {
-            const res = await axiosSemiSecureAPI.get(`/api/promotions/my?page=${page}`)
+            const res = await axiosSemiSecureAPI.get(`/api/promotions/my?currentPage=${page}`)
             const promotionResult = res.data.result.promotionList;
             if (promotionResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정

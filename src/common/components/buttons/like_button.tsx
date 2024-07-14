@@ -4,10 +4,17 @@ import like_icon_false from './img/like_icon_false.png';
 type Props = {
     like : boolean,
     like_num : number
+    onClick :  (id:number, value:boolean) => void;
+    id : number;
 }
 {/* 10px가 안되는 부분 */}
 const LikeButton = (props: Props) => {
-    const { like,like_num } = props;
+    
+    const { like,like_num,onClick,id } = props;
+    const handleLikeClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        onClick(id,like);
+    };
     return (
         
             <button className="absolute top-2 right-2 bg-white rounded-full w-60px h-30px p-1 shadow-md border-primary"
@@ -19,8 +26,9 @@ const LikeButton = (props: Props) => {
                 borderRadius: '16px',
                 border: '1px solid rgba(30, 218, 0)'
                     
-                }}>
-            <div className='flex flex-row items-center justify-center'>
+                }}
+                onClick={handleLikeClick}>
+            <div className='flex flex-row items-center justify-center' >
                 { like ? <img src={like_icon_true} alt="like" className="mr-1 w-18px h-4" /> :
                 <img src={like_icon_false} alt="like" className="mr-1 w-18px h-4" />}
             <span className="text-xs text-green-600">{like_num}</span>

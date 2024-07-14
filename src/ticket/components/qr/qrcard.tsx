@@ -31,6 +31,8 @@ const QrCard : React.FC<Props> = (props: Props) => {
     startTime: '',
     endTime: '',
     entranceFee: 0,
+    like:false,
+    likecount : 0,
     writer: {
       name: '',
       nickname: '',
@@ -69,6 +71,8 @@ const QrCard : React.FC<Props> = (props: Props) => {
                     startTime,
                     endTime,
                     entranceFee,
+                    likecount : 0,
+                    like:false,
                     writer: {name: writer_name, nickname: writer_nickname, profileImg: writer_profileImg},
                 })
               };

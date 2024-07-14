@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import SearchBox from './searchbox';
 import SearchResult from './searchresult';
-import { axiosAPI } from '../../../axios';
+import { axiosAPI,axiosSemiSecureAPI } from '../../../axios';
 import { PromotionCard } from '../../../promotion/types/common';
 import Loading from '../../../common/loading';
+import toast from 'react-hot-toast'
+import useCheckAuth from '../../../utils/hooks/useCheckAuth';
 type Props = {}
 
 const Search = (props: Props) => {
@@ -11,6 +13,8 @@ const Search = (props: Props) => {
     const [results, setResults] = useState<PromotionCard[]>([]);
     const target = useRef<HTMLDivElement | null>(null);
     const [isFetching, setIsFetching] = useState(false);
+    const [isLikeLoading, setIsLikeLoading] = useState(false);
+    const {isAuthenticated} = useCheckAuth();
     const [stop, setStop] = useState(false);
     const [page, setPage] = useState(0); // 현재 페이지를 추적
 
@@ -22,16 +26,46 @@ const Search = (props: Props) => {
             const res = query === "" 
                 ? await axiosAPI.get(`/api/promotions/search?currentPage=${page}`)
                 : await axiosAPI.get(`/api/promotions/search?currentPage=${page}&keyword=${encodeURIComponent(query)}`);
-            const promotionResult = res.data.result.promotionList;
-            if (promotionResult.length === 0) {
+            
+            
+            const promotionResult = res.data.result.promotionList.map((res:any)=>{
+                return {...res, like : false, likecount : 0};
+            })
+           
+            
+            const likeResultPromises = promotionResult.map(async (promotion: PromotionCard) => {
+                let likeCount = 0;
+                try{
+                    const response = await axiosAPI.get(`/api/likes/promotion/${promotion.promotionId}/count`);
+                    if(response.data.isSuccess){
+                       likeCount = response.data.result;
+                    
+                        try{
+                            const response = await axiosSemiSecureAPI.get(`/api/likes/promotion/${promotion.promotionId}`);
+                            if(response.data.isSuccess){
+                                return {...promotion, like : response.data.result, likecount : likeCount};
+                            }
+                        }catch(e){
+                            console.log(e)
+                        }
+                    }else{
+                        return {...promotion, like : false, likecount : 0};
+                    }
+                }
+                catch(e){
+                    console.log(e);
+                }
+            });
+            const likeResult = await Promise.all(likeResultPromises);
+            if (likeResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
             }
             else {
                 // 더 이상 데이터가 없는 경우 2
-                if(promotionResult.length > 0 && promotionResult.length < 10) {
+                if(likeResult.length > 0 && likeResult.length < 10) {
                   setStop(true);
                 }
-                setResults((prevResults) => [...prevResults, ...res.data.result.promotionList]);
+                setResults((prevResults) => [...prevResults, ...likeResult]);
             }
         } catch (err) {
             setStop(true); // 에러 발생 시 중지 상태로 설정
@@ -79,10 +113,85 @@ const Search = (props: Props) => {
         };
     }, [isFetching, stop]);
 
+    const updateLikeStatus = async (id: number) => {
+        try {
+
+        // 좋아요 수 가져오기
+        const responseLikeCount = await axiosAPI.get(`/api/likes/promotion/${id}/count`);
+        const likeCount = responseLikeCount.data.isSuccess ? responseLikeCount.data.result : 0;
+
+        // 좋아요 상태 가져오기
+        let promotionLike = false;
+        if (isAuthenticated) {
+            try {
+            const responseLikeStatus = await axiosSemiSecureAPI.get(`/api/likes/promotion/${id}`);
+            promotionLike = responseLikeStatus.data.isSuccess ? responseLikeStatus.data.result : false;
+            } catch (error) {
+            promotionLike = false;
+            }
+        }
+        setResults((prevResults) => {
+            return prevResults.map((promotion) => {
+            if (promotion.promotionId === id) {
+                return {
+                ...promotion,
+                like: promotionLike,
+                likecount: likeCount,
+                };
+            }
+            return promotion;
+            });
+        });} catch (e) {
+            console.log(e)
+        } finally {
+        setIsLikeLoading(false);
+        }
+        };
+
+    const updateLike = async (id: number, value: boolean) => {
+        if(isFetching)return;
+        if(isLikeLoading) return;
+        if(isAuthenticated){
+            setIsLikeLoading(true);
+        if (value) {
+            try {
+                await toast.promise(
+                axiosSemiSecureAPI.delete(`/api/likes/promotion/${id}`),
+                {
+                    loading: '좋아요 처리중..',
+                    success: <b>좋아요가 취소되었습니다.</b>,
+                    error: <b>좋아요를 처리할 수 없습니다.</b>,
+                }
+            );
+            } catch (e) {
+            console.log(e);
+            }
+            finally{
+            updateLikeStatus(id);
+            }
+        }
+        else{
+            try {
+                await toast.promise(
+                axiosSemiSecureAPI.post(`/api/likes/promotion/${id}`),
+                {
+                    loading: '좋아요 처리중..',
+                    success: <b>좋아요가 완료되었습니다.</b>,
+                    error: <b>좋아요를 처리할 수 없습니다.</b>,
+                }
+            );
+            } catch (e) {
+            console.log(e);
+            }finally{
+            updateLikeStatus(id);
+            }
+        }
+    }}
+
     return (
         <div className='flex flex-col h-full w-full mt-5'>
             <SearchBox value={query} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)} />
-            <SearchResult results={results} />
+            <SearchResult results={results} updateLike={updateLike}/>
             <div ref={target} style={{ height: '1px' }}></div>
             {isFetching && <Loading text={"프로모션을 가져오는 중입니다."} isLoading={isFetching}/>}
         </div>

@@ -4,14 +4,14 @@ export interface Music {
   id: number;
   title: string;
   artist: string;
-  open: boolean;
+  isOpen: boolean;
 }
 
 export interface MusicInput{
   id :number | null;
   title: string;
   artist: string;
-  open: boolean;
+  isOpen: boolean;
 }
 export interface Billing {
   entranceFee: number;
@@ -67,7 +67,8 @@ export interface PromotionCard{
   endTime: string;
   entranceFee: number;
   writer: ViewMemember;
-
+  like : boolean;
+  likecount: number;
 }
 
 export interface ViewPromotion {
