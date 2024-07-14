@@ -1,4 +1,4 @@
-import { Member } from "../../promotion/types";
+import { Member, PromotionCard } from "../../promotion/types";
 
 export enum GuestStatus{
     BEFORE_CONFIRMATION = 'BEFORE_CONFIRMATION',
@@ -8,10 +8,13 @@ export enum GuestStatus{
 export interface GuestCardType {
     guestId : number;
     name: string;
-    depositer : string;
     reservationCount : number;
     reservationStatus : GuestStatus;
     depositDate : string;
     writer : Member;
+}
 
+export interface TicketCardType {
+    promotion : PromotionCard;
+    guest : GuestCardType;
 }
