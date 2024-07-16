@@ -23,7 +23,7 @@ const ConfimationRoute = ({ element }: ConfirmationRouteProps ) => {
         setIsConfirmed(true)
       }
     }catch(e){
-      console.log(e)
+      //console.log(e)
     }
     setIsConfirming(false);
   }

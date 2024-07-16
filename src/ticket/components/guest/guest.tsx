@@ -89,7 +89,7 @@ const Guest = (props: Props) => {
             );
         }
         catch(e){
-            console.log(e);
+            //console.log(e);
         }finally{
             setResults([]);
             setPage(0);
@@ -108,7 +108,7 @@ const Guest = (props: Props) => {
             );
         }
         catch(e){
-            console.log(e);
+            //console.log(e);
         }finally{
             setResults([]);
             setPage(0);

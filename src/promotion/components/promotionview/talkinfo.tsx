@@ -110,7 +110,7 @@ const TalkInfo = (props: Props) => {
           }
       );
     } catch (e) {
-      console.log(e);
+      //console.log(e);
     }
       setComments([]);
       setPage(0);
@@ -134,7 +134,7 @@ const TalkInfo = (props: Props) => {
         }
     );
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
     setComments([]);
     setPage(0);

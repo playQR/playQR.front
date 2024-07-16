@@ -38,7 +38,7 @@ export const shareKakao = (id : number) => {
       }
     });
     }catch(e){
-      console.log(e)
+      //console.log(e)
     }
     
   }

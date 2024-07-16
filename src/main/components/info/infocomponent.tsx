@@ -35,7 +35,7 @@ const InfoComponent = (props: Props) => {
                 setUser(res.data.result);
                 
             } catch (e) {
-                console.log(e);
+                //console.log(e);
             }
         }
     }

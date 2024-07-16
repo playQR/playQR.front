@@ -31,7 +31,7 @@ const Search = (props: Props) => {
                             return { ...res, like: like.data.result, likecount: likeCount.data.result };
                         }
                     } catch (e) {
-                        console.log(e);
+                        //console.log(e);
                     }
                 });
                 
@@ -111,7 +111,7 @@ const Search = (props: Props) => {
             return promotion;
             });
         });} catch (e) {
-            console.log(e)
+            //console.log(e)
         } finally {
             setIsLikeLoading(false);
             setPage(0);
@@ -137,7 +137,7 @@ const Search = (props: Props) => {
                     }
                 );
                 } catch (e) {
-                console.log(e);
+                //console.log(e);
                 }
                 finally{
                 updateLikeStatus(id);
@@ -154,7 +154,7 @@ const Search = (props: Props) => {
                     }
                 );
                 } catch (e) {
-                console.log(e);
+                //console.log(e);
                 }finally{
                     updateLikeStatus(id);
                 }

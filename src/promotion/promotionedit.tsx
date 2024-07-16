@@ -75,7 +75,7 @@ const PromotionEdit = (props: Props) => {
         return result.data.result[0]
       }catch(e){
         alert('이미지 업로드 실패')
-        console.log(e)
+        //console.log(e)
       }
     }
     const updatePromotion = async () => {
@@ -108,7 +108,6 @@ const PromotionEdit = (props: Props) => {
           }
         }
         try{
-          console.log(refinedPayload)
           const response = await axiosSecureAPI.put(`/api/promotions/${id}`, refinedPayload);
           if(response.data.isSuccess === true){
             setPromotionUrl(`/promotion/${response.data.result}`)
@@ -116,7 +115,7 @@ const PromotionEdit = (props: Props) => {
             setIsSuccess(true);
           }
         }catch(e){
-          console.log(e)
+          //console.log(e)
           alert('프로모션 업데이트 실패')
         }finally{
           setIsLoading(false);

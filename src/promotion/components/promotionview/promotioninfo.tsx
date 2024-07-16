@@ -82,7 +82,7 @@ const PromotionInfo = (props: Props) => {
               }
               return { musicId, song_like: false };
             } catch (e) {
-              //console.log(e)
+              ////console.log(e)
               return { musicId, song_like: false };
             }
           })
@@ -107,7 +107,7 @@ const PromotionInfo = (props: Props) => {
 
       setLikeList(newLikeList);
     } catch (e:any) {
-      //console.log(e)
+      ////console.log(e)
     }
     finally{
       setIsLoading(false);
@@ -143,7 +143,7 @@ const PromotionInfo = (props: Props) => {
         )
       );
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     } finally {
       setIsLikeLoading(false);
     }
@@ -164,7 +164,7 @@ const PromotionInfo = (props: Props) => {
               }
           );
         } catch (e) {
-          console.log(e);
+          //console.log(e);
         }
         finally{
           updateLikeStatus(id);
@@ -181,7 +181,7 @@ const PromotionInfo = (props: Props) => {
               }
           );
         } catch (e) {
-          console.log(e);
+          //console.log(e);
         }finally{
           updateLikeStatus(id);
         }

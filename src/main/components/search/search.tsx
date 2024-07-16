@@ -52,14 +52,14 @@ const Search = (props: Props) => {
                             }
                         }catch(e){
                             return {...promotion, like : false, likecount : likeCount};
-                            console.log(e)
+                            //console.log(e)
                         }
                     }else{
                         return {...promotion, like : false, likecount : 0};
                     }
                 }
                 catch(e){
-                    console.log(e);
+                    //console.log(e);
                 }
             });
             const likeResult = await Promise.all(likeResultPromises);
@@ -148,7 +148,7 @@ const Search = (props: Props) => {
             return promotion;
             });
         });} catch (e) {
-            console.log(e)
+            //console.log(e)
         } finally {
         setIsLikeLoading(false);
         }
@@ -170,7 +170,7 @@ const Search = (props: Props) => {
                     }
                 );
                 } catch (e) {
-                console.log(e);
+                //console.log(e);
                 }
                 finally{
                 updateLikeStatus(id);
@@ -187,7 +187,7 @@ const Search = (props: Props) => {
                     }
                 );
                 } catch (e) {
-                console.log(e);
+                //console.log(e);
                 }finally{
                     updateLikeStatus(id);
                 }

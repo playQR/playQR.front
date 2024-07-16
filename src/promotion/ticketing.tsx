@@ -69,7 +69,7 @@ const Ticketing = (props: Props) => {
           
         }
       catch(e:any){
-        // console.log(e)
+        // //console.log(e)
         alert('정보를 불러오는데 실패했습니다. 다시 시도해주세요.')
         navigate('/')
       }
@@ -92,7 +92,7 @@ const Ticketing = (props: Props) => {
             setIsSuccess(true);
           }
         }catch(e){
-            console.log(e);
+            //console.log(e);
         }finally{
           setIsSubmitting(false);
         }

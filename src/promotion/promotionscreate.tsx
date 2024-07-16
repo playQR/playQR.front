@@ -75,14 +75,14 @@ const PromotionCreate = (props: Props) => {
           setIsSuccess(true);
         }
       }catch(e){
-        console.log(e)
+        //console.log(e)
         alert('프로모션 생성 실패')
       }
       
       
       }catch(e){
         alert('이미지 업로드 실패')
-        console.log(e)
+        //console.log(e)
       }
       setIsLoading(false);
     }

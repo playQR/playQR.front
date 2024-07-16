@@ -69,7 +69,7 @@ const Search = (props: Props) => {
                     }
                 }
                 catch(e){
-                    console.log(e)
+                    //console.log(e)
                 
                 }
             })
@@ -105,7 +105,7 @@ const Search = (props: Props) => {
             );
         }
         catch(e){
-            console.log(e);
+            //console.log(e);
         }finally{
             setResults([]);
             setPage(0);

@@ -167,7 +167,7 @@ const ViewReservation = (props: Props) => {
                 console.error('Error: One or both API calls failed.');
             }
         }catch(e){
-            console.log(e)
+            //console.log(e)
         }
         setIsLoading(false)
     }
@@ -175,9 +175,7 @@ const ViewReservation = (props: Props) => {
         
         fetchData();
     },[])
-    useEffect(()=>{
-        console.log(result);
-    },[result])
+    
     const cancelPromotion = async () => {
         try {
             await toast.promise(
@@ -190,11 +188,11 @@ const ViewReservation = (props: Props) => {
             ).then(()=>{
                 navigate('/ticket');
             }).catch((e)=>{
-                console.log(e);
+                //console.log(e);
             })
             
         } catch (e) {
-            console.log(e);
+            //console.log(e);
         }
     }
     return (

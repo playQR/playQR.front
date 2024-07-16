@@ -20,7 +20,7 @@ const TicketNumInfo = (props: Props) => {
                 setTicketNum({currentCount,maxAudience})
             }
         }catch(e){
-            console.log(e)
+            //console.log(e)
         }
     }
     useEffect(()=>{

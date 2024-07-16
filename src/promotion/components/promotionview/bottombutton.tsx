@@ -32,7 +32,7 @@ const BottomButton = (props: Props) => {
           setDisabled(true);
         }
       } catch (e) {
-        console.log(e);
+        //console.log(e);
       }
     }else{
       setDisabled(false);
