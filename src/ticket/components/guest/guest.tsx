@@ -5,7 +5,6 @@ import Loading from '../../../common/loading';
 import { GuestCardType } from '../../types';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { set } from 'react-hook-form';
 type Props = {}
 
 const Guest = (props: Props) => {

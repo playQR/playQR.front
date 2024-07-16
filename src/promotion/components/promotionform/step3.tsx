@@ -1,14 +1,11 @@
 import React,{useEffect, useState} from 'react'
 import { Billing } from '../../types';
 import * as Yup from 'yup';
-import { Formik, Form, useFormikContext, FieldArray,Field, ErrorMessage, FormikProps,FieldArrayRenderProps, FieldProps } from 'formik';
-import { CustomTextInput, CustomLongTextInput } from './common/inputs';
+import { Formik, Form, useFormikContext } from 'formik';
+import { CustomTextInput, CustomLongTextInput, CustomSelectionInput } from '../common/inputs';
 import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';
-import {axiosSecureAPI} from '../../../axios';
-import Result from './result';
-import { set } from 'react-hook-form';
 import Warning from '../common/warning';
 type Props = {
   next : () => void;
@@ -16,14 +13,6 @@ type Props = {
   currentIndex : number;
 }
 
-
-const initialValues : Billing = {
-  entranceFee: 0,
-  bankName: '',
-  account: '',
-  accountHolder: '',
-  refundInfo: ''
-}
 
 type CheckProps = {
   changeIsValid: (arg:boolean) => void;
@@ -66,7 +55,7 @@ const Step3 = (props: Props) => {
     setIsValid(value)
   }
  
-  const [initialVal, setInitialVal] = useState<Billing>(getFullPromotionData().step3.billing);
+  const [initialVal, setInitialVal] = useState<Billing>({...getFullPromotionData().step3.billing, bankName:'카카오뱅크'});
   return (
     <div className={`relative w-full bg-system-background
        `}>
@@ -81,7 +70,7 @@ const Step3 = (props: Props) => {
               setTimeout(() => {
                 setSubmitting(false);
               }, 400);
-              
+              alert(JSON.stringify(values, null, 2));
               updateData({ step3 : {billing :values}})
               next();
             }
@@ -89,7 +78,7 @@ const Step3 = (props: Props) => {
 
           <Form>
             <CustomTextInput label='티켓 가격을 알려주세요' name='entranceFee' type='number' placeholder='숫자만 입력해주세요' />
-            <CustomTextInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
+            <CustomSelectionInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
             <CustomTextInput label='입금받을 계좌번호를 알려주세요' name='account' type='text' placeholder='계좌번호' />
             <CustomTextInput label='예금주를 알려주세요' name='accountHolder' type='text' placeholder='예금주 이름' />
             <CustomLongTextInput label='환불 정보를 입력해주세요' name='refundInfo' type='text' placeholder='환불 조건, 환불 문의 연락처를 입력해주세요' />

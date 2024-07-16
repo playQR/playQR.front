@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { Formik, Form,Field,FieldProps,ErrorMessage } from 'formik'
-import { CustomTextInput, CustomDateInput, CustomDateInputTicket, CustomTextInputDark} from '../../components/promotionform/common/inputs'
+import { CustomDateInputTicket, CustomTextInputDark} from '../common/inputs'
 import * as Yup from 'yup'
 import BottomButton from './bottombutton';
-import { axiosSecureAPI } from '../../../axios';
-import { error } from 'console';
-import { useField } from 'formik';
 
 type Prop={
   id : number;

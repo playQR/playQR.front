@@ -6,7 +6,6 @@ import NotFound from './NotFound';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Ticket from './ticket/ticketmain';
-import RedirectPage from './redirect/ticketredirectpage';
 import PromotionView from './promotion/promotionmain';
 import PromotionCreate from './promotion/promotionscreate';
 import AuthRedirect from './redirect/authredirectpage';
@@ -80,10 +79,6 @@ const router = createBrowserRouter(
             path: "",
             element: <ProtectedRoute element={<Ticket/>} />
           
-          },
-          {
-            path:"redirect",
-            element: <RedirectPage/>
           },
           {
             path: "confirm/:uuid",

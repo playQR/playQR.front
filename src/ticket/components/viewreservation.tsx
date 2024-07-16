@@ -32,7 +32,6 @@ const ViewReservationCard = (props:CardProps) => {
         <div className="h-40 w-full flex items-center justify-center">
           <img src={thumbnail === '' ? checker_img : thumbnail} alt="checker" className="h-full w-full object-cover" />
         </div>
-        {/* <LikeButton like={true} like_num={1}/> */}
       </div>
       <div className="pt-2 px-10px">
         <h2 className="text-pxs text-text-plain">{team}</h2>
@@ -164,7 +163,7 @@ const ViewReservation = (props: Props) => {
                     }
                 });
             } else {
-                // 각 요청의 실패를 처리하는 로직 추가
+                
                 console.error('Error: One or both API calls failed.');
             }
         }catch(e){
@@ -173,8 +172,12 @@ const ViewReservation = (props: Props) => {
         setIsLoading(false)
     }
     useEffect(()=>{
+        
         fetchData();
     },[])
+    useEffect(()=>{
+        console.log(result);
+    },[result])
     const cancelPromotion = async () => {
         try {
             await toast.promise(

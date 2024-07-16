@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import calendar_icon from '../../../main/img/calendar_icon.png';
 import location_icon from '../../../main/img/location_icon.png';
 import checker_img from '../../../main/img/checker_img.png';

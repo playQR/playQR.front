@@ -2,9 +2,7 @@ import React from 'react'
 import { GuestCardType } from '../../types'
 import GuestCard from './guestcard'
 import StatusButton from '../buttons/statusbutton'
-import DeleteModal from '../modals/deletemodal'
 import DeleteTicketModal from '../modals/deleteticketmodal'
-import { set } from 'react-hook-form';
 
 type Props = {
     results : GuestCardType[]

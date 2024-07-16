@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import SearchCard from './searchcard'
 import DeleteModal from '../../modals/deletemodal'
-import { PromotionCard } from '../../../../promotion/types/common';
 import Line from '../../../../common/components/line/line';
-import store from '../../../../store/store';
 import { PromotionCommentCard } from '../../../types';
 import CommentCard from './commentcard';
 

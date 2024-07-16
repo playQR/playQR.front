@@ -3,7 +3,7 @@ import { Formik, Form, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import NextButton from './nextbutton';
 import store from '../../../store/store';
-import { CustomTextInput, CustomFileInput, CustomDateInput, CustomTimeInput } from './common/inputs';
+import { CustomTextInput, CustomFileInput, CustomDateInput, CustomTimeInput } from '../common/inputs';
 type Props = {  
   next : () => void;
   currentIndex : number;

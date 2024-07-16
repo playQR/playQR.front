@@ -27,7 +27,8 @@ const LikeButton = (props: Props) => {
                 border: '1px solid rgba(30, 218, 0)'
                     
                 }}
-                onClick={handleLikeClick}>
+                onClick={handleLikeClick}
+                >
             <div className='flex flex-row items-center justify-center' >
                 { like ? <img src={like_icon_true} alt="like" className="mr-1 w-18px h-4" /> :
                 <img src={like_icon_false} alt="like" className="mr-1 w-18px h-4" />}

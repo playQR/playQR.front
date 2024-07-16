@@ -1,12 +1,8 @@
 import React from 'react'
 import Nav from '../common/components/nav/nav'
-import { useNavigate, useParams } from 'react-router-dom'
-import { axiosSemiSecureAPI } from '../axios'
 import Guest from './components/guest/guest'
 import BackButton from './components/guest/backbutton'
 import TicketNumInfo from './components/guest/ticketnuminfo'
-import { axiosAPI } from '../axios/index';
-import { PromotionCard } from '../promotion/types'
 import QrCard from './components/qr/qrcard'
 
 

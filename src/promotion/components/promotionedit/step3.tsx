@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import { Billing } from '../../types';
 import * as Yup from 'yup';
 import { Formik, Form, useFormikContext, } from 'formik';
-import { CustomTextInput, CustomLongTextInput } from './common/inputs';
+import { CustomTextInput, CustomLongTextInput } from '../common/inputs';
 import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';

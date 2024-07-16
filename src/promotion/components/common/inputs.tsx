@@ -1,12 +1,16 @@
-import {Field, useField} from 'formik';
-import {useRef, useState, useEffect} from 'react';
-import upload_icon from '../../../img/upload_icon.png';
+import {Field, useField,ErrorMessage} from 'formik';
+import {useRef, useState, useEffect, useCallback} from 'react';
 import Calendar, {CalendarProps} from 'react-calendar';
 import {useFormikContext} from 'formik';
-import calendar_icon from '../../../img/calendar_icon.png';
-import calendar_icon_white from '../../../img/calendar_icon_white.png';
-import 'react-calendar/dist/Calendar.css';
 import TextareaAutosize from 'react-textarea-autosize';
+import { axiosAPI } from '../../../axios';
+
+import upload_icon from '../../img/upload_icon.png';
+import calendar_icon from '../../img/calendar_icon.png';
+import calendar_icon_white from '../../img/calendar_icon_white.png';
+import 'react-calendar/dist/Calendar.css';
+import BankLoading from '../../../common/bankloading';
+
 export const CustomTextInput = ({label, ...props}:any) => {
   
 const [field, meta] = useField(props);
@@ -16,7 +20,7 @@ const [field, meta] = useField(props);
       <label htmlFor={props.id || props.name} className='pl-6px text-md font-normal text-system-black'>{label}</label>
       <input className='w-full mt-10px h-48px border border-gray-2 rounded-lg px-4' {...field} {...props} />
        {meta.touched && meta.error ? (
-        <div className="text-red-600 text-sm mt-2">{meta.error}</div>
+        <div className="text-system-error text-sm mt-2">{meta.error}</div>
       ) : null}
     </div>
   )
@@ -31,7 +35,7 @@ const [field, meta] = useField(props);
       <label htmlFor={props.id || props.name} className='pl-6px text-md font-normal text-system-white'>{label}</label>
       <input className='w-full mt-10px h-48px rounded-lg px-4 bg-gray-5 text-system-white' {...field} {...props} />
        {meta.touched && meta.error ? (
-        <div className="text-red-600 text-sm mt-2">{meta.error}</div>
+        <div className="text-system-error text-sm mt-2">{meta.error}</div>
       ) : null}
     </div>
   )
@@ -51,7 +55,7 @@ export const CustomLongTextInput = ({label, ...props}:any) => {
             minRows={10}
           />
         {meta.touched && meta.error ? (
-        <div className="text-red-600 text-sm mt-2">{meta.error}</div>
+        <div className="text-system-error text-sm mt-2">{meta.error}</div>
       ) : null}
     </div>
   )
@@ -66,9 +70,24 @@ export const CustomFileInput = ({ label, ...props }: any) => {
   const [currentPreview, setCurrentPreview] = useState<string | null>(null);
 
   useEffect(() => {
-    if (initialval.length) {
-      setPreview(initialval[0]);
-      helpers.setValue([initialval[0]]);
+    if (initialval) {
+      const ival = initialval[0];
+      if (typeof ival === 'string') {
+
+        setPreview(ival);
+        helpers.setValue([ival]);
+      } else if (ival instanceof File) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (typeof reader.result === 'string') {
+          
+            setPreview(reader.result);
+            helpers.setValue(ival);
+            setValues({ ...values as String[], imageList: [ival] });
+        }
+        };
+        reader.readAsDataURL(ival);
+      }
     }
   }, [initialval, helpers]);
 
@@ -80,15 +99,16 @@ export const CustomFileInput = ({ label, ...props }: any) => {
         alert('이미지 파일만 업로드 가능합니다.');
         return;
       }
-      if (file.size > Number(process.env.REACT_APP_IMAGE_FILE_SIZE)) {
-        alert(`파일 크기는 ${Number(process.env.REACT_APP_IMAGE_FILE_SIZE)/1024*1024}MB 이하로 업로드 가능합니다.`);
+      if (file.size > Number(process.env.REACT_APP_IMAGE_FILE_LIMITATION)) {
+        alert(`파일 크기는 ${Number(process.env.REACT_APP_IMAGE_FILE_LIMITATION)/(1024*1024)}MB 이하로 업로드 가능합니다.`);
         return;
       }
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === 'string') {
+          
           setPreview(reader.result);
-          helpers.setValue(file); // Formik value 설정
+          helpers.setValue(file);
           setValues({ ...values as String[], imageList: [file] });
         }
       };
@@ -104,9 +124,9 @@ export const CustomFileInput = ({ label, ...props }: any) => {
 
   const handleRemove = () => {
     setPreview(null);
-    helpers.setValue(null);
+    helpers.setValue([]);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ''; // 파일 인풋 값을 초기화
+      fileInputRef.current.value = '';
     }
   };
 
@@ -123,10 +143,10 @@ export const CustomFileInput = ({ label, ...props }: any) => {
         {...props}
       />
       <button type="button" className="custom-button" onClick={handleClick}>
-        <div className='flex flex-row justify-center items-center rounded-lg border-gray-1 border-1px p-14px mt-10px hover:bg-gray-1 w-1/3'>
+        <div className='flex flex-row justify-center items-center rounded-lg border-gray-1 border-1px p-14px mt-10px hover:bg-gray-1 w-1/2'>
           <img src={upload_icon} className='h-4 w-4' alt="Upload icon"></img>
           <div className='text-gray-3 text-sm'>
-            업로드 (JPG, PNG 5MB)
+            {`업로드 (JPG, PNG ${Number(process.env.REACT_APP_IMAGE_FILE_LIMITATION)/(1024*1024)}MB)`}
           </div>
         </div>
       </button>
@@ -408,18 +428,51 @@ export const CustomTimeInput = ({ label, ...props }: any) => {
           </div>
 
       </div>
-      {error && <div className='text-red-600 text-sm mt-2 ml-2'>{error}</div>}
+      {error && <div className='text-system-error text-sm mt-2 ml-2'>{error}</div>}
       {meta.touched && meta.error ? (
-        <div className='text-red-600 text-sm mt-2'>{meta.error}</div>
+        <div className='text-system-error text-sm mt-2'>{meta.error}</div>
       ) : null}
     </div>
   );
 };
 
-export const CustomToggleSwitch = ({ label, ...props }: any) => {
+export const CustomSelectionInput = ({ label, ...props }: any) => {
+  const [items, setItems] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchItems = useCallback(
+    async () => {
+      try {
+        const response = await axiosAPI.get('/api/promotions/bank/type');
+        setItems(response.data.result);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+        setIsLoading(false);
+      }
+    }
+  ,[items])
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
   
-}
-
-export const CustomCounterInput = ({ label, ...props }: any) => {
-
+  return (
+     <div className='w-full flex flex-col'>
+        <label htmlFor="account">{label}</label>
+        {isLoading ?<BankLoading text='은행 목록 가져오는 중' isLoading={isLoading}/> : <div className='mt-10px w-full mb-10px'>
+        <Field as="select" name="account" label="은행을 골라주세요" className="p-4 rounded-xl mb-2">
+          
+          {items.map(item => (
+            <option value={item} key={item} className='p-10'>
+              {item}
+            </option>
+          ))}
+        </Field>
+        <ErrorMessage name="account" component="div" className='text-system-error text-psm'/></div>
+        }
+        
+    </div>
+  )
 }

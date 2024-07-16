@@ -1,4 +1,4 @@
-import { SetListMusic,Comment } from "./list";
+import { SetListMusic } from "./list";
 
 export interface Music {
   id: number;

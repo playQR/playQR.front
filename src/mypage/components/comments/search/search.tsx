@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import SearchResult from './searchresult';
-import { PromotionCard } from '../../../../promotion/types/common';
 import { axiosSemiSecureAPI,axiosAPI } from '../../../../axios';
 import toast from 'react-hot-toast';
 import Loading from '../../../../common/loading';

@@ -6,6 +6,8 @@ import { PromotionCard } from '../../../promotion/types/common';
 import Loading from '../../../common/loading';
 import toast from 'react-hot-toast'
 import useCheckAuth from '../../../utils/hooks/useCheckAuth';
+import store from '../../../store/store';
+
 type Props = {}
 
 const Search = (props: Props) => {
@@ -14,9 +16,12 @@ const Search = (props: Props) => {
     const target = useRef<HTMLDivElement | null>(null);
     const [isFetching, setIsFetching] = useState(false);
     const [isLikeLoading, setIsLikeLoading] = useState(false);
-    const {isAuthenticated} = useCheckAuth();
+    const {isAuthenticated , isLoading} = useCheckAuth();
     const [stop, setStop] = useState(false);
     const [page, setPage] = useState(0); // 현재 페이지를 추적
+    const { useModalStore } = store;
+    const {openModal} = useModalStore(state => state);
+
 
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
@@ -39,7 +44,7 @@ const Search = (props: Props) => {
                     const response = await axiosAPI.get(`/api/likes/promotion/${promotion.promotionId}/count`);
                     if(response.data.isSuccess){
                        likeCount = response.data.result;
-                    
+                        
                         try{
                             const response = await axiosSemiSecureAPI.get(`/api/likes/promotion/${promotion.promotionId}`);
                             if(response.data.isSuccess){
@@ -147,52 +152,55 @@ const Search = (props: Props) => {
         } finally {
         setIsLikeLoading(false);
         }
-        };
+    };
 
     const updateLike = async (id: number, value: boolean) => {
         if(isFetching)return;
         if(isLikeLoading) return;
         if(isAuthenticated){
             setIsLikeLoading(true);
-        if (value) {
-            try {
-                await toast.promise(
-                axiosSemiSecureAPI.delete(`/api/likes/promotion/${id}`),
-                {
-                    loading: '좋아요 처리중..',
-                    success: <b>좋아요가 취소되었습니다.</b>,
-                    error: <b>좋아요를 처리할 수 없습니다.</b>,
+            if (value) {
+                try {
+                    await toast.promise(
+                    axiosSemiSecureAPI.delete(`/api/likes/promotion/${id}`),
+                    {
+                        loading: '좋아요 처리중..',
+                        success: <b>좋아요가 취소되었습니다.</b>,
+                        error: <b>좋아요를 처리할 수 없습니다.</b>,
+                    }
+                );
+                } catch (e) {
+                console.log(e);
                 }
-            );
-            } catch (e) {
-            console.log(e);
-            }
-            finally{
-            updateLikeStatus(id);
-            }
-        }
-        else{
-            try {
-                await toast.promise(
-                axiosSemiSecureAPI.post(`/api/likes/promotion/${id}`),
-                {
-                    loading: '좋아요 처리중..',
-                    success: <b>좋아요가 완료되었습니다.</b>,
-                    error: <b>좋아요를 처리할 수 없습니다.</b>,
+                finally{
+                updateLikeStatus(id);
                 }
-            );
-            } catch (e) {
-            console.log(e);
-            }finally{
-            updateLikeStatus(id);
             }
+            else{
+                try {
+                    await toast.promise(
+                    axiosSemiSecureAPI.post(`/api/likes/promotion/${id}`),
+                    {
+                        loading: '좋아요 처리중..',
+                        success: <b>좋아요가 완료되었습니다.</b>,
+                        error: <b>좋아요를 처리할 수 없습니다.</b>,
+                    }
+                );
+                } catch (e) {
+                console.log(e);
+                }finally{
+                    updateLikeStatus(id);
+                }
+            }
+        }else{
+            openModal();
         }
-    }}
+    }
 
     return (
         <div className='flex flex-col h-full w-full mt-5'>
             <SearchBox value={query} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)} />
-            <SearchResult results={results} updateLike={updateLike}/>
+            <SearchResult results={results} updateLike={updateLike} isAuthenticated={isAuthenticated} isLoading={isLoading}/>
             <div ref={target} style={{ height: '1px' }}></div>
             {isFetching && <Loading text={"프로모션을 가져오는 중입니다."} isLoading={isFetching}/>}
         </div>

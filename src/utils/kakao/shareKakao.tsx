@@ -1,5 +1,3 @@
-import { request } from "http";
-
 export const shareKakao = (id : number) => {
   
   if (window.Kakao) {

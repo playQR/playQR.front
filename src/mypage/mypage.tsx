@@ -5,11 +5,13 @@ import Navigation from './navigation'
 type Props = {}
 const Profile = () => {
 
-    const {memberInfo}  = useCheckAuth();
+    const {memberInfo, isLoading}  = useCheckAuth();
     
     return (
         <div className='flex flex-col justify-center items-center mb-50px'>
-            <img src={memberInfo.profileImg === null ? checker_img_lg : memberInfo.profileImg} className='w-114px h-114px rounded-xl'></img>
+            <img style={{ display: isLoading ? 'none' : undefined }} 
+                  src={memberInfo.profileImg === null ? checker_img_lg : memberInfo.profileImg} 
+                  className='w-114px h-114px rounded-xl transition-all'></img>
             <div className='text-2xl font-bold text-white mt-10px'>{memberInfo.name}</div>
         </div>
     )

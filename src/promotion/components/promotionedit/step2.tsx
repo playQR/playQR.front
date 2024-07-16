@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, FieldProps, FieldArray, Field, ErrorMessage, FormikProps, FieldArrayRenderProps } from 'formik';
 import * as Yup from 'yup';
 import NextButton from './nextbutton';
-import { CustomLongTextInput } from './common/inputs';
+import { CustomLongTextInput } from '../common/inputs';
 import { MusicInput } from '../../types';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import BackButton from './backbutton';
