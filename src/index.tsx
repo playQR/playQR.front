@@ -21,6 +21,7 @@ import Comments from './mypage/comments';
 import TicketLogin from './routes/ticketlogin';
 import ConfimationRoute from './routes/confirmationroute';
 import ViewReservation from './ticket/components/viewreservation';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 declare global {
   interface Window {
     Kakao: any;

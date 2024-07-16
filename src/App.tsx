@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect,useState } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 function App() {
   const width = 640;
     const [containerStyle, setContainerStyle] = useState({
@@ -45,7 +46,9 @@ function App() {
 
   return (
     <div style={containerStyle}>
+      
       <Outlet/>
+      <SpeedInsights/>
     </div>
       
   );
