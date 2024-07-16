@@ -1,19 +1,34 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import  useAuthStore  from '../../store/store'; // 경로는 실제 상황에 맞게 조정하세요.
+import { useEffect, useState } from 'react';
+import { axiosSemiSecureAPI } from '../../axios/index';
+import { Member } from '../../promotion/types/common';
 
-function useCheckAuth() {
-    const { token } = useAuthStore(state => state);
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (token === undefined) {
-            alert('로그인이 필요합니다.');
-            navigate('/login');
-        }
-    }, [token, navigate]);
+const useCheckAuth = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [memberInfo, setMemberInfo] = useState<Member>({ id: -1, name: '', nickname: '', profileImg: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    return token;  // 필요에 따라 토큰을 반환할 수 있습니다.
-}
+  useEffect(() => {
+    
+    const authenticate = async () => {
+      try {
+        const response = await axiosSemiSecureAPI.get('/api/members');
+        
+        if (response.data.isSuccess === false) throw new Error('Not authenticated.');
+          setIsAuthenticated(true);
+          setMemberInfo(response.data.result);
+      } catch (error) {
+          setIsAuthenticated(false);
+          setMemberInfo({ id: -1, name: '', nickname: '', profileImg: ''});
+      } finally {
+          setIsLoading(false);
+      }
+    };
+
+    authenticate();
+  }, []);
+
+  return { isAuthenticated, memberInfo, isLoading };
+};
 
 export default useCheckAuth;
