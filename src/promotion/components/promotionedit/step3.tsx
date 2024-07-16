@@ -3,6 +3,7 @@ import { Billing } from '../../types';
 import * as Yup from 'yup';
 import { Formik, Form, useFormikContext, } from 'formik';
 import { CustomTextInput, CustomLongTextInput } from '../common/inputs';
+import { CustomSelectionInput } from '../common/inputs';
 import store from '../../../store/store';
 import NextButton from './nextbutton';
 import BackButton from './backbutton';
@@ -84,7 +85,7 @@ const Step3 = (props: Props) => {
 
           <Form>
             <CustomTextInput label='티켓 가격을 알려주세요' name='entranceFee' type='number' placeholder='숫자만 입력해주세요' />
-            <CustomTextInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
+            <CustomSelectionInput label='은행명을 알려주세요' name='bankName' type='text' placeholder='은행명 ex) 카카오뱅크' />
             <CustomTextInput label='입금받을 계좌번호를 알려주세요' name='account' type='text' placeholder='계좌번호' />
             <CustomTextInput label='예금주를 알려주세요' name='accountHolder' type='text' placeholder='예금주 이름' />
             <CustomLongTextInput label='환불 정보를 입력해주세요' name='refundInfo' type='text' placeholder='환불 조건, 환불 문의 연락처를 입력해주세요' />

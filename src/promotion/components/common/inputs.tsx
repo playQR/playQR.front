@@ -462,7 +462,7 @@ export const CustomSelectionInput = ({ label, ...props }: any) => {
      <div className='w-full flex flex-col'>
         <label htmlFor="account">{label}</label>
         {isLoading ?<BankLoading text='은행 목록 가져오는 중' isLoading={isLoading}/> : <div className='mt-10px w-full mb-10px'>
-        <Field as="select" name="account" label="은행을 골라주세요" className="p-4 rounded-xl mb-2">
+        <Field as="select" name="bankName" label="은행을 골라주세요" className="p-4 rounded-xl mb-2">
           
           {items.map(item => (
             <option value={item} key={item} className='p-10'>
@@ -470,7 +470,7 @@ export const CustomSelectionInput = ({ label, ...props }: any) => {
             </option>
           ))}
         </Field>
-        <ErrorMessage name="account" component="div" className='text-system-error text-psm'/></div>
+        <ErrorMessage name="bankName" component="div" className='text-system-error text-psm'/></div>
         }
         
     </div>
