@@ -108,10 +108,13 @@ const TalkInfo = (props: Props) => {
             success: <b>Comment posted!</b>,
             error: <b>Could not post comment.</b>,
           }
+          
       );
+      setMessage('');
     } catch (e) {
       //console.log(e);
     }
+    
       setComments([]);
       setPage(0);
       setStop(false);
@@ -136,6 +139,7 @@ const TalkInfo = (props: Props) => {
   } catch (e) {
     //console.log(e);
   }
+    
     setComments([]);
     setPage(0);
     setStop(false);
@@ -224,7 +228,7 @@ const TalkInfo = (props: Props) => {
         }): <div className='text-gray-1 text-pmd w-full text-center'>댓글이 없습니다.</div>}
         
       </div>
-      <div ref={target} style={{ height: '1px' }}></div>
+      <div ref={target} style={{ height: '100px' }}></div>
       {isFetching && <Loading text={"댓글을 가져오는 중입니다."} isLoading={isFetching}/>}
       <div className='h-100px'>
                 {/* 모든 정보를 보여주기 위한 마진 */}
