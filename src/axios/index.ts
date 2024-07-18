@@ -31,7 +31,8 @@ axiosSecureAPI.interceptors.request.use(config => {
   }
   return config;
 }, error => {
-  return Promise.reject(error);
+  handleApiError(error);
+  return Promise.resolve(error);
 });
 
 // 응답 인터셉터 추가
@@ -46,7 +47,7 @@ axiosSecureAPI.interceptors.response.use(
         //     useAuthStorePersist.getState().setTokens(null, null,null,null);
         //     window.location.href = '/'
         //     alert('토큰이 만료되었습니다. 다시 로그인해 주세요.')
-        //     return Promise.reject(error);
+        //     
         // }
         if(refreshToken === null || refreshTokenExpireTime === null){
           useAuthStorePersist.getState().setTokens(null, null,null,null);
@@ -75,7 +76,7 @@ axiosSecureAPI.interceptors.response.use(
         }
     }
     handleApiError(error);
-    return Promise.reject(error);
+    
   }
 );
 
@@ -90,7 +91,7 @@ axiosSemiSecureAPI.interceptors.request.use(config => {
   return config;
 }, error => {
   handleApiError(error);
-  return Promise.reject(error);
+  return Promise.resolve();
 });
 
 // 응답 인터셉터 추가
@@ -126,8 +127,6 @@ axiosSemiSecureAPI.interceptors.response.use(
         }
     }
     handleApiError(error);
-    return Promise.reject(error);
+    return Promise.resolve();
   }
 );
-
-
