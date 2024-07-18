@@ -37,12 +37,15 @@ const SearchResult : React.FC<Props> = (props: Props) => {
             return (
                 <div className='w-full'>
                   <SearchCard result={r.promotion}/>
-                  <CommentCard 
-                    result={r.comments}
-                    setIsOpen={setIsOpen}
-                    setCommentId={setCommentId}
-                  />
-                  <Line/>
+                  {r.comments.map((comment) => (
+                      <div className='my-4'>
+                        <CommentCard 
+                            key={comment.id}
+                            result={comment}
+                            setIsOpen={setIsOpen}
+                            setCommentId={setCommentId}
+                        /></div>
+                    ))}
                 </div>
             )
           }) : 

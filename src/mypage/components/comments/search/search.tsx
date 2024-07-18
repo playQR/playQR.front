@@ -22,74 +22,47 @@ const Search = (props: Props) => {
     }
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
-        if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
+        if (isFetching || stop) return;
         setIsFetching(true);
+
         try {
-            const res = await axiosSemiSecureAPI.get(`/api/comments/my?currentPage=${page}`)
-            const commentResult = res.data.result.commentList.map((res:any)=>{
-                return {
-                    comments : {
-                        id : res.id,
-                        promotionId : res.promotionId,
-                        content : res.content,
-                        createdTime : res.createdTime
-                    },
-                    promotion : {
-                        promotionId : '',
-                        title : '',
-                        team : '',
-                        thumbnail : '',
-                        date : '',
-                        location : '',
-                        startTime : '',
-                        endTime : '',
-                        entranceFee : 0,
-                        like : false,
-                        likecount : 0,
-                        writer: {
-                            name: '',
-                            nickname: '',
-                            profileImg: ''
-                        }
-                    }
-                };
-            })
-            
-            const PromotionCommentList = commentResult.map(async (res:any)=>{
-                try{
-                    const response = await axiosAPI.get(`/api/promotions/${res.comments.promotionId}`);
-                    if(response.data.isSuccess){
-                        return {
-                            comments: res.comments,
-                            promotion: {
-                                thumbnail : response.data.result.imageList[0],
-                                ...response.data.result
-                            }
-                        };
-                    }
+            const res = await axiosSemiSecureAPI.get(`/api/comments/my?currentPage=${page}`);
+            const commentList = res.data.result.commentList;
+
+            const promotionIds = commentList.map((comment: any) => comment.promotionId);
+            const uniquePromotionIds = Array.from(new Set(promotionIds));
+
+            const promotions = await Promise.all(uniquePromotionIds.map(async (promotionId) => {
+                const response = await axiosAPI.get(`/api/promotions/${promotionId}`);
+                if (response.data.isSuccess) {
+                    return {...response.data.result, thumbnail : response.data.result.imageList[0]}
                 }
-                catch(e){
-                    //console.log(e)
-                
+                return null;
+            }));
+
+            const filteredPromotions = promotions.filter(Boolean);
+
+            const promotionCommentList: PromotionCommentCard[] = filteredPromotions.map((promotion) => ({
+                promotion: {
+                    ...promotion,
+                },
+                comments: commentList.filter((comment: any) => comment.promotionId === promotion.promotionId)
+            }));
+
+            if (promotionCommentList.length === 0) {
+                setStop(true);
+            } else {
+                if (promotionCommentList.length > 0 && promotionCommentList.length < 10) {
+                    setStop(true);
                 }
-            })
-            
-            const promotioncommentResult = await Promise.all(PromotionCommentList);
-            if (promotioncommentResult.length === 0) {
-                setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
-            }
-            else {
-                // 더 이상 데이터가 없는 경우 2
-                if(promotioncommentResult.length > 0 && promotioncommentResult.length < 10) {
-                  setStop(true);
-                }
-                setResults((prevResults) => [...prevResults, ...promotioncommentResult]);
+                console.log(promotionCommentList)
+                setResults((prevResults) => [...prevResults, ...promotionCommentList]);
             }
         } catch (err) {
-            setStop(true); // 에러 발생 시 중지 상태로 설정
+            setStop(true);
             console.error(err);
         } finally {
-            setIsFetching(false); // 요청 완료 후 isFetching 상태 변경
+            setIsFetching(false);
         }
     }, [page, stop]);
     

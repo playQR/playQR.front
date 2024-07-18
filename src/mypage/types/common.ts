@@ -9,6 +9,6 @@ export interface MyComments {
 }
 export interface PromotionCommentCard{
     
-    comments : MyComments;
+    comments : MyComments [];
     promotion : PromotionCard;
 }

@@ -31,6 +31,7 @@ const TalkInfo = (props: Props) => {
   const {useModalStore} = store;
   const { openModal } = useModalStore();
   const { isAuthenticated,memberInfo } = props;
+  const [maxLength, setMaxLength] = useState(0);
 
   const fetchResults = useCallback(async () => {
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
@@ -38,7 +39,7 @@ const TalkInfo = (props: Props) => {
         try {
             const res = await axiosSecureAPI.get(`/api/comments/${promotionId}?currentPage=${page}`);
             const commentResult = res.data.result.commentList;
-            
+            setMaxLength(res.data.result.totalCount)
             if (commentResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
             }
@@ -94,6 +95,7 @@ const TalkInfo = (props: Props) => {
   };
 
   const handleSubmit = async () => {
+    if(message.length === 0)return;
     if(isAuthenticated === false){
       openModal();
     }
@@ -159,7 +161,7 @@ const TalkInfo = (props: Props) => {
     <div className='w-full flex flex-col mt-5'>
       
       <div className='text-primary text-pxl font-semibold mb-3'>
-        {`응원 Talk ${comments.length}개`}
+        {`응원 Talk ${maxLength}개`}
       </div>
       <div className='w-full flex flex-col mb-34px'>
         <TextareaAutosize
@@ -228,7 +230,7 @@ const TalkInfo = (props: Props) => {
         }): <div className='text-gray-1 text-pmd w-full text-center'>댓글이 없습니다.</div>}
         
       </div>
-      <div ref={target} style={{ height: '100px' }}></div>
+      <div ref={target} style={{ height: '1px' }}></div>
       {isFetching && <Loading text={"댓글을 가져오는 중입니다."} isLoading={isFetching}/>}
       <div className='h-100px'>
                 {/* 모든 정보를 보여주기 위한 마진 */}

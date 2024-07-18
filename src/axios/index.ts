@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '../store/store'
 import { parseKSTDate } from '../utils/time';
+import { handleApiError } from '../utils/error';
 
 const { useAuthStorePersist } = store;
 
@@ -69,9 +70,11 @@ axiosSecureAPI.interceptors.response.use(
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return axiosSecureAPI(originalRequest);
         } catch (refreshError) {
+            handleApiError(refreshError);
             return Promise.reject(refreshError);
         }
     }
+    handleApiError(error);
     return Promise.reject(error);
   }
 );
@@ -86,6 +89,7 @@ axiosSemiSecureAPI.interceptors.request.use(config => {
   }
   return config;
 }, error => {
+  handleApiError(error);
   return Promise.reject(error);
 });
 
@@ -97,15 +101,8 @@ axiosSemiSecureAPI.interceptors.response.use(
     if (error.response.status === 400 && !originalRequest._retry) {
         const { refreshToken, refreshTokenExpireTime } = useAuthStorePersist.getState();
         
-        // if (refreshTokenExpireTime !== null && currentTime > refreshTokenExpireTime.getTime()){
-        //     useAuthStorePersist.getState().setTokens(null, null,null,null);
-        //     window.location.href = '/'
-        //     alert('토큰이 만료되었습니다. 다시 로그인해 주세요.')
-        //     return Promise.reject(error);
-        // }
         if(refreshToken === null || refreshTokenExpireTime === null){
           useAuthStorePersist.getState().setTokens(null, null,null,null);
-          
         }
         originalRequest._retry = true;
         try {
@@ -124,9 +121,11 @@ axiosSemiSecureAPI.interceptors.response.use(
             originalRequest.headers.Authorization = `Bearer ${accessToken}`;
             return axiosSemiSecureAPI(originalRequest);
         } catch (refreshError) {
+            handleApiError(refreshError);
             return Promise.reject(refreshError);
         }
     }
+    handleApiError(error);
     return Promise.reject(error);
   }
 );
