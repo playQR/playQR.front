@@ -163,6 +163,9 @@ const Search = (props: Props) => {
         setIsLikeLoading(false);
         }
     };
+    useEffect(()=>{
+        alert('result update')
+    },[results])
 
     const updateLike = async (id: number, value: boolean) => {
         if(isFetching)return;
