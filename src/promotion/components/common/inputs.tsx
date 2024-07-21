@@ -219,7 +219,7 @@ export const CustomDateInput = ({ label, ...props }:any) => {
     }
   };
 
-  const handleDateChange = (e:any) => {
+  const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
   const dateValue = e.target.value;
   alert(dateValue)
   if (dateValue) {
