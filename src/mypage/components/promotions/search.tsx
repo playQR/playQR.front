@@ -70,7 +70,7 @@ const Search = (props: Props) => {
         }, {
             root: null,
             rootMargin: '0px',
-            threshold: 1.0
+            threshold: [0,0.3,1]
         });
 
         if (target.current) {
