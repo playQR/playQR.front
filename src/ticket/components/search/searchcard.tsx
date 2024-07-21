@@ -49,25 +49,27 @@ const SearchCard : React.FC<Props> = (props: Props) => {
           <div className="w-2 h-4 bg-gray-4" style={{ borderRadius: '16px 0 0 16px' }}></div>
         </div>
       </div>
-      <div className="pb-2 px-10px">
-          <div className="flex justify-between items-center">
-            <div className="flex flex-row items-center">
-              <img src={location_icon} alt="calendar" className="w-4 h-4 mr-1"/>
-              <div className="text-text-plain text-pxs">{location}</div>
+      <div className="pb-2 px-10px flex flex-row justify-between items-center">
+        <div className='flex flex-col'>
+            <div className="flex justify-between items-center">
+              <div className="flex flex-row items-center">
+                <img src={location_icon} alt="calendar" className="w-4 h-4 mr-1"/>
+                <div className="text-text-plain text-pxs">{location}</div>
+              </div>
+            </div>
+            <div className="flex flex-row justify-between items-center">
+              <div className="flex flex-row items-center">
+                <img src={calendar_icon} alt="calendar" className="w-4 h-4 mr-1"/>
+                <div className="text-text-plain text-pxs">{date}</div>
+                <div>&nbsp;</div>
+                <div className="text-text-plain text-pxs">{WEEKDAY[new Date(date).getDay()]}</div>
+                <div>&nbsp;</div>
+                <div className="text-text-plain text-pxs">{`${convertStringToDate(startTime)}~`}</div>
+                <div className="text-text-plain text-pxs">{convertStringToDate(endTime)}</div>
+              </div>
             </div>
           </div>
-          <div className="flex flex-row justify-between items-center">
-            <div className="flex flex-row items-center">
-              <img src={calendar_icon} alt="calendar" className="w-4 h-4 mr-1"/>
-              <div className="text-text-plain text-pxs">{date}</div>
-              <div>&nbsp;</div>
-              <div className="text-text-plain text-pxs">{WEEKDAY[new Date(date).getDay()]}</div>
-              <div>&nbsp;</div>
-              <div className="text-text-plain text-pxs">{`${convertStringToDate(startTime)}~`}</div>
-              <div className="text-text-plain text-pxs">{convertStringToDate(endTime)}</div>
-            </div>
-            <div className="text-plg text-primary">{`${entranceFee}₩`}</div>
-          </div>
+          <div className="text-plg text-primary">{`${entranceFee}₩`}</div>
         </div>
       </div>
   )

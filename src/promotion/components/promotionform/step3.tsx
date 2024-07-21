@@ -48,7 +48,6 @@ const Step3 = (props: Props) => {
   const {updateData, getFullPromotionData} = useCreatePromotionStore();
   const {next,currentIndex,prev} = props;
   const [isValid,setIsValid] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false);
   
   const changeIsValid = (value : boolean) => {
@@ -70,7 +69,6 @@ const Step3 = (props: Props) => {
               setTimeout(() => {
                 setSubmitting(false);
               }, 400);
-              alert(JSON.stringify(values, null, 2));
               updateData({ step3 : {billing :values}})
               next();
             }

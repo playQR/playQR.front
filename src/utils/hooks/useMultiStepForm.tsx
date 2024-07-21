@@ -1,8 +1,4 @@
 import {useState,ReactElement} from 'react'
-type ElementProp = {
-    prev  : () => void;
-    next : () => void;
-}
 type StepProp = {
   title: string;
   element: ReactElement;

@@ -10,7 +10,6 @@ const Ticket = (props: Props) => {
         <CustomToast/>
         <Nav/>
         <Title/>
-        {/* <SearchBox/> */}
         <Dashboard/>
     </div>
   )

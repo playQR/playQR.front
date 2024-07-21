@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useLayoutEffect } from 'react';
 import SearchResult from './searchresult';
 import toast from 'react-hot-toast';
 import Loading from '../../../common/loading';
@@ -55,7 +55,7 @@ const Search = (props: Props) => {
     }, [page, stop, isFetching]);
     
     // 페이지가 변경될 때 결과를 가져오기
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!stop) {
             fetchResults();
         }
@@ -69,8 +69,8 @@ const Search = (props: Props) => {
             }
         }, {
             root: null,
-            rootMargin: '100px',
-            threshold: 1.0
+            rootMargin: '300px 0px',
+            threshold: [0,0.3,1]
         });
 
         if (target.current) {
@@ -149,7 +149,7 @@ const Search = (props: Props) => {
                     axiosSemiSecureAPI.post(`/api/likes/promotion/${id}`),
                     {
                         loading: '좋아요 처리중..',
-                        success: <b>좋아요가 완료되었습니다.</b>,
+                        success: <b>좋아요를 눌렀습니다.</b>,
                         error: <b>좋아요를 처리할 수 없습니다.</b>,
                     }
                 );

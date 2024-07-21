@@ -1,6 +1,5 @@
 import {Field, useField,ErrorMessage} from 'formik';
 import {useRef, useState, useEffect, useCallback} from 'react';
-import Calendar, {CalendarProps} from 'react-calendar';
 import {useFormikContext} from 'formik';
 import TextareaAutosize from 'react-textarea-autosize';
 import { axiosAPI } from '../../../axios';
@@ -193,117 +192,151 @@ export const CustomFileInput = ({ label, ...props }: any) => {
     </div>
   );
 };
-export const CustomDateInput = ({label, ...props}:any) => {
+
+export const CustomDateInput = ({ label, ...props }:any) => {
   const [field, meta, helpers] = useField(props);
-  const {initialval} = props;
+  const [formattedDate, setFormattedDate] = useState('');
+  const dateInputRef = useRef<HTMLInputElement>(null);
+  const {initialVal} = props;
+  const { setValue } = helpers;
   const [hasSelected, setHasSelected] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const WEEKDAY = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+
   useEffect(()=>{
-    if(initialval !== ''){
-      setSelectedDate(new Date(initialval));
+    
+    if(initialVal!==''){
+      setSelectedDate(new Date(initialVal));
+      setFormattedDate(formatDateWithWeekday(initialVal))
       setHasSelected(true);
     }
   },[])
-  const handleDateChange: CalendarProps['onChange'] = (value) => {
-    if (value instanceof Date) {
-      setSelectedDate(value);
-      helpers.setValue(value.toISOString().split('T')[0]); // Formik value 설정
-      setShowCalendar(false);
+
+  const handleShowPicker = () => {
+    if (dateInputRef?.current) {
+      dateInputRef?.current.focus();
+      dateInputRef?.current.showPicker();
     }
   };
 
-  const handleButtonClick = () => {
-    helpers.setTouched(true);
-    setShowCalendar(!showCalendar);
+  const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const dateValue = e.target.value;
+    if (dateValue && dateValue !== '') {
+      setHasSelected(true);
+      const formatted = formatDateWithWeekday(dateValue);
+      helpers.setValue(dateValue);
+      setFormattedDate(formatted);
+    }
   };
 
-  const formattedDate = `${selectedDate.toLocaleDateString()} ${WEEKDAY[selectedDate.getDay()]}`;
+  const formatDateWithWeekday = (date : any) => {
+    const dateObject = new Date(date);
+    const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const weekday = weekdays[dateObject.getDay()];
+
+    return `${year}.${month}.${day} ${weekday}`;
+  };
 
   return (
-    <div className="mb-30px">
-      <label htmlFor={props.id || props.name} className='pl-6px text-md font-normal text-system-black'>{label}</label>
-      <br/>
-      <button
-        type="button"
-        className='flex flex-row justify-center items-center rounded-lg border-gray-1 border-1px p-14px mt-10px hover:bg-gray-1'
-        onClick={handleButtonClick}
-      >
-        <div className='flex flex-row justify-center items-center'>
-          <img src={calendar_icon} className='h-4 w-4 mr-6px'></img>
-          {!meta.touched && !hasSelected ? `날짜를 선택해주세요` : formattedDate}
-        </div>
-      </button>
-      {showCalendar && (
-        <div className="calendar-container bg-white w-300px items-center" style={{ position: 'absolute', zIndex: 1000 }}>
-          <Calendar
-            onChange={handleDateChange}
-            value={selectedDate}
-            minDate={new Date(Date.now())}
-          />
-        </div>
-      )}
-      {meta.touched && meta.error ? (
-        <div style={{ color: "red" }}>{meta.error}</div>
-      ) : null}
-    </div>
-  )
 
+      <div className="flex flex-col">
+        <label htmlFor={props.id || props.name} className='text-md font-normal text-system-black mb-3'>{label}</label>
+        <div className="relative mb-3 w-1/2 p-1 border-1px border-gray-200 rounded-lg" onClick={handleShowPicker}>
+          <input
+            ref={dateInputRef}
+            type="date"
+            name="showDate"
+            data-placeholder="날짜 선택"
+            className='date-input border border-gray-300 w-full pl-10 rounded-lg'
+            onChange={handleDateChange}
+            min={new Date().toISOString().split('T')[0]}
+            value={formattedDate === '' || formattedDate ? formattedDate : undefined}
+          />
+          <div className="absolute inset-y-0 left-0 flex w-full items-center cursor-pointer justify-center">
+            <img src={calendar_icon} className="w-5 h-5 text-gray-500" alt="Calendar Icon" />
+            <div className='ml-3 text-md font-normal text-system-black'>
+              {!hasSelected ? "날짜를 선택해주세요" :formattedDate}
+            </div>
+          </div>
+        </div>
+        {meta.touched && meta.error ? <div style={{ color: 'red' }}>{meta.error}</div> : null}
+      </div>
+
+  );
 }
 
 export const CustomDateInputTicket = ({label, ...props}:any) => {
   const [field, meta, helpers] = useField(props);
-  const {initialval} = props;
+  const [formattedDate, setFormattedDate] = useState('');
+  const dateInputRef = useRef<HTMLInputElement>(null);
+  const {initialVal} = props;
+  const { setValue } = helpers;
   const [hasSelected, setHasSelected] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const WEEKDAY = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
-  
-  const handleDateChange: CalendarProps['onChange'] = (value) => {
-    if (value instanceof Date) {
-      setSelectedDate(value);
-      helpers.setValue(value.toISOString().split('T')[0]); // Formik value 설정
-      setShowCalendar(false);
+
+  useEffect(()=>{
+    if(initialVal!==''){
+      setSelectedDate(new Date(initialVal));
+      setFormattedDate(formatDateWithWeekday(initialVal))
+      setHasSelected(true);
+    }
+  },[])
+
+  const handleShowPicker = () => {
+    if (dateInputRef?.current) {
+      dateInputRef?.current.focus();
+      dateInputRef?.current.showPicker();
     }
   };
 
-  const handleButtonClick = () => {
-    helpers.setTouched(true);
-    setShowCalendar(!showCalendar);
+  const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const dateValue = e.target.value;
+    if (dateValue && dateValue !== '') {
+      setHasSelected(true);
+      const formatted = formatDateWithWeekday(dateValue);
+      helpers.setValue(dateValue);
+      setFormattedDate(formatted);
+    }
   };
 
-  const formattedDate = `${selectedDate.toLocaleDateString()} ${WEEKDAY[selectedDate.getDay()]}`;
+  const formatDateWithWeekday = (date : any) => {
+    const dateObject = new Date(date);
+    const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObject.getDate()).padStart(2, '0');
+    const weekday = weekdays[dateObject.getDay()];
+
+    return `${year}.${month}.${day} ${weekday}`;
+  };
 
   return (
-    <div className="mb-30px">
-      <label htmlFor={props.id || props.name} className='pl-6px text-md font-normal text-system-white'>{label}</label>
-      <br/>
-      <button
-        type="button"
-        className='flex flex-row justify-center bg-gray-5 items-center rounded-lg border-gray-1 border-1px p-14px mt-10px hover:bg-gray-4'
-        onClick={handleButtonClick}
-      >
-        <div className='flex flex-row justify-center items-center text-gray-1'>
-          <img src={calendar_icon_white} className='h-4 w-4 mr-6px'></img>
-          {!meta.touched && !hasSelected ? `날짜를 선택해주세요` : formattedDate}
-        </div>
-      </button>
-      {showCalendar && (
-        <div className="calendar-container bg-white w-300px items-center" style={{ position: 'absolute', zIndex: 1000}}>
-          <Calendar
-            onChange={handleDateChange}
-            value={selectedDate}
-            minDate={new Date(Date.now())}
-          />
-        </div>
-      )}
-      {meta.touched && meta.error ? (
-        <div style={{ color: "red" }}>{meta.error}</div>
-      ) : null}
-    </div>
-  )
 
+      <div className="flex flex-col mb-30px">
+        <label htmlFor={props.id || props.name} className='text-md font-normal text-system-white mb-3'>{label}</label>
+        <div className="relative mb-3 w-1/2 border-1px border-gray-200 rounded-lg">
+          <input
+            ref={dateInputRef}
+            type="date"
+            name="showDate"
+            data-placeholder="날짜 선택"
+            className='date-input p-3 border border-gray-300 w-full pl-10 rounded-lg'
+            onChange={handleDateChange}
+            min={new Date().toISOString().split('T')[0]}
+            value={formattedDate === '' || formattedDate === undefined ? formattedDate : undefined}
+          />
+          <div className="absolute inset-y-0 left-0 flex w-full items-center cursor-pointer justify-center">
+            <img src={calendar_icon_white} className="w-5 h-5 text-gray-500" onClick={handleShowPicker} alt="Calendar Icon" />
+            <div className='ml-3 text-md font-normal text-system-white' onClick={handleShowPicker}>
+              {!hasSelected ? "날짜를 선택해주세요" :formattedDate}
+            </div>
+          </div>
+        </div>
+        {meta.touched && meta.error ? <div style={{ color: 'red' }}>{meta.error}</div> : null}
+      </div>
+  );
 }
 
 export const CustomTimeInput = ({ label, ...props }: any) => {
@@ -462,7 +495,7 @@ export const CustomSelectionInput = ({ label, ...props }: any) => {
      <div className='w-full flex flex-col'>
         <label htmlFor="account">{label}</label>
         {isLoading ?<BankLoading text='은행 목록 가져오는 중' isLoading={isLoading}/> : <div className='mt-10px w-full mb-10px'>
-        <Field as="select" name="account" label="은행을 골라주세요" className="p-4 rounded-xl mb-2">
+        <Field as="select" name="bankName" label="은행을 골라주세요" className="p-4 rounded-xl mb-2">
           
           {items.map(item => (
             <option value={item} key={item} className='p-10'>
@@ -470,7 +503,7 @@ export const CustomSelectionInput = ({ label, ...props }: any) => {
             </option>
           ))}
         </Field>
-        <ErrorMessage name="account" component="div" className='text-system-error text-psm'/></div>
+        <ErrorMessage name="bankName" component="div" className='text-system-error text-psm'/></div>
         }
         
     </div>

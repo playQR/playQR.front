@@ -20,7 +20,7 @@ const Result = (props: Props) => {
             <span className='text-lg text-primary font-bold mb-5 text-pxl'>예매가 완료되었습니다.</span>
             <button className ='bg-gray-4 text-pmd text-gray-2 py-10px px-6 rounded-xl'
               onClick={()=>navigate(ticketUrl)} >
-              나의 Ticket 보러가기
+              나의 예매 보러가기
             </button>
       </div>
       

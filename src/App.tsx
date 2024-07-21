@@ -12,7 +12,7 @@ function App() {
       window.Kakao.init(process.env.REACT_APP_KAKAO_SDK_KEY);
     }
     
-    window.Kakao.isInitialized();
+    
     const updateStyle = () => {
       if (window.innerWidth >= width){
         setContainerStyle({
@@ -29,7 +29,7 @@ function App() {
 
     // 처음 로드될 때 스타일 설정
     updateStyle();
- // 윈도우 크기 변경 시 스타일 업데이트
+    // 윈도우 크기 변경 시 스타일 업데이트
     window.addEventListener('resize', updateStyle);
     // 기존 배경 색상을 저장합니다.
     const originalBackgroundColor = document.body.style.backgroundColor;

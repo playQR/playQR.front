@@ -7,7 +7,7 @@ import Step3 from './components/promotionedit/step3'
 import FormNav from './components/promotionedit/formnav'
 import Result from './components/promotionedit/result';
 import store from '../store/store'
-import {axiosSecureAPI }from '../axios'
+import {axiosSemiSecureAPI }from '../axios'
 import { convertMerdian } from '../utils/time'
 import Loading from '../common/loading'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -32,7 +32,7 @@ const PromotionEdit = (props: Props) => {
     const fetchData = async () => {
       setIsLoading(true);
       try{
-        const res = await axiosSecureAPI.get(`/api/promotions/${id}`);
+        const res = await axiosSemiSecureAPI.get(`/api/promotions/${id}`);
         if(res.data.isSuccess){
           const result = convertViewPromotionToPromotionCreate(res.data.result)
           clearData();
@@ -71,7 +71,7 @@ const PromotionEdit = (props: Props) => {
         alert('이미지가 없습니다.')
       }
       try{
-        const result = await axiosSecureAPI.post('/api/images', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+        const result = await axiosSemiSecureAPI.post('/api/images', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
         return result.data.result[0]
       }catch(e){
         alert('이미지 업로드 실패')
@@ -108,7 +108,7 @@ const PromotionEdit = (props: Props) => {
           }
         }
         try{
-          const response = await axiosSecureAPI.put(`/api/promotions/${id}`, refinedPayload);
+          const response = await axiosSemiSecureAPI.put(`/api/promotions/${id}`, refinedPayload);
           if(response.data.isSuccess === true){
             setPromotionUrl(`/promotion/${response.data.result}`)
             clearData();

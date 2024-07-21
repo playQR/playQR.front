@@ -37,17 +37,20 @@ const SearchResult : React.FC<Props> = (props: Props) => {
             return (
                 <div className='w-full'>
                   <SearchCard result={r.promotion}/>
-                  <CommentCard 
-                    result={r.comments}
-                    setIsOpen={setIsOpen}
-                    setCommentId={setCommentId}
-                  />
-                  <Line/>
+                  {r.comments.map((comment) => (
+                      <div className='my-4'>
+                        <CommentCard 
+                            key={comment.id}
+                            result={comment}
+                            setIsOpen={setIsOpen}
+                            setCommentId={setCommentId}
+                        /></div>
+                    ))}
                 </div>
             )
           }) : 
         <div className='flex w-full items-center justify-center'>
-          <p className='text-gray-3'>검색 결과가 없습니다.</p>
+          <p className='text-gray-3'>댓글이 없습니다.</p>
         </div>
       }
       <DeleteModal isOpen={isOpen} setIsOpen={setIsOpen} deleteComment={deleteComment} commentId={commentId} closeModal={closeModal}/>

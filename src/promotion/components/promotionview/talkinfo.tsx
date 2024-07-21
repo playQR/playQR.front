@@ -1,7 +1,7 @@
-import React,{useState ,useRef, useEffect, useCallback} from 'react'
+import React,{useState ,useRef, useEffect, useCallback, useLayoutEffect} from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import { Comment, Member } from '../../types';
-import {axiosSecureAPI, axiosSemiSecureAPI } from '../../../axios';
+import {axiosSemiSecureAPI } from '../../../axios';
 import Loading from '../../../common/loading';
 import { convertformatDate } from '../../../utils/time/index';
 import toast from 'react-hot-toast';
@@ -31,14 +31,15 @@ const TalkInfo = (props: Props) => {
   const {useModalStore} = store;
   const { openModal } = useModalStore();
   const { isAuthenticated,memberInfo } = props;
+  const [maxLength, setMaxLength] = useState(0);
 
   const fetchResults = useCallback(async () => {
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
         try {
-            const res = await axiosSecureAPI.get(`/api/comments/${promotionId}?currentPage=${page}`);
+            const res = await axiosSemiSecureAPI.get(`/api/comments/${promotionId}?currentPage=${page}`);
             const commentResult = res.data.result.commentList;
-            
+            setMaxLength(res.data.result.totalCount)
             if (commentResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
             }
@@ -60,7 +61,7 @@ const TalkInfo = (props: Props) => {
     
 
     // 페이지가 변경될 때 결과를 가져오기
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!stop) {
             fetchResults();
         }
@@ -74,8 +75,8 @@ const TalkInfo = (props: Props) => {
             }
         }, {
             root: null,
-            rootMargin: '100px',
-            threshold: 1.0
+            rootMargin: '300px 0px',
+            threshold: [0,0.3,1]
         });
 
         if (target.current) {
@@ -94,6 +95,7 @@ const TalkInfo = (props: Props) => {
   };
 
   const handleSubmit = async () => {
+    if(message.length === 0)return;
     if(isAuthenticated === false){
       openModal();
     }
@@ -104,14 +106,17 @@ const TalkInfo = (props: Props) => {
             content: message,
           }),
           {
-            loading: 'Posting comment...',
-            success: <b>Comment posted!</b>,
-            error: <b>Could not post comment.</b>,
+            loading: '댓글 게시중...',
+            success: <b>댓글이 게시되었습니다.</b>,
+            error: <b>댓글 게시 실패</b>,
           }
+          
       );
+      setMessage('');
     } catch (e) {
       //console.log(e);
     }
+    
       setComments([]);
       setPage(0);
       setStop(false);
@@ -128,14 +133,15 @@ const TalkInfo = (props: Props) => {
       await toast.promise(
         axiosSemiSecureAPI.delete(`/api/comments/${commentId}`),
         {
-          loading: 'Deleting comment...',
-          success: <b>Comment Deleted!</b>,
-          error: <b>Could not delete comment.</b>,
+          loading: '댓글 삭제중...',
+          success: <b>댓글이 삭제되었습니다.</b>,
+          error: <b>댓글 삭제 실패</b>,
         }
     );
   } catch (e) {
     //console.log(e);
   }
+    
     setComments([]);
     setPage(0);
     setStop(false);
@@ -155,11 +161,11 @@ const TalkInfo = (props: Props) => {
     <div className='w-full flex flex-col mt-5'>
       
       <div className='text-primary text-pxl font-semibold mb-3'>
-        {`응원 Talk ${comments.length}개`}
+        {`응원 Talk ${maxLength}개`}
       </div>
       <div className='w-full flex flex-col mb-34px'>
         <TextareaAutosize
-            className="w-full bg-gray-4 text-gray-3 rounded-t-md p-3 placeholder-gray-3"
+            className="w-full bg-gray-4 rounded-t-md p-3 placeholder-gray-3 text-system-white"
             placeholder="공연을 응원하는 메시지를 남겨보세요!"
             value={message}
             onChange={handleMessageChange}
