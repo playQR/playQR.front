@@ -214,6 +214,7 @@ export const CustomDateInput = ({ label, ...props }:any) => {
 
   const handleShowPicker = () => {
     if (dateInputRef.current) {
+      dateInputRef.current.focus()
       dateInputRef.current.showPicker();
     }
   };
