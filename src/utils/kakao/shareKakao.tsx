@@ -10,9 +10,9 @@ export const shareKakao = (id : number) => {
     try{
       
       kakao.Share.sendScrap({
-      templateId: Number(process.env.REACT_APP_KAKAO_TEMPLATE_ID),
-      requestUrl: process.env.REACT_APP_KAKAO_SHARE_DOMAIN,
-      templateArgs : {
+        templateId: 109531,
+        requestUrl: process.env.REACT_APP_KAKAO_SHARE_DOMAIN,
+        templateArgs : {
         "id" : id,
       }
     });
