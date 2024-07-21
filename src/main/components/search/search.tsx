@@ -26,7 +26,7 @@ const Search = (props: Props) => {
 
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
-        alert(`tried page : ${page}` )
+       
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
         try {
@@ -80,11 +80,11 @@ const Search = (props: Props) => {
                 setResults((prevResults) => [...prevResults, ...likeResult]);
             }
         } catch (err) {
-            alert(`stop`)
+            
             setStop(true); // 에러 발생 시 중지 상태로 설정
             console.error(err);
         } finally {
-            alert(`finished`)
+            
             setIsFetching(false); // 요청 완료 후 isFetching 상태 변경
         }
     }, [query, page, stop]);
@@ -164,12 +164,6 @@ const Search = (props: Props) => {
         setIsLikeLoading(false);
         }
     };
-    useEffect(()=>{
-        alert('result update')
-    },[results])
-    useEffect(()=>{
-        alert('fetchStop')
-    },[isFetching])
 
     const updateLike = async (id: number, value: boolean) => {
         if(isFetching)return;
