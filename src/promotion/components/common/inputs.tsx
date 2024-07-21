@@ -213,16 +213,15 @@ export const CustomDateInput = ({ label, ...props }:any) => {
   },[])
 
   const handleShowPicker = () => {
-    if (dateInputRef.current) {
-      //dateInputRef.current.focus()
-      dateInputRef.current.showPicker();
+    if (dateInputRef?.current) {
+      dateInputRef?.current.focus();
+      dateInputRef?.current.showPicker();
     }
   };
 
   const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
   const dateValue = e.target.value;
-  alert(e.target)
-  if (dateValue) {
+  if (dateValue && dateValue !== '') {
     setHasSelected(true);
     const formatted = formatDateWithWeekday(dateValue);
     helpers.setValue(dateValue);
