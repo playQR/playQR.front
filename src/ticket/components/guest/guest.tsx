@@ -62,7 +62,7 @@ const Guest = (props: Props) => {
             }
         }, {
             root: null,
-            rootMargin: '100px',
+            rootMargin: '0px',
             threshold: 1.0
         });
 

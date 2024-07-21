@@ -46,6 +46,7 @@ axiosSemiSecureAPI.interceptors.request.use(config => {
     config.headers.Authorization = `Bearer ${accessToken}`;
     
   }
+
   return config;
 }, error => {
   handleApiError(error);
@@ -57,16 +58,18 @@ axiosSemiSecureAPI.interceptors.response.use(
   response => response, // 정상 응답이면 그대로 반환
   async error => {
     const originalRequest = error.config;
+    
     if (error.response.status === 400 && !originalRequest._retry) {
+        
         const { refreshToken, refreshTokenExpireTime } = useAuthStorePersist.getState();
         if(refreshToken === null || refreshTokenExpireTime === null){
           useAuthStorePersist.getState().setTokens(null, null,null,null);
-          
-          handleApiError(error)
-          return Promise.reject(error);
+          return new Error('No Token');
         }
         else{
+          
           try {
+            console.log('refreshToken is not null')
             originalRequest._retry = true;
             const tokenResponse = await axiosAPI.post('/api/tokens/reissue', null, {
               params : {
@@ -86,9 +89,7 @@ axiosSemiSecureAPI.interceptors.response.use(
               return Promise.reject(refreshError);
           }
         }
-        
     }else{
-      
       handleApiError(error);
       return Promise.reject(error);
     }
@@ -100,13 +101,15 @@ axiosSecureAPI.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 400 && !originalRequest._retry) {
         const { refreshToken, refreshTokenExpireTime } = useAuthStorePersist.getState();
-        console.log(error.response.status)
+       
         if(refreshToken === null || refreshTokenExpireTime === null){
+          
           useAuthStorePersist.getState().setTokens(null, null,null,null);
           handleApiError(error)
           return Promise.reject(error);
         }
         else{
+          console.log('refreshtoken not null')
           try {
             originalRequest._retry = true;
             const tokenResponse = await axiosAPI.post('/api/tokens/reissue', null, {
@@ -129,8 +132,8 @@ axiosSecureAPI.interceptors.response.use(
         }
         
     }
-    console.log(error)
+    console.log('error')
     handleApiError(error);
-    return Promise.resolve();
+    return Promise.reject();
   }
 );
