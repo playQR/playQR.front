@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react'
 import {axiosSemiSecureAPI} from '../../../axios/index';
 import store from '../../../store/store';
+import axios from 'axios';
+import { handleApiError } from '../../../utils/error';
+
 type Props = {}
 
 const Title = () => {
@@ -35,6 +38,9 @@ const InfoComponent = (props: Props) => {
                 setUser(res.data.result);
                 
             } catch (e) {
+                if(axios.isAxiosError(e)){
+                    handleApiError(e);
+                }
                 useUserStore.getState().setUser(null);
             }
         }

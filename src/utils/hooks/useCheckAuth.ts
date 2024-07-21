@@ -9,29 +9,38 @@ const useCheckAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [memberInfo, setMemberInfo] = useState<Member>({ id: -1, name: '', nickname: '', profileImg: '' });
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  
+  const authenticate = async () => {
+    try {
+      const response = await axiosSemiSecureAPI.get('/api/members');
+      if (response.data?.isSuccess){
+        setIsAuthenticated(true);
+        setMemberInfo(response.data?.result);
+      }else{
+        
+        handleApiError(response.data?.code);
+        setIsAuthenticated(false);
+        setMemberInfo({ id: -1, name: '', nickname: '', profileImg: ''});
+      }
+    } catch (error) {
 
-  useEffect(() => {
-    
-    const authenticate = async () => {
-      try {
-        const {data} = await axiosSemiSecureAPI.get('/api/members');
-        if (data.isSuccess){
-          setIsAuthenticated(true);
-          setMemberInfo(data.result);
+        if(axios.isAxiosError(error)){
+          handleApiError(error);
         }
-          
-      } catch (error) {
-          if(axios.isAxiosError(error)){
-            handleApiError(error)
-          }
+        else{
           handleApiError(error);
           setIsAuthenticated(false);
           setMemberInfo({ id: -1, name: '', nickname: '', profileImg: ''});
-      } finally {
-          setIsLoading(false);
-      }
-    };
+        }
+        
+        
+    } finally {
+        setIsLoading(false);
+    }
+  
+  }
 
+  useEffect(() => {
     authenticate();
   }, []);
 

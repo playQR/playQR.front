@@ -29,10 +29,13 @@ axiosSecureAPI.interceptors.request.use(config => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
+  else{
+    return Promise.reject(new Error('No Token'));
+  }
   return config;
 }, error => {
   handleApiError(error);
-  return Promise.resolve(error);
+  return Promise.reject(error);
 });
 
 axiosSemiSecureAPI.interceptors.request.use(config => {
@@ -46,7 +49,7 @@ axiosSemiSecureAPI.interceptors.request.use(config => {
   return config;
 }, error => {
   handleApiError(error);
-  return Promise.resolve(error);
+  return Promise.reject(error);
 });
 
 // 응답 인터셉터 추가
@@ -60,7 +63,7 @@ axiosSemiSecureAPI.interceptors.response.use(
           useAuthStorePersist.getState().setTokens(null, null,null,null);
           
           handleApiError(error)
-          return Promise.resolve(error);
+          return Promise.reject(error);
         }
         else{
           try {
@@ -80,13 +83,15 @@ axiosSemiSecureAPI.interceptors.response.use(
             return axiosSemiSecureAPI(originalRequest);
           } catch (refreshError) {
               handleApiError(refreshError);
-              return Promise.resolve(refreshError);
+              return Promise.reject(refreshError);
           }
         }
         
+    }else{
+      
+      handleApiError(error);
+      return Promise.reject(error);
     }
-    handleApiError(error);
-    return Promise.resolve();
   }
 );
 axiosSecureAPI.interceptors.response.use(
@@ -124,6 +129,7 @@ axiosSecureAPI.interceptors.response.use(
         }
         
     }
+    console.log(error)
     handleApiError(error);
     return Promise.resolve();
   }
