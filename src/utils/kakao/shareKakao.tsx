@@ -9,12 +9,12 @@ export const shareKakao = (id : number) => {
 
     try{
       
-      kakao.Share.sendScrap({
+      kakao.Share.sendCustom({
         templateId: Number(process.env.REACT_APP_KAKAO_TEMPLATE_ID),
-        requestUrl: process.env.REACT_APP_KAKAO_SHARE_DOMAIN,
         templateArgs : {
         "id" : id,
-      }
+        },
+        installTalk : true
     });
     }catch(e){
       //console.log(e)
