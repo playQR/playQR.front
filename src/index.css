@@ -26,12 +26,12 @@
     appearance: none;
     position: relative;
     padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 100%;
-            /*pointer-events: none;*/ 
-            /*opacity: 0;*/
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    pointer-events: none;
+    opacity: 0;
   }
   .date-input::-webkit-calendar-picker-indicator {
     display: none;
