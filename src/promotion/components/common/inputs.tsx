@@ -221,6 +221,7 @@ export const CustomDateInput = ({ label, ...props }:any) => {
 
   const handleDateChange = (e:any) => {
   const dateValue = e.target.value;
+  alert(dateValue)
   if (dateValue) {
     setHasSelected(true);
     const formatted = formatDateWithWeekday(dateValue);
