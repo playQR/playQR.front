@@ -245,7 +245,7 @@ export const CustomDateInput = ({ label, ...props }:any) => {
 
       <div className="flex flex-col">
         <label htmlFor={props.id || props.name} className='text-md font-normal text-system-black mb-3'>{label}</label>
-        <div className="relative mb-3 w-1/2 border-1px border-gray-200 rounded-lg">
+        <div className="relative mb-3 w-1/2 p-3 border-1px border-gray-200 rounded-lg" onClick={handleShowPicker}>
           <input
             ref={dateInputRef}
             type="date"
