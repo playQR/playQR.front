@@ -31,7 +31,7 @@ export const shareKakao = (id : number) => {
     try{
       
       kakao.Share.sendScrap({
-      templateId: 109927,
+      templateId: process.env.REACT_APP_KAKAO_TEMPLATE_ID,
       requestUrl: "https://band-it-dev.vercel.app/",
       templateArgs : {
         "id" : id,

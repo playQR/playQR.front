@@ -1,6 +1,5 @@
 import {Field, useField,ErrorMessage} from 'formik';
 import {useRef, useState, useEffect, useCallback} from 'react';
-import Calendar, {CalendarProps} from 'react-calendar';
 import {useFormikContext} from 'formik';
 import TextareaAutosize from 'react-textarea-autosize';
 import { axiosAPI } from '../../../axios';
