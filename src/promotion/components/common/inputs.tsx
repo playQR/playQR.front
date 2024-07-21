@@ -259,8 +259,8 @@ export const CustomDateInput = ({ label, ...props }:any) => {
             value={formattedDate ? formattedDate : undefined}
           />
           <div className="absolute inset-y-0 left-0 flex w-full items-center cursor-pointer justify-center">
-            <img src={calendar_icon} className="w-5 h-5 text-gray-500" onClick={handleShowPicker} alt="Calendar Icon" />
-            <div className='ml-3 text-md font-normal text-system-black' onClick={handleShowPicker}>
+            <img src={calendar_icon} className="w-5 h-5 text-gray-500" alt="Calendar Icon" />
+            <div className='ml-3 text-md font-normal text-system-black'>
               {!hasSelected ? "날짜를 선택해주세요" :formattedDate}
             </div>
           </div>
