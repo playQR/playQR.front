@@ -75,7 +75,7 @@ const TalkInfo = (props: Props) => {
             }
         }, {
             root: null,
-            rootMargin: '0px',
+            rootMargin: '300px 0px',
             threshold: [0,0.3,1]
         });
 
