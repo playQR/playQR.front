@@ -221,7 +221,7 @@ export const CustomDateInput = ({ label, ...props }:any) => {
 
   const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
   const dateValue = e.target.value;
-  alert(dateValue)
+  alert(e.target)
   if (dateValue) {
     setHasSelected(true);
     const formatted = formatDateWithWeekday(dateValue);
@@ -247,13 +247,13 @@ export const CustomDateInput = ({ label, ...props }:any) => {
 
       <div className="flex flex-col">
         <label htmlFor={props.id || props.name} className='text-md font-normal text-system-black mb-3'>{label}</label>
-        <div className="relative mb-3 w-1/2 p-3 border-1px border-gray-200 rounded-lg" onClick={handleShowPicker}>
+        <div className="relative mb-3 w-1/2 p-1 border-1px border-gray-200 rounded-lg" onClick={handleShowPicker}>
           <input
             ref={dateInputRef}
             type="date"
             name="showDate"
             data-placeholder="날짜 선택"
-            className='date-input p-3 border border-gray-300 w-full pl-10 rounded-lg'
+            className='date-input border border-gray-300 w-full pl-10 rounded-lg'
             onChange={handleDateChange}
             min={new Date().toISOString().split('T')[0]}
             value={formattedDate ? formattedDate : undefined}
