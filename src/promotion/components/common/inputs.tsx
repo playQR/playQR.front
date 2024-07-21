@@ -203,7 +203,7 @@ export const CustomDateInput = ({ label, ...props }:any) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   useEffect(()=>{
-    console.log(initialVal)
+    
     if(initialVal!==''){
       setSelectedDate(new Date(initialVal));
       setFormattedDate(formatDateWithWeekday(initialVal))
@@ -277,7 +277,6 @@ export const CustomDateInputTicket = ({label, ...props}:any) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   useEffect(()=>{
-    console.log(initialVal)
     if(initialVal!==''){
       setSelectedDate(new Date(initialVal));
       setFormattedDate(formatDateWithWeekday(initialVal))

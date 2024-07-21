@@ -14,7 +14,7 @@ type Props = {
 const searchresult : React.FC<Props>= (props: Props) => {
 
   const result : PromotionCard[]= props.results
-  const {updateLike ,isAuthenticated,isLoading} = props;
+  const {updateLike} = props;
   return (
     <div className='flex flex-col w-full space-y-5 items-center justify-center'>
       {

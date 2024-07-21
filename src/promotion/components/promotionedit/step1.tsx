@@ -8,8 +8,6 @@ type Props = {
   next : () => void;
   currentIndex : number;
 }
-
-
 type CheckProps = {
   isValidTime : boolean;
   changeIsValid: (arg:boolean) => void;

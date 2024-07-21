@@ -76,10 +76,6 @@ const Step1 = (props: Props) => {
   }
   const [initialVal, setInitialVal] = useState<IFormInput>(getFullPromotionData().step1);
 
-  useEffect(()=>{
-    console.log(initialVal)
-  },[])
-
   return (
     <div className='w-full bg-system-white p-4'>
       <Formik
@@ -89,7 +85,6 @@ const Step1 = (props: Props) => {
           setTimeout(() => {
             setSubmitting(false);
           }, 400);
-          console.log(values)
           updateData({ step1: values });
           next();
         }}>

@@ -53,12 +53,6 @@ const KakaoModal = (props: Props) => {
             로그인을 해주세요
           </div>
           <img src={kakao_login} onClick={onClick} className='h-45px w-full object-cover rounded-md mt-5'/>
-          {/* <button
-            onClick={() => closeModal()}
-            className="bg-primary text-white text-400 text-lg rounded-lg mt-4 px-4 py-2"
-          >
-            확인
-          </button> */}
         </div>
       </Modal>)
 }
