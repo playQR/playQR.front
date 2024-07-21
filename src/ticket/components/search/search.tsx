@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useLayoutEffect } from 'react'
 import SearchResult from './searchresult';
 import { axiosSemiSecureAPI } from '../../../axios';
 import { PromotionCard } from '../../../promotion/types/common';
@@ -74,7 +74,7 @@ const Search = (props: Props) => {
     }, [page, fetchResults, stop]);
 
     // 무한 스크롤을 위해 타겟 요소를 감시
-    useEffect(() => {
+    useLayoutEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting && !isFetching && !stop) {
                 setPage((prevPage) => prevPage + 1);

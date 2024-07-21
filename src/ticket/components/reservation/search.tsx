@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback, useLayoutEffect } from 'react'
 import SearchResult from './searchresult';
 import { axiosSemiSecureAPI } from '../../../axios';
 import Loading from '../../../common/loading';
@@ -43,7 +43,7 @@ const Search = (props: Props) => {
     }, [page, stop]);
     
     // 페이지가 변경될 때 결과를 가져오기
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!stop) {
             fetchResults();
         }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useRef, useState, useCallback, useLayoutEffect } from 'react'
 import SearchBox from './searchbox';
 import SearchResult from './searchresult';
 import { axiosAPI,axiosSemiSecureAPI } from '../../../axios';
@@ -26,7 +26,7 @@ const Search = (props: Props) => {
 
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
-        alert('tried')
+        alert(`tried page : ${page}` )
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
         try {
@@ -66,8 +66,6 @@ const Search = (props: Props) => {
                     }
                 }
                 catch(e){
-                    
-                    //console.log(e);
                 }
             });
             const likeResult = await Promise.all(likeResultPromises);
@@ -100,8 +98,11 @@ const Search = (props: Props) => {
     
 
     // 페이지가 변경될 때 결과를 가져오기
-    useEffect(() => {
+    // useLayoutEffect를 사용한 이유
+    // safari 브라우저의 기이한 렌더링 방식
+    useLayoutEffect(() => {
         if (!stop) {
+
             fetchResults();
         }
     }, [page, fetchResults, stop]);
@@ -114,8 +115,8 @@ const Search = (props: Props) => {
             }
         }, {
            
-            rootMargin:'300px 0px',
-            threshold: [0,0.3,1]
+            rootMargin:'0px 0px',
+            threshold:0.9
         });
 
         if (target.current) {
@@ -166,6 +167,9 @@ const Search = (props: Props) => {
     useEffect(()=>{
         alert('result update')
     },[results])
+    useEffect(()=>{
+        alert('fetchStop')
+    },[isFetching])
 
     const updateLike = async (id: number, value: boolean) => {
         if(isFetching)return;
@@ -214,7 +218,7 @@ const Search = (props: Props) => {
         <div className='flex flex-col h-full w-full mt-5'>
             <SearchBox value={query} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)} />
             <SearchResult results={results} updateLike={updateLike} isAuthenticated={isAuthenticated} isLoading={isLoading}/>
-            <div ref={target} style={{ height: '1px' }}></div>
+            <div ref={target}></div>
             {isFetching && <Loading text={"프로모션을 가져오는 중입니다."} isLoading={isFetching}/>}
         </div>
     )

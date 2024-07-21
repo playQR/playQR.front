@@ -1,4 +1,4 @@
-import React,{useState ,useRef, useEffect, useCallback} from 'react'
+import React,{useState ,useRef, useEffect, useCallback, useLayoutEffect} from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import { Comment, Member } from '../../types';
 import {axiosSemiSecureAPI } from '../../../axios';
@@ -61,7 +61,7 @@ const TalkInfo = (props: Props) => {
     
 
     // 페이지가 변경될 때 결과를 가져오기
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!stop) {
             fetchResults();
         }
