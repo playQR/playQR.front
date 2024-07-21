@@ -220,16 +220,14 @@ export const CustomDateInput = ({ label, ...props }:any) => {
   };
 
   const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-  const dateValue = e.target.value;
-  if (dateValue && dateValue !== '') {
-    setHasSelected(true);
-    const formatted = formatDateWithWeekday(dateValue);
-    helpers.setValue(dateValue);
-    setFormattedDate(formatted);
-  } else {
-    setFormattedDate('');
-  }
-};
+    const dateValue = e.target.value;
+    if (dateValue && dateValue !== '') {
+      setHasSelected(true);
+      const formatted = formatDateWithWeekday(dateValue);
+      helpers.setValue(dateValue);
+      setFormattedDate(formatted);
+    }
+  };
 
   const formatDateWithWeekday = (date : any) => {
     const dateObject = new Date(date);
