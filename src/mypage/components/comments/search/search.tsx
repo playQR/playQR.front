@@ -9,24 +9,19 @@ type Props = {}
 
 
 const Search = (props: Props) => {
-    // const [query, setQuery] = useState("");
     const [results, setResults] = useState<PromotionCommentCard[]>([]);
     const target = useRef<HTMLDivElement | null>(null);
     const [isFetching, setIsFetching] = useState(false);
-    const [stop, setStop] = useState(false);
-    const [page, setPage] = useState(0); // 현재 페이지를 추적
     const [isOpen, setIsOpen] = useState(false);
     const [commentId, setCommentId] = useState<number>(-1);
     const closeModal = () => {
         setIsOpen(false)
     }
-    // 검색 결과를 가져오는 함수
-    const fetchResults = useCallback(async () => {
-        if (isFetching || stop) return;
+    const fetchResults = async () => {
+        if (isFetching) return;
         setIsFetching(true);
-
         try {
-            const res = await axiosSemiSecureAPI.get(`/api/comments/my?currentPage=${page}`);
+            const res = await axiosSemiSecureAPI.get(`/api/comments/my`);
             const commentList = res.data.result.commentList;
 
             const promotionIds = commentList.map((comment: any) => comment.promotionId);
@@ -48,23 +43,14 @@ const Search = (props: Props) => {
                 },
                 comments: commentList.filter((comment: any) => comment.promotionId === promotion.promotionId)
             }));
-
-            if (promotionCommentList.length === 0) {
-                setStop(true);
-            } else {
-                if (promotionCommentList.length > 0 && promotionCommentList.length < 10) {
-                    setStop(true);
-                }
-                console.log(promotionCommentList)
-                setResults((prevResults) => [...prevResults, ...promotionCommentList]);
-            }
+            
+           setResults((prevResults) => [...prevResults, ...promotionCommentList]);
         } catch (err) {
-            setStop(true);
             console.error(err);
         } finally {
             setIsFetching(false);
         }
-    }, [page, stop]);
+    };
     
     const deleteComment = async () =>{
         try{
@@ -81,42 +67,14 @@ const Search = (props: Props) => {
             //console.log(e);
         }finally{
             setResults([]);
-            setPage(0);
-            setStop(false);
             setCommentId(-1);
             closeModal();
-        }
-    }
-    // 페이지가 변경될 때 결과를 가져오기
-    useEffect(() => {
-        if (!stop) {
             fetchResults();
         }
-    }, [page, fetchResults, stop]);
-
-    // 무한 스크롤을 위해 타겟 요소를 감시
-    useEffect(() => {
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !isFetching && !stop) {
-                setPage((prevPage) => prevPage + 1);
-            }
-        }, {
-            root: null,
-            rootMargin: '100px',
-            threshold: 1.0
-        });
-
-        if (target.current) {
-            observer.observe(target.current);
-        }
-
-        return () => {
-            if (target.current) {
-                observer.unobserve(target.current);
-            }
-        };
-    }, [isFetching, stop]);
-
+    }
+    useEffect(()=>{
+        fetchResults()
+    },[])
     return (
         <div className='flex flex-col h-full w-full mt-5'>
             <SearchResult 

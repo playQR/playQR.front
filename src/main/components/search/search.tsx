@@ -7,6 +7,7 @@ import Loading from '../../../common/loading';
 import toast from 'react-hot-toast'
 import useCheckAuth from '../../../utils/hooks/useCheckAuth';
 import store from '../../../store/store';
+import { handleApiError } from '../../../utils/error';
 
 type Props = {}
 
@@ -44,21 +45,27 @@ const Search = (props: Props) => {
                     const response = await axiosAPI.get(`/api/likes/promotion/${promotion.promotionId}/count`);
                     if(response.data.isSuccess){
                        likeCount = response.data.result;
-                        
-                        try{
-                            const response = await axiosSemiSecureAPI.get(`/api/likes/promotion/${promotion.promotionId}`);
-                            if(response.data.isSuccess){
-                                return {...promotion, like : response.data.result, likecount : likeCount};
+                        if(isAuthenticated){
+                            try{
+                                const response = await axiosSemiSecureAPI.get(`/api/likes/promotion/${promotion.promotionId}`);
+                                if(response.data.isSuccess){
+                                    return {...promotion, like : response.data.result, likecount : likeCount};
+                                }
+                            }catch(e){
+                                return {...promotion, like : false, likecount : likeCount};
+                                //console.log(e)
                             }
-                        }catch(e){
-                            return {...promotion, like : false, likecount : likeCount};
-                            //console.log(e)
+                        }
+                        else{
+                            handleApiError(response.data)
+                            return {...promotion, like : false, likecount : likeCount}
                         }
                     }else{
                         return {...promotion, like : false, likecount : 0};
                     }
                 }
                 catch(e){
+                    
                     //console.log(e);
                 }
             });
@@ -182,7 +189,7 @@ const Search = (props: Props) => {
                     axiosSemiSecureAPI.post(`/api/likes/promotion/${id}`),
                     {
                         loading: '좋아요 처리중..',
-                        success: <b>좋아요가 완료되었습니다.</b>,
+                        success: <b>좋아요를 눌렀습니다.</b>,
                         error: <b>좋아요를 처리할 수 없습니다.</b>,
                     }
                 );

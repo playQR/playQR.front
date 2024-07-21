@@ -93,7 +93,7 @@ const Step1 = (props: Props) => {
           <CustomTextInput label='밴드명을 알려주세요' name='team' type='text' placeholder='밴드명 공백 포함 15자' />
           <CustomTextInput label='공연명을 알려주세요' name='title' type='text' placeholder='공연명 공백 포함 15자' />
           <CustomFileInput label='공연 포스터를 업로드 해주세요' name='imageList' type='file' placeholder='공연 포스터를 업로드 해주세요' initialval={initialVal.imageList}/>
-          <CustomDateInput label='공연 일정을 알려주세요' name='showDate' type='text' placeholder='공연 일정을 알려주세요' initialval={initialVal.showDate}/>
+          <CustomDateInput label='공연 일정을 알려주세요' name='showDate' type='text' placeholder='공연 일정을 알려주세요' initialVal={initialVal.showDate}/>
           <CustomTimeInput label='공연 시간을 알려주세요' name='time' type='text' placeholder='공연 시간을 알려주세요' setIsValidTime={setIsValidTime} initialval={initialVal.time}/>
           <CustomTextInput label='공연장 위치를 알려주세요' name='showLocation' type='text' placeholder='정확한 위치를 입력해주세요' initialval = {initialVal.showLocation} />
           <CustomTextInput label='관객 수를 알려주세요' name='maxAudience' type='number' placeholder='숫자로 입력해주세요' initialval = {initialVal.maxAudience} />

@@ -43,7 +43,7 @@ const SearchResult : React.FC<Props> = (props: Props) => {
               
           }) : 
         <div className='flex w-full items-center justify-center'>
-          <p className='text-gray-3'>검색 결과가 없습니다.</p>
+          <p className='text-gray-3'>등록한 공연이 없습니다.</p>
         </div>
       }
       <DeleteModal isOpen={isOpen} setIsOpen={setIsOpen} deletePromotion={deletePromotion}/>

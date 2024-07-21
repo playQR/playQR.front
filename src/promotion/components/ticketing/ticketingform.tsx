@@ -119,7 +119,7 @@ export const TicketingForm = (props : Prop) => {
                 <Field name="ticketCount" component={CustomCouterSwitch} />
               </div>
             </div>
-            <CustomDateInputTicket label='입금한 날짜' name='showDate' type='date' initialval={null} />
+            <CustomDateInputTicket label='입금한 날짜' name='showDate' type='date' initialVal={''}/>
             <CustomTextInputDark label='입금자명' name='depositor' type='text' placeholder='입금자명을 입력해주세요' initialval={null} />
           </div>
           <BottomButton disabled={!(isValid && dirty)} />

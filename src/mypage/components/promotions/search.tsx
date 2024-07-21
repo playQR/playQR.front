@@ -149,7 +149,7 @@ const Search = (props: Props) => {
                     axiosSemiSecureAPI.post(`/api/likes/promotion/${id}`),
                     {
                         loading: '좋아요 처리중..',
-                        success: <b>좋아요가 완료되었습니다.</b>,
+                        success: <b>좋아요를 눌렀습니다.</b>,
                         error: <b>좋아요를 처리할 수 없습니다.</b>,
                     }
                 );

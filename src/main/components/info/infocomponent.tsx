@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {axiosSecureAPI} from '../../../axios/index';
+import {axiosSemiSecureAPI} from '../../../axios/index';
 import store from '../../../store/store';
 type Props = {}
 
@@ -30,12 +30,12 @@ const InfoComponent = (props: Props) => {
         if (accessToken!==null && accessTokenExpireTime!==null) {
             try {
                
-                const res = await axiosSecureAPI.get('/api/members');
+                const res = await axiosSemiSecureAPI.get('/api/members');
                 useUserStore.getState().setUser(res.data.result);
                 setUser(res.data.result);
                 
             } catch (e) {
-                //console.log(e);
+                useUserStore.getState().setUser(null);
             }
         }
     }

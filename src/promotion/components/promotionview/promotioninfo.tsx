@@ -54,7 +54,9 @@ const PromotionInfo = (props: Props) => {
   const [isLeft, setIsLeft] = React.useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLikeLoading, setIsLikeLoading] = useState<boolean>(false);
-  
+  const [preview, setPreview] = useState<string| null>(null);
+  const [showFullScreen, setShowFullScreen] = useState<boolean>(false);
+  const [currentPreview, setCurrentPreview] = useState<string | null>(null);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -111,6 +113,7 @@ const PromotionInfo = (props: Props) => {
     }
     finally{
       setIsLoading(false);
+      setPreview(imageList[0]);
     }
   };
   const updateLikeStatus = async (musicId: number) => {
@@ -219,15 +222,20 @@ const PromotionInfo = (props: Props) => {
   return (
     props.isLoading ? <Loading isLoading={props.isLoading} text={'정보를 가져오는 중입니다.'}/> :
     <div className='w-full'>
-      <img className='mt-18px w-full h-350px object-cover' src={imageList !== undefined ? imageList[0] : sample_image_lg}/>
+      <img className='mt-18px w-full h-350px object-cover'
+        onClick={() => {
+                  setCurrentPreview(preview);
+                  setShowFullScreen(true);
+                }}
+       src={imageList !== undefined ? imageList[0] : sample_image_lg}/>
       
-        <div className='w-full mt-10px mx-6px'>
-          <div className='text-plg text-system-white'>{team}</div>
-          <div className='w-full flex flex-row align-top justify-between'>
-            <div className='text-ptitle font-semibold text-system-white'>{title}</div>
-            <img src={share_icon} className='w-6 h-6' onClick={onShareClick}></img>
-           </div>
-        </div>
+      <div className='w-full mt-10px'>
+        <div className='text-plg text-system-white'>{team}</div>
+        <div className='w-full flex flex-row align-top justify-between'>
+          <div className='text-ptitle font-semibold text-system-white'>{title}</div>
+          <img src={share_icon} className='w-8 h-8' onClick={onShareClick}></img>
+          </div>
+      </div>
         
      
       <div className="flex flex-row items-center justify-between">
@@ -281,6 +289,20 @@ const PromotionInfo = (props: Props) => {
             memberInfo={memberInfo}/>
         )
       }
+      {showFullScreen && currentPreview && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <button
+            className="absolute top-4 right-4 text-white text-2xl"
+            onClick={() => {
+              setShowFullScreen(false);
+              setCurrentPreview(null);
+            }}
+          >
+            X
+          </button>
+          <img src={currentPreview} alt="fullscreen preview" className="max-w-full max-h-full" />
+        </div>
+      )}
     </div>
   );
 }

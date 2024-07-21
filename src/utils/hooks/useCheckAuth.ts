@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { axiosSemiSecureAPI } from '../../axios/index';
 import { Member } from '../../promotion/types/common';
+import { handleApiError } from '../error';
+import axios from 'axios';
 
 
 const useCheckAuth = () => {
@@ -12,12 +14,17 @@ const useCheckAuth = () => {
     
     const authenticate = async () => {
       try {
-        const response = await axiosSemiSecureAPI.get('/api/members');
-        
-        if (response.data.isSuccess === false) throw new Error('Not authenticated.');
+        const {data} = await axiosSemiSecureAPI.get('/api/members');
+        if (data.isSuccess){
           setIsAuthenticated(true);
-          setMemberInfo(response.data.result);
+          setMemberInfo(data.result);
+        }
+          
       } catch (error) {
+          if(axios.isAxiosError(error)){
+            handleApiError(error)
+          }
+          handleApiError(error);
           setIsAuthenticated(false);
           setMemberInfo({ id: -1, name: '', nickname: '', profileImg: ''});
       } finally {

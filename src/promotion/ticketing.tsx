@@ -12,7 +12,7 @@ import Footer from '../common/components/footer'
 import Warning from './components/common/warning'
 import Loading from '../common/loading'
 import Result from './components/ticketing/result'
-import { axiosSecureAPI } from '../axios'
+import { axiosSemiSecureAPI } from '../axios'
 import Line from '../common/components/line/line'
 type Props = {
 }
@@ -83,7 +83,7 @@ const Ticketing = (props: Props) => {
     const onSubmit = async (values : Request) => {
         setIsSubmitting(true);
         try{
-          const res = await axiosSecureAPI.post(`/api/guests/${id}`,
+          const res = await axiosSemiSecureAPI.post(`/api/guests/${id}`,
             values
           )
           if(res.data.isSuccess){ 
