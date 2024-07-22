@@ -10,12 +10,12 @@ const Title = () => {
     return (
         <div className='font-bold'>
             <div className ='text-system-white text-ptitle'>
-                    그리고, 우리 둘
+                    공연의 시작부터
                 </div>
             <div className = 'flex flex-row'>
-                <div className ='text-primary text-ptitle text-700'>아무 말 없이&nbsp;</div>
+                <div className ='text-primary text-ptitle text-700'>마지막까지&nbsp;</div>
                 <div> </div>
-                <div className ='text-system-white text-ptitle'> 나란히</div>
+                <div className ='text-system-white text-ptitle'>Play QR</div>
             </div>
         </div>
     )
