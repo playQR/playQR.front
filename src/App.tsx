@@ -1,8 +1,9 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect,useState } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from "@vercel/analytics/react"
 function App() {
-  const width = 640;
+  const width = 960;
     const [containerStyle, setContainerStyle] = useState({
     width: `${width}px`,
     margin: '0 auto',
@@ -49,6 +50,8 @@ function App() {
       
       <Outlet/>
       <SpeedInsights/>
+      <Analytics/>
+      
     </div>
       
   );

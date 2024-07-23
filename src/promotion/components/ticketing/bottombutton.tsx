@@ -10,7 +10,7 @@ const backgroundStyle = {
 const BottomButton = ({ disabled }: { disabled: boolean }) => {
   return (
     
-    <div style={backgroundStyle} className='fixed w-full sm:w-640px bottom-0 h-100px -mx-4'>
+    <div style={backgroundStyle} className='fixed w-full sm:w-960px bottom-0 h-100px -mx-4'>
         <div className='flex h-full justify-end items-end px-4 pb-54px flex-end'>
              <button
                 type="submit"
