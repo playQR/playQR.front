@@ -46,11 +46,13 @@ const Search = (props: Props) => {
                     const response = await axiosAPI.get(`/api/likes/promotion/${promotion.promotionId}/count`);
                     if(response.data.isSuccess){
                        likeCount = response.data.result;
-                        if(isAuthenticated){
+                        if(!isLoading && isAuthenticated){
                             try{
                                 const response = await axiosSemiSecureAPI.get(`/api/likes/promotion/${promotion.promotionId}`);
                                 if(response.data.isSuccess){
                                     return {...promotion, like : response.data.result, likecount : likeCount};
+                                }else{
+                                    return {...promotion, like : false, likecount : likeCount};
                                 }
                             }catch(e){
                                 return {...promotion, like : false, likecount : likeCount};
@@ -87,7 +89,7 @@ const Search = (props: Props) => {
             
             setIsFetching(false); // 요청 완료 후 isFetching 상태 변경
         }
-    }, [query, page, stop]);
+    }, [query, page, stop, isLoading,isAuthenticated]);
 
     // 쿼리가 변경될 때 새로운 결과를 가져오기
     useEffect(() => {
@@ -100,13 +102,7 @@ const Search = (props: Props) => {
     // 페이지가 변경될 때 결과를 가져오기
     // useLayoutEffect를 사용한 이유
     // safari 브라우저의 기이한 렌더링 방식
-    useLayoutEffect(() => {
-        if (!stop) {
-
-            fetchResults();
-        }
-    }, [page, fetchResults, stop]);
-
+    
     // 무한 스크롤을 위해 타겟 요소를 감시
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
@@ -144,7 +140,8 @@ const Search = (props: Props) => {
             const responseLikeStatus = await axiosSemiSecureAPI.get(`/api/likes/promotion/${id}`);
             promotionLike = responseLikeStatus.data.isSuccess ? responseLikeStatus.data.result : false;
             } catch (error) {
-            promotionLike = false;
+                console.log(error)
+                promotionLike = false;
             }
         }
         setResults((prevResults) => {
@@ -172,14 +169,14 @@ const Search = (props: Props) => {
             setIsLikeLoading(true);
             if (value) {
                 try {
-                    await toast.promise(
+                    const response = await toast.promise(
                     axiosSemiSecureAPI.delete(`/api/likes/promotion/${id}`),
                     {
                         loading: '좋아요 처리중..',
                         success: <b>좋아요가 취소되었습니다.</b>,
                         error: <b>좋아요를 처리할 수 없습니다.</b>,
-                    }
-                );
+                    });
+                   
                 } catch (e) {
                 //console.log(e);
                 }
@@ -207,6 +204,13 @@ const Search = (props: Props) => {
             openModal();
         }
     }
+    useLayoutEffect(() => {
+        if (!stop) {
+
+            fetchResults();
+        }
+    }, [page, fetchResults, stop]);
+
     
     return (
         <div className='flex flex-col h-full w-full mt-5'>
