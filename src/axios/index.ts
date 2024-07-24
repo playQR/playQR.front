@@ -69,7 +69,6 @@ axiosSemiSecureAPI.interceptors.response.use(
         else{
           
           try {
-            console.log('refreshToken is not null')
             originalRequest._retry = true;
             const tokenResponse = await axiosAPI.post('/api/tokens/reissue', null, {
               params : {
@@ -109,7 +108,6 @@ axiosSecureAPI.interceptors.response.use(
           return Promise.reject(error);
         }
         else{
-          console.log('refreshtoken not null')
           try {
             originalRequest._retry = true;
             const tokenResponse = await axiosAPI.post('/api/tokens/reissue', null, {
@@ -132,7 +130,7 @@ axiosSecureAPI.interceptors.response.use(
         }
         
     }
-    console.log('error')
+    //console.log('error')
     handleApiError(error);
     return Promise.reject();
   }
