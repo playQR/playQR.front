@@ -1,4 +1,4 @@
-import "./instrument";
+import * as Sentry from "@sentry/react";
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -22,7 +22,7 @@ import Comments from './mypage/comments';
 import TicketLogin from './routes/ticketlogin';
 import ConfimationRoute from './routes/confirmationroute';
 import ViewReservation from './ticket/components/viewreservation';
-import * as Sentry from "@sentry/react";
+
 
 declare global {
   interface Window {
