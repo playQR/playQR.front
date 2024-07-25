@@ -27,16 +27,11 @@ import ViewReservation from './ticket/components/viewreservation';
 
 Sentry.init({
   dsn: `${process.env.REACT_APP_SENTRY_DSN}`,
+  environment: "production",
   integrations: [
     Sentry.browserTracingIntegration(),
-    Sentry.browserApiErrorsIntegration({
-      setTimeout: true,
-      setInterval: true,
-      requestAnimationFrame: true,
-      XMLHttpRequest: true,
-      eventTarget: true
-    }),
-    Sentry.captureConsoleIntegration()
+    Sentry.captureConsoleIntegration(),
+    Sentry.contextLinesIntegration()
   ],
   // Performance Monitoring
   tracesSampleRate: 1.0, //  Capture 100% of the transactions
