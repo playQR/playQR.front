@@ -24,16 +24,19 @@ import ConfimationRoute from './routes/confirmationroute';
 import ViewReservation from './ticket/components/viewreservation';
 
 
-declare global {
-  interface Window {
-    Kakao: any;
-  }
-}
+
 Sentry.init({
   dsn: `${process.env.REACT_APP_SENTRY_DSN}`,
   integrations: [
-
-    Sentry.replayIntegration(),
+    Sentry.browserTracingIntegration(),
+    Sentry.browserApiErrorsIntegration({
+      setTimeout: true,
+      setInterval: true,
+      requestAnimationFrame: true,
+      XMLHttpRequest: true,
+      eventTarget: true
+    }),
+    Sentry.captureConsoleIntegration()
   ],
   // Performance Monitoring
   tracesSampleRate: 1.0, //  Capture 100% of the transactions
@@ -41,6 +44,12 @@ Sentry.init({
   replaysSessionSampleRate: 1.0, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
   replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 });
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
