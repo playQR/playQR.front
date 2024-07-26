@@ -66,6 +66,7 @@ const Search = (props: Props) => {
                     }
                 }
                 catch(e){
+                    return {...promotion, like : false, likecount : 0};
                 }
             });
             const likeResult = await Promise.all(likeResultPromises);
@@ -100,9 +101,9 @@ const Search = (props: Props) => {
     // 페이지가 변경될 때 결과를 가져오기
     // useLayoutEffect를 사용한 이유
     // safari 브라우저의 기이한 렌더링 방식
+    // 때문에 들어가는 순간 자꾸 page가 1로 초기화되는 문제가 발생
     useLayoutEffect(() => {
         if (!stop) {
-
             fetchResults();
         }
     }, [page, fetchResults, stop]);
