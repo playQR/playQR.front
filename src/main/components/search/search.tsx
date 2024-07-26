@@ -88,7 +88,7 @@ const Search = (props: Props) => {
             
             setIsFetching(false); // 요청 완료 후 isFetching 상태 변경
         }
-    }, [query, page, stop]);
+    }, [query, page, stop, isAuthenticated]);
 
     // 쿼리가 변경될 때 새로운 결과를 가져오기
     useEffect(() => {
