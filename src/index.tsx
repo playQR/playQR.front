@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/react";
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -21,13 +22,29 @@ import Comments from './mypage/comments';
 import TicketLogin from './routes/ticketlogin';
 import ConfimationRoute from './routes/confirmationroute';
 import ViewReservation from './ticket/components/viewreservation';
-import { SpeedInsights } from '@vercel/speed-insights/react';
+
+
+
+Sentry.init({
+  dsn: `${process.env.REACT_APP_SENTRY_DSN}`,
+  environment: "production",
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.captureConsoleIntegration(),
+    Sentry.contextLinesIntegration()
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Session Replay
+  replaysSessionSampleRate: 1.0, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
+
 declare global {
   interface Window {
     Kakao: any;
   }
 }
-
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

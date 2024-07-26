@@ -1,9 +1,11 @@
 {
   "name": "play-barcode",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
+    "@sentry/cli": "^2.33.0",
+    "@sentry/react": "^8.19.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -15,11 +17,13 @@
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18.3.0",
     "@types/react-modal": "^3.16.3",
+    "@vercel/analytics": "^1.3.1",
     "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.7.2",
     "formik": "^2.4.6",
     "http-proxy-middleware": "^3.0.0",
     "js-cookie": "^3.0.5",
+    "play-barcode": "link:",
     "qr-code-styling": "1.6.0-rc.1",
     "react": "^18.3.1",
     "react-beautiful-dnd": "^13.1.1",
@@ -43,9 +47,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build --mode production",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build --mode production && pnpm sentry:sourcemaps",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org inha-univ-cse --project play-qr ./build && sentry-cli sourcemaps upload --org inha-univ-cse --project play-qr ./build"
   },
   "eslintConfig": {
     "extends": [
