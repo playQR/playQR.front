@@ -3,11 +3,11 @@ import calendar_icon from '../../img/calendar_icon.png';
 import location_icon from '../../img/location_icon.png';
 import checker_img from '../../img/checker_img.png';
 import { useNavigate } from 'react-router-dom';
-import { PromotionCard } from '../../../promotion/types/common';
+import { PromotionCardV2 } from '../../../promotion/types/common';
 import { convertStringToDate } from '../../../utils/time';
 import LikeButton from '../../../common/components/buttons/like_button';
 type Props = {
-  result: PromotionCard,
+  result: PromotionCardV2,
   updateLike: (id:number, value:boolean) => void;
 }
 
@@ -25,8 +25,7 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     startTime,
     endTime,
     entranceFee,
-    like,
-    likecount,
+    boardLikeDto: boardLikeInfo
   } = props.result
   const {updateLike} = props;
 
@@ -36,15 +35,15 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     navigate(`/promotion/${promotionId}`);
   }
   return (
-    <div onClick={onClick} className="min-w-full mx-auto min-h-1/4 bg-white rounded-lg shadow-md overflow-hidden relative">
+    <div onClick={onClick} className="relative min-w-full mx-auto overflow-hidden bg-white rounded-lg shadow-md min-h-1/4">
       <div className="relative">
-        <div className="h-40 w-full flex items-center justify-center">
-          <img src={thumbnail ? thumbnail : checker_img} className="h-full w-full object-cover" />
+        <div className="flex items-center justify-center w-full h-40">
+          <img src={thumbnail ? thumbnail : checker_img} className="object-cover w-full h-full" />
         </div>
         <LikeButton 
           id={promotionId} 
-          like={like} 
-          like_num={likecount} 
+          like={boardLikeInfo.liked} 
+          like_num={boardLikeInfo.count} 
           onClick={updateLike}
           />
       </div>
@@ -53,21 +52,21 @@ const SearchCard : React.FC<Props> = (props: Props) => {
         <p className="text-plg text-text-plain">{title}</p>
       </div>
       <div className="">
-        <div className='flex flex-row w-full items-center'>
+        <div className='flex flex-row items-center w-full'>
           <div className="w-2 h-4 bg-gray-4" style={{ borderRadius: '0 16px 16px 0' }}></div>
           <div className="w-full border-t border-dashed border-gray-4"></div>
           <div className="w-2 h-4 bg-gray-4" style={{ borderRadius: '16px 0 0 16px' }}></div>
         </div>
       </div>
-      <div className="pb-2 px-10px flex flex-row justify-between items-center">
+      <div className="flex flex-row items-center justify-between pb-2 px-10px">
         <div className='flex flex-col'>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div className="flex flex-row items-center">
                 <img src={location_icon} alt="calendar" className="w-4 h-4 mr-1"/>
                 <div className="text-text-plain text-pxs">{location}</div>
               </div>
             </div>
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row items-center justify-between">
               <div className="flex flex-row items-center">
                 <img src={calendar_icon} alt="calendar" className="w-4 h-4 mr-1"/>
                 <div className="text-text-plain text-pxs">{date}</div>

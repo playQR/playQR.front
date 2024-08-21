@@ -2,18 +2,17 @@ import React, { useEffect, useRef, useState, useCallback, useLayoutEffect } from
 import SearchBox from './searchbox';
 import SearchResult from './searchresult';
 import { axiosAPI,axiosSemiSecureAPI } from '../../../axios';
-import { PromotionCard } from '../../../promotion/types/common';
+import { PromotionCard, PromotionCardV2 } from '../../../promotion/types/common';
 import Loading from '../../../common/loading';
 import toast from 'react-hot-toast'
 import useCheckAuth from '../../../utils/hooks/useCheckAuth';
 import store from '../../../store/store';
-import { handleApiError } from '../../../utils/error';
 
 type Props = {}
 
 const Search = (props: Props) => {
     const [query, setQuery] = useState("");
-    const [results, setResults] = useState<PromotionCard[]>([]);
+    const [results, setResults] = useState<PromotionCardV2[]>([]);
     const target = useRef<HTMLDivElement | null>(null);
     const [isFetching, setIsFetching] = useState(false);
     const [isLikeLoading, setIsLikeLoading] = useState(false);
@@ -22,7 +21,7 @@ const Search = (props: Props) => {
     const [page, setPage] = useState(0); // 현재 페이지를 추적
     const { useModalStore } = store;
     const {openModal} = useModalStore(state => state);
-
+        
 
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
@@ -30,57 +29,22 @@ const Search = (props: Props) => {
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
         try {
-            const res = query === "" 
-                ? await axiosAPI.get(`/api/promotions/search?currentPage=${page}`)
-                : await axiosAPI.get(`/api/promotions/search?currentPage=${page}&keyword=${encodeURIComponent(query)}`);
+            const res = isAuthenticated ? 
+                await axiosAPI.get(`/api/v2/promotions/search?currentPage=${page}&keyword=${encodeURIComponent(query)}`) :
+                await axiosSemiSecureAPI.get(`/api/v2/promotions/search/auth?currentPage=${page}&keyword=${encodeURIComponent(query)}`)
+            const result = res.data.result.promotionList;
             
-            
-            const promotionResult = res.data.result.promotionList.map((res:any)=>{
-                return {...res, like : false, likecount : 0};
-            })
-           
-            
-            const likeResultPromises = promotionResult.map(async (promotion: PromotionCard) => {
-                let likeCount = 0;
-                try{
-                    const response = await axiosAPI.get(`/api/likes/promotion/${promotion.promotionId}/count`);
-                    if(response.data.isSuccess){
-                       likeCount = response.data.result;
-                        if(!isLoading && isAuthenticated){
-                            try{
-                                const response = await axiosSemiSecureAPI.get(`/api/likes/promotion/${promotion.promotionId}`);
-                                if(response.data.isSuccess){
-                                    return {...promotion, like : response.data.result, likecount : likeCount};
-                                }else{
-                                    return {...promotion, like : false, likecount : likeCount};
-                                }
-                            }catch(e){
-                                return {...promotion, like : false, likecount : likeCount};
-                                //console.log(e)
-                            }
-                        }
-                        else{
-                            handleApiError(response.data)
-                            return {...promotion, like : false, likecount : likeCount}
-                        }
-                    }else{
-                        return {...promotion, like : false, likecount : 0};
-                    }
-                }
-                catch(e){
-                    return {...promotion, like : false, likecount : 0};
-                }
-            });
-            const likeResult = await Promise.all(likeResultPromises);
-            if (likeResult.length === 0) {
+            console.log(result);
+        
+            if (result.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
             }
             else {
                 // 더 이상 데이터가 없는 경우 2
-                if(likeResult.length > 0 && likeResult.length < 10) {
+                if(result.length > 0 && result.length < 10) {
                   setStop(true);
                 }
-                setResults((prevResults) => [...prevResults, ...likeResult]);
+                setResults((prevResults) => [...prevResults, ...result]);
             }
         } catch (err) {
             
@@ -151,13 +115,16 @@ const Search = (props: Props) => {
                 promotionLike = false;
             }
         }
+        const boardLikeInfo = {
+            count: likeCount,
+            liked: promotionLike
+        }
         setResults((prevResults) => {
             return prevResults.map((promotion) => {
             if (promotion.promotionId === id) {
                 return {
                 ...promotion,
-                like: promotionLike,
-                likecount: likeCount,
+                boardLikeDto: {...boardLikeInfo}
                 };
             }
             return promotion;
@@ -220,7 +187,7 @@ const Search = (props: Props) => {
 
     
     return (
-        <div className='flex flex-col h-full w-full mt-5'>
+        <div className='flex flex-col w-full h-full mt-5'>
             <SearchBox value={query} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)} />
             <SearchResult results={results} updateLike={updateLike} isAuthenticated={isAuthenticated} isLoading={isLoading}/>
             <div ref={target}></div>

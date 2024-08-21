@@ -1,10 +1,10 @@
 import React from 'react'
 import SearchCard from './searchcard'
-import { PromotionCard } from '../../../promotion/types'
+import { PromotionCardV2 } from '../../../promotion/types'
 
 
 type Props = {
-    results : PromotionCard[];
+    results : PromotionCardV2[];
     updateLike : (id:number, value:boolean) => void;
     isAuthenticated : boolean;
     isLoading : boolean;
@@ -13,10 +13,10 @@ type Props = {
 
 const searchresult : React.FC<Props>= (props: Props) => {
 
-  const result : PromotionCard[]= props.results
+  const result : PromotionCardV2[]= props.results
   const {updateLike} = props;
   return (
-    <div className='flex flex-col w-full space-y-5 items-center justify-center'>
+    <div className='flex flex-col items-center justify-center w-full space-y-5'>
       {
         result.length !== 0?
           result.map((r) => {
@@ -25,7 +25,7 @@ const searchresult : React.FC<Props>= (props: Props) => {
               result={r} 
               />
           }) : 
-        <div className='flex w-full items-center justify-center'>
+        <div className='flex items-center justify-center w-full'>
           <p className='text-gray-3'>검색 결과가 없습니다.</p>
         </div>
       }
