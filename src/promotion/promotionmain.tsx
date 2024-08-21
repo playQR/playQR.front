@@ -5,7 +5,7 @@ import PromotionInfo from "./components/promotionview/promotioninfo";
 import BottomButton from "./components/promotionview/bottombutton";
 import { useParams } from "react-router-dom";
 import { ViewPromotion } from "./types";
-import { axiosAPI } from "../axios";
+import { axiosAPI, axiosSemiSecureAPI } from "../axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "../common/loading";
 import useCheckAuth from "../utils/hooks/useCheckAuth";
@@ -24,11 +24,16 @@ const PromotionView = (props: Props) => {
   } = useCheckAuth();
 
   const fetchData = async () => {
+    if(isAuthLoading)return;
     try {
-      const response = await axiosAPI.get(`/api/promotions/${id}`);
+      const response = isAuthenticated ? 
+        await axiosSemiSecureAPI.get(`/api/v2/promotions/${id}/auth`)
+        :
+        await axiosAPI.get(`/api/v2/promotions/${id}`);
+      console.log(response);
       if (response.data.isSuccess === true) {
         const result = response.data.result;
-        setResult({ ...result, musicLikeList: [] });
+        setResult(result);
       }
     } catch (e: any) {
       alert("정보를 불러오는데 실패했습니다. 다시 시도해주세요.");
@@ -37,10 +42,14 @@ const PromotionView = (props: Props) => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    fetchData();
-    setIsLoading(false);
-  }, []);
+    if(isAuthenticated){
+      setIsLoading(true);
+      fetchData();
+      setIsLoading(false);
+      
+    }
+    
+  }, [isAuthLoading]);
 
   return (
     <div className="relative w-full">
@@ -60,6 +69,7 @@ const PromotionView = (props: Props) => {
             result={result}
             isLoading={isLoading}
             memberInfo={memberInfo}
+            setPromotionInfo={setResult}
           />
         )}
       </div>

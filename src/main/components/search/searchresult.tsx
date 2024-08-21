@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SearchCard from './searchcard'
 import { PromotionCardV2 } from '../../../promotion/types'
 
@@ -11,15 +11,15 @@ type Props = {
 }
 
 
-const searchresult : React.FC<Props>= (props: Props) => {
+const SearchResult : React.FC<Props>= (props: Props) => {
 
-  const result : PromotionCardV2[]= props.results
+  
   const {updateLike} = props;
   return (
     <div className='flex flex-col items-center justify-center w-full space-y-5'>
       {
-        result.length !== 0?
-          result.map((r) => {
+        props.results.length !== 0?
+          props.results.map((r) => {
             return <SearchCard 
               updateLike={updateLike} 
               result={r} 
@@ -34,4 +34,4 @@ const searchresult : React.FC<Props>= (props: Props) => {
   )
 }
 
-export default searchresult
+export default SearchResult

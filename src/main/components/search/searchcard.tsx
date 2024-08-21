@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import calendar_icon from '../../img/calendar_icon.png';
 import location_icon from '../../img/location_icon.png';
 import checker_img from '../../img/checker_img.png';
@@ -25,11 +25,14 @@ const SearchCard : React.FC<Props> = (props: Props) => {
     startTime,
     endTime,
     entranceFee,
-    boardLikeDto: boardLikeInfo
+    boardLikeInfo
   } = props.result
   const {updateLike} = props;
 
- 
+  useEffect(() => {
+    console.log('SearchCard', props.result)
+  }, [props.result])
+
   
   const onClick = () => {
     navigate(`/promotion/${promotionId}`);

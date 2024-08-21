@@ -124,7 +124,7 @@ const Search = (props: Props) => {
             if (promotion.promotionId === id) {
                 return {
                 ...promotion,
-                boardLikeDto: {...boardLikeInfo}
+                boardLikeInfo
                 };
             }
             return promotion;
@@ -178,12 +178,6 @@ const Search = (props: Props) => {
             openModal();
         }
     }
-    useLayoutEffect(() => {
-        if (!stop) {
-
-            fetchResults();
-        }
-    }, [page, fetchResults, stop]);
 
     
     return (

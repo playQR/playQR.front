@@ -4,6 +4,10 @@ export interface Music {
   id: number;
   title: string;
   artist: string;
+  musicLikeInfo: {
+    count: number;
+    liked: boolean;
+  };
   isOpen: boolean;
 }
 
@@ -80,7 +84,7 @@ export interface PromotionCardV2 {
   endTime: string;
   entranceFee: number;
   writer: Member;
-  boardLikeDto: LikeInfo;
+  boardLikeInfo: LikeInfo;
 }
 
 export interface LikeInfo {
@@ -104,8 +108,8 @@ export interface ViewPromotion {
   accountHolder: string;
   refundInfo: string;
   writer: Member;
+  boardLikeInfo: LikeInfo;
   musicList: Music[];
-  musicLikeList: SetListMusic[];
   imageList: string[];
 }
 
