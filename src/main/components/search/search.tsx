@@ -53,14 +53,14 @@ const Search = (props: Props) => {
             
             setIsFetching(false); // 요청 완료 후 isFetching 상태 변경
         }
-    }, [query, page, stop, isAuthenticated,isLikeLoading]);
+    }, [query, page, stop, isAuthenticated]);
 
     // 쿼리가 변경될 때 새로운 결과를 가져오기
     useEffect(() => {
         setResults([]);
         setPage(0);
         setStop(false);// 새 검색 시 정지 상태 해제
-    }, [query, isLoading]);
+    }, [query]);
     
 
     // 페이지가 변경될 때 결과를 가져오기
