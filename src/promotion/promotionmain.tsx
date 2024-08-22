@@ -27,8 +27,7 @@ const PromotionView = (props: Props) => {
     if(isAuthLoading)return;
     
     try {
-      console.log(isAuthenticated);
-      const response = isAuthenticated === true ? 
+      const response = isAuthenticated ? 
         await axiosSemiSecureAPI.get(`/api/v2/promotions/${id}/auth`)
         :
         await axiosAPI.get(`/api/v2/promotions/${id}`);
