@@ -52,7 +52,7 @@ const Search = (props: Props) => {
             
             setIsFetching(false); // 요청 완료 후 isFetching 상태 변경
         }
-    }, [query, page, stop, isAuthenticated]);
+    }, [query, page, stop, isAuthenticated, isLoading]);
 
     
 
@@ -61,7 +61,7 @@ const Search = (props: Props) => {
         setResults([]);
         setPage(0);
         setStop(false);// 새 검색 시 정지 상태 해제
-    }, [query,isAuthenticated]);
+    }, [query]);
     
 
     // 페이지가 변경될 때 결과를 가져오기
@@ -69,7 +69,7 @@ const Search = (props: Props) => {
     // safari 브라우저의 기이한 렌더링 방식
     // 때문에 들어가는 순간 자꾸 page가 1로 초기화되는 문제가 발생
     useLayoutEffect(() => {
-        if (!stop) {
+        if (!stop && !isLoading) {
             fetchResults();
         }
     }, [page, fetchResults, stop, isLoading]);
