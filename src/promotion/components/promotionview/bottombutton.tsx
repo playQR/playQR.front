@@ -57,8 +57,8 @@ const BottomButton = (props: Props) => {
   },[])
 
   return (
-    <div style={backgroundStyle} className='fixed w-full md:w-768px bottom-0 h-100px'>
-      <div className='flex h-full justify-end items-end px-4 pb-54px flex-end'>
+    <div style={backgroundStyle} className='fixed bottom-0 w-full h-100px'>
+      <div className='flex items-end justify-end h-full px-4 pb-54px flex-end'>
         <button 
         onClick={onClick} 
         className={`w-full  ${disabled ? 'bg-text-disabled' : 'bg-primary'} h-46px rounded-xl text-system-white text-plg`} disabled={disabled}>
