@@ -8,7 +8,7 @@ import { PromotionCard } from '../../../promotion/types/common';
 type Props = {};
 
 const Search = (props: Props) => {
-    // const [query, setQuery] = useState("");
+    
     const [results, setResults] = useState<PromotionCard[]>([]);
     const target = useRef<HTMLDivElement | null>(null);
     const [isFetching, setIsFetching] = useState(false);
@@ -163,7 +163,7 @@ const Search = (props: Props) => {
     }
     
     return (
-        <div className='flex flex-col h-full w-full mt-5'>
+        <div className='flex flex-col w-full h-full mt-5'>
             <SearchResult 
                 isFetching={isFetching}
                 onClick={updateLike}

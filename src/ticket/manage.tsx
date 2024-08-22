@@ -1,35 +1,72 @@
-import React from 'react'
-import Nav from '../common/components/nav/nav'
-import Guest from './components/guest/guest'
-import BackButton from './components/guest/backbutton'
-import TicketNumInfo from './components/guest/ticketnuminfo'
-import QrCard from './components/qr/qrcard'
+import React from "react";
+import Nav from "../common/components/nav/nav";
+import Guest from "./components/guest/guest";
+import BackButton from "./components/guest/backbutton";
+import TicketNumInfo from "./components/guest/ticketnuminfo";
+import QrCard from "./components/qr/qrcard";
+import Download from "./components/img/download.svg";
+import { axiosSecureAPI } from "../axios";
+import { useParams } from "react-router-dom";
 
-
-type Props = {
-}
+type Props = {};
 
 const Title = () => {
-    return (
-        <div className='text-ptitle text-system-white font-bold text-left w-full mb-30px'>
-            예매자 관리하기
+  const { id } = useParams();
+
+  const [isDownloading, setIsDownloading] = React.useState(false);
+
+  const downloadList = async () => {
+    setIsDownloading(true);
+    try {
+      const response = await axiosSecureAPI.get(
+        `/excel/guests/${id}/download`,
+        {
+          responseType: "blob",
+        }
+      );
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "download.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (e) {
+      alert("다운로드에 실패했습니다.");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+  return (
+    <div className="flex flex-row items-center justify-between w-full">
+      <div className="font-bold text-left text-ptitle text-system-white mb-30px">
+        예매자 관리하기
+      </div>
+      <button
+        onClick={downloadList}
+        className="flex flex-row items-center px-2 py-2 mb-30px border-primary border-1px rounded-xl"
+      >
+        <div className="ml-4 text-xl font-normal text-center text-primary">
+          {isDownloading ? `다운로드 중` : `예매자 명단`}
         </div>
-    )
-}
+        <img src={Download} alt="download" className="w-8 h-8 mx-2" />
+      </button>
+    </div>
+  );
+};
 
 const Manage = (props: Props) => {
-    
-    
-    return (
-        <div className='flex flex-col min-h-screen justify-start bg-system-background p-4'>
-            <Nav/>
-            <BackButton/>
-            <Title/>
-            <QrCard/>
-            <TicketNumInfo/>
-            <Guest/>
-        </div>
-    )
-}
+  return (
+    <div className="flex flex-col justify-start min-h-screen p-4 bg-system-background">
+      <Nav />
+      <BackButton />
+      <Title />
+      <QrCard />
+      <TicketNumInfo />
+      <Guest />
+    </div>
+  );
+};
 
-export default Manage
+export default Manage;

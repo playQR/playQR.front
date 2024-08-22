@@ -1,6 +1,6 @@
 import React from 'react'
 import SearchCard from './searchcard'
-import { PromotionCard } from '../../../promotion/types'
+import { PromotionCard, PromotionCardV2 } from '../../../promotion/types'
 import ManageButton from '../buttons/managebutton'
 import EditButton from '../buttons/editbutton'
 import DeleteButton from '../buttons/deletebutton'
@@ -9,7 +9,7 @@ import store from '../../../store/store'
 import DeleteModal from '../modals/deletemodal'
 
 type Props = {
-    results : PromotionCard[]
+    results : PromotionCardV2[]
     isOpen : boolean
     setPromotionId : React.Dispatch<React.SetStateAction<number>>
     setIsOpen : React.Dispatch<React.SetStateAction<boolean>>
@@ -22,10 +22,10 @@ const SearchResult : React.FC<Props> = (props: Props) => {
   const {isOpen,setIsOpen,setPromotionId,deletePromotion} = props;
 
   
-  const result : PromotionCard[] = props.results
+  const result : PromotionCardV2[] = props.results
   
   return (
-    <div className='flex flex-col w-full space-y-5 items-center justify-center'>
+    <div className='flex flex-col items-center justify-center w-full space-y-5'>
       {
         result.length !== 0?
           result.map((r) => {
@@ -42,7 +42,7 @@ const SearchResult : React.FC<Props> = (props: Props) => {
               
               
           }) : 
-        <div className='flex w-full items-center justify-center'>
+        <div className='flex items-center justify-center w-full'>
           <p className='text-gray-3'>등록한 공연이 없습니다.</p>
         </div>
       }

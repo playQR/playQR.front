@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useCallback, useLayoutEffect } from 'react'
 import SearchResult from './searchresult';
 import { axiosSemiSecureAPI } from '../../../axios';
-import { PromotionCard } from '../../../promotion/types/common';
+import { PromotionCardV2 } from '../../../promotion/types/common';
 import Loading from '../../../common/loading';
 import toast from 'react-hot-toast';
 import store from '../../../store/store';
@@ -9,7 +9,7 @@ type Props = {}
 
 const Search = (props: Props) => {
     // const [query, setQuery] = useState("");
-    const [results, setResults] = useState<PromotionCard[]>([]);
+    const [results, setResults] = useState<PromotionCardV2[]>([]);
     const target = useRef<HTMLDivElement | null>(null);
     const [isFetching, setIsFetching] = useState(false);
     const [stop, setStop] = useState(false);
@@ -24,7 +24,7 @@ const Search = (props: Props) => {
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
         try {
-            const res = await axiosSemiSecureAPI.get(`/api/promotions/my?currentPage=${page}`)
+            const res = await axiosSemiSecureAPI.get(`/api/v2/promotions/my?currentPage=${page}`)
             const promotionResult = res.data.result.promotionList;
             if (promotionResult.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
@@ -96,7 +96,7 @@ const Search = (props: Props) => {
     }, [isFetching, stop]);
 
     return (
-        <div className='flex flex-col h-full w-full mt-5'>
+        <div className='flex flex-col w-full h-full mt-5'>
             <SearchResult isOpen={isOpen} setIsOpen={setIsOpen} setPromotionId={setPromotionId} deletePromotion={deletePromotion} results={results} />
             <div ref={target} style={{ height: '1px' }}></div>
             {isFetching && <Loading text={"프로모션을 가져오는 중입니다."} isLoading={isFetching}/>}
