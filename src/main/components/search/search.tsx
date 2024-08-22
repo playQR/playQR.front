@@ -28,8 +28,9 @@ const Search = (props: Props) => {
        
         if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
+        console.log(isAuthenticated);
         try {
-            const res = isAuthenticated ? 
+            const res = isAuthenticated === false? 
                 await axiosAPI.get(`/api/v2/promotions/search?currentPage=${page}&keyword=${encodeURIComponent(query)}`) :
                 await axiosSemiSecureAPI.get(`/api/v2/promotions/search/auth?currentPage=${page}&keyword=${encodeURIComponent(query)}`)
             const result = res.data.result.promotionList;
@@ -59,7 +60,7 @@ const Search = (props: Props) => {
         setResults([]);
         setPage(0);
         setStop(false);// 새 검색 시 정지 상태 해제
-    }, [query]);
+    }, [query, isLoading]);
     
 
     // 페이지가 변경될 때 결과를 가져오기

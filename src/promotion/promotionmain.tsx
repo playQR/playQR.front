@@ -25,8 +25,10 @@ const PromotionView = (props: Props) => {
 
   const fetchData = async () => {
     if(isAuthLoading)return;
+    
     try {
-      const response = isAuthenticated ? 
+      console.log(isAuthenticated);
+      const response = isAuthenticated === true ? 
         await axiosSemiSecureAPI.get(`/api/v2/promotions/${id}/auth`)
         :
         await axiosAPI.get(`/api/v2/promotions/${id}`);
@@ -41,12 +43,10 @@ const PromotionView = (props: Props) => {
   };
 
   useEffect(() => {
-    if(isAuthenticated){
+    if(isAuthLoading)return;
       setIsLoading(true);
       fetchData();
       setIsLoading(false);
-      
-    }
     
   }, [isAuthLoading]);
 
