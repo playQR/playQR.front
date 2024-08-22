@@ -29,10 +29,6 @@ const SearchCard : React.FC<Props> = (props: Props) => {
   } = props.result
   const {updateLike} = props;
 
-  useEffect(() => {
-    console.log('SearchCard', props.result)
-  }, [props.result])
-
   
   const onClick = () => {
     navigate(`/promotion/${promotionId}`);
