@@ -72,7 +72,7 @@ const Search = (props: Props) => {
         if (!stop) {
             fetchResults();
         }
-    }, [page, fetchResults, stop]);
+    }, [page, fetchResults, stop,isLikeChanged]);
 
     // 무한 스크롤을 위해 타겟 요소를 감시
     useEffect(() => {
