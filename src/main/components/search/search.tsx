@@ -77,7 +77,7 @@ const Search = (props: Props) => {
     // 무한 스크롤을 위해 타겟 요소를 감시
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting && !isFetching && !stop) {
+            if (entries[0].isIntersecting && !isFetching && !stop && !isLoading) {
                 setPage((prevPage) => prevPage + 1);
             }
         }, {
