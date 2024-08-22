@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
-    "@sentry/cli": "^2.33.0",
-    "@sentry/react": "^8.19.0",
+    "@sentry/cli": "^2.33.1",
+    "@sentry/react": "^8.26.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -47,10 +47,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build --mode production && pnpm sentry:sourcemaps",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org inha-univ-cse --project play-qr ./build && sentry-cli sourcemaps upload --org inha-univ-cse --project play-qr ./build"
+    "sentry:sourcemaps": "RELEASE=$(git rev-parse --short HEAD) && sentry-cli sourcemaps inject --org play-qr --project play-qr --release $RELEASE ./build && sentry-cli sourcemaps upload --org play-qr --project play-qr --release $RELEASE ./build"
   },
   "eslintConfig": {
     "extends": [
