@@ -26,9 +26,8 @@ const Search = (props: Props) => {
     // 검색 결과를 가져오는 함수
     const fetchResults = useCallback(async () => {
        
-        if (isFetching || stop) return;// 이미 요청 중이거나 중지 상태이면 반환
+        if (isFetching || stop || isLoading) return;// 이미 요청 중이거나 중지 상태이면 반환
         setIsFetching(true);
-        console.log(isAuthenticated);
         try {
             const res = isAuthenticated === false? 
                 await axiosAPI.get(`/api/v2/promotions/search?currentPage=${page}&keyword=${encodeURIComponent(query)}`) :
