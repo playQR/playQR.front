@@ -47,7 +47,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build --mode production && pnpm sentry:sourcemaps",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sentry:sourcemaps": "RELEASE=$(git rev-parse --short HEAD) && sentry-cli sourcemaps inject --org play-qr --project play-qr --release $RELEASE ./build && sentry-cli sourcemaps upload --org play-qr --project play-qr --release $RELEASE ./build"
