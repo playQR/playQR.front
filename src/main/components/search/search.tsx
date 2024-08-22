@@ -16,6 +16,7 @@ const Search = (props: Props) => {
     const target = useRef<HTMLDivElement | null>(null);
     const [isFetching, setIsFetching] = useState(false);
     const [isLikeLoading, setIsLikeLoading] = useState(false);
+    const [isLikeChanged, setIsLikeChanged] = useState(false);
     const {isAuthenticated , isLoading} = useCheckAuth();
     const [stop, setStop] = useState(false);
     const [page, setPage] = useState(0); // 현재 페이지를 추적
@@ -53,7 +54,7 @@ const Search = (props: Props) => {
             
             setIsFetching(false); // 요청 완료 후 isFetching 상태 변경
         }
-    }, [query, page, stop, isAuthenticated]);
+    }, [query, page, stop, isAuthenticated,isLikeChanged]);
 
     // 쿼리가 변경될 때 새로운 결과를 가져오기
     useEffect(() => {
@@ -127,7 +128,9 @@ const Search = (props: Props) => {
             }
             return promotion;
             });
-        });} catch (e) {
+        });
+        setIsLikeChanged(!isLikeChanged);
+        } catch (e) {
             //console.log(e)
         } finally {
         setIsLikeLoading(false);
