@@ -33,8 +33,6 @@ const Search = (props: Props) => {
                 await axiosAPI.get(`/api/v2/promotions/search?currentPage=${page}&keyword=${encodeURIComponent(query)}`) :
                 await axiosSemiSecureAPI.get(`/api/v2/promotions/search/auth?currentPage=${page}&keyword=${encodeURIComponent(query)}`)
             const result = res.data.result.promotionList;
-            
-            console.log(result);
         
             if (result.length === 0) {
                 setStop(true); // 더 이상 데이터가 없으면 중지 상태로 설정
@@ -111,7 +109,6 @@ const Search = (props: Props) => {
             const responseLikeStatus = await axiosSemiSecureAPI.get(`/api/likes/promotion/${id}`);
             promotionLike = responseLikeStatus.data.isSuccess ? responseLikeStatus.data.result : false;
             } catch (error) {
-                console.log(error)
                 promotionLike = false;
             }
         }

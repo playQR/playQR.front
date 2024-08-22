@@ -30,7 +30,6 @@ const PromotionView = (props: Props) => {
         await axiosSemiSecureAPI.get(`/api/v2/promotions/${id}/auth`)
         :
         await axiosAPI.get(`/api/v2/promotions/${id}`);
-      console.log(response);
       if (response.data.isSuccess === true) {
         const result = response.data.result;
         setResult(result);
