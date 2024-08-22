@@ -62,7 +62,7 @@ const Search = (props: Props) => {
         setResults([]);
         setPage(0);
         setStop(false);// 새 검색 시 정지 상태 해제
-    }, [query]);
+    }, [query,isAuthenticated]);
     
 
     // 페이지가 변경될 때 결과를 가져오기
