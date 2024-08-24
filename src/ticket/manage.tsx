@@ -47,7 +47,7 @@ const Title = () => {
         onClick={downloadList}
         className="flex flex-row items-center px-1 py-1 mb-30px border-primary border-1px rounded-xl"
       >
-        <div className="ml-1 text-md font-normal text-center text-primary">
+        <div className="ml-2 text-md font-normal text-center text-primary">
           {isDownloading ? `다운로드 중` : `예매자 명단`}
         </div>
         <img src={Download} alt="download" className="w-6 h-6 mx-1" />
