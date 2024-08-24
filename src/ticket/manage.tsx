@@ -45,9 +45,9 @@ const Title = () => {
       </div>
       <button
         onClick={downloadList}
-        className="flex flex-row items-center px-2 py-2 mb-30px border-primary border-1px rounded-xl"
+        className="flex flex-row items-center px-1 py-1 mb-30px border-primary border-1px rounded-xl"
       >
-        <div className="ml-4 text-xl font-normal text-center text-primary">
+        <div className="ml-4 text-lg font-normal text-center text-primary">
           {isDownloading ? `다운로드 중` : `예매자 명단`}
         </div>
         <img src={Download} alt="download" className="w-8 h-8 mx-2" />
