@@ -47,9 +47,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build --mode production",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build --mode production",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "sentry:sourcemaps": "RELEASE=$(git rev-parse --short HEAD) && sentry-cli sourcemaps inject --org play-qr --project play-qr --release $RELEASE ./build && sentry-cli sourcemaps upload --org play-qr --project play-qr --release $RELEASE ./build"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +69,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
+  }
 }
