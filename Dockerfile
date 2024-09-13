@@ -1,0 +1,38 @@
+# 빌드 환경
+FROM node:22-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+COPY . /app
+WORKDIR /app
+
+# 빌드 인자 정의
+ARG REACT_APP_SENTRY_DSN
+ARG REACT_APP_WEB_DOMAIN
+ARG REACT_APP_KAKAO_SHARE_DOMAIN
+ARG REACT_APP_KAKAO_SDK_KEY
+ARG REACT_APP_KAKAO_TEMPLATE_ID
+ARG REACT_APP_IMAGE_FILE_LIMITATION
+ARG REACT_APP_API_URL
+
+# 환경 변수 설정
+ENV REACT_APP_SENTRY_DSN=$REACT_APP_SENTRY_DSN
+ENV REACT_APP_WEB_DOMAIN=$REACT_APP_WEB_DOMAIN
+ENV REACT_APP_KAKAO_SHARE_DOMAIN=$REACT_APP_KAKAO_SHARE_DOMAIN
+ENV REACT_APP_KAKAO_SDK_KEY=$REACT_APP_KAKAO_SDK_KEY
+ENV REACT_APP_KAKAO_TEMPLATE_ID=$REACT_APP_KAKAO_TEMPLATE_ID
+ENV REACT_APP_IMAGE_FILE_LIMITATION=$REACT_APP_IMAGE_FILE_LIMITATION
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
+
+FROM base
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/build /app/build
+EXPOSE 3000
+CMD [ "pnpm", "start" ]
