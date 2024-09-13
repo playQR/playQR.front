@@ -13,4 +13,4 @@ services:
       - REACT_APP_IMAGE_FILE_LIMITATION=${REACT_APP_IMAGE_FILE_LIMITATION}
       - REACT_APP_API_URL=${REACT_APP_API_URL}
     networks:
-      - app-network
+      - compose_app-network
