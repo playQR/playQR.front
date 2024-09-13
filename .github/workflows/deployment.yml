@@ -58,5 +58,5 @@ jobs:
           script: |
             docker login -u _json_key --password-stdin https://gcr.io <<< '${{ secrets.GCE_SA_KEY }}'
             docker pull gcr.io/${GCE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_TAG}
-            cd /path/to/your/docker-compose
+            cd /home/ubuntu/docker-compose
             IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
