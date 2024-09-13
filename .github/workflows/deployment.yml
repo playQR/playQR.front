@@ -46,6 +46,7 @@ jobs:
       GCP_PROJECT_ID: ${{ secrets.GCE_PROJECT_ID }}
       IMAGE_NAME: play-qr-fe
       IMAGE_TAG: ${{ github.sha }}
+      PATH: ${{ secrets.DEPLOY_SERVER_PATH }}
 
     steps:
       - name: 배포 서버에 SSH로 연결하여 배포
@@ -54,9 +55,9 @@ jobs:
           host: ${{ secrets.DEPLOY_SERVER_HOST }}
           username: ${{ secrets.DEPLOY_SERVER_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
-          envs: GCP_PROJECT_ID, IMAGE_NAME, IMAGE_TAG
+          envs: GCP_PROJECT_ID, IMAGE_NAME, IMAGE_TAG, PATH
           script: |
             docker login -u _json_key --password-stdin https://gcr.io <<< '${{ secrets.GCE_SA_KEY }}'
             docker pull gcr.io/${GCE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_TAG}
-            cd /home/ubuntu/docker-compose
+            cd PATH
             IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
