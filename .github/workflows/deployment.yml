@@ -35,7 +35,7 @@ jobs:
             --build-arg REACT_APP_KAKAO_TEMPLATE_ID=${{ secrets.REACT_APP_KAKAO_TEMPLATE_ID }} \
             --build-arg REACT_APP_IMAGE_FILE_LIMITATION=${{ secrets.REACT_APP_IMAGE_FILE_LIMITATION }} \
             --build-arg REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }} \
-            -t gcr.io/${{ env.GCE_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+            -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
           docker push gcr.io/${{ secrets.GCE_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
   deploy:
