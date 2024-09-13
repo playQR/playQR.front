@@ -57,7 +57,8 @@ jobs:
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           envs: GCP_PROJECT_ID, IMAGE_NAME, IMAGE_TAG, PATH
           script: |
-            docker login -u _json_key --password-stdin https://gcr.io <<< '${{ secrets.GCE_SA_KEY }}'
-            docker pull gcr.io/${GCE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_TAG}
             cd PATH
-            IMAGE_TAG=${IMAGE_TAG} docker-compose up -d
+            sudo docker login -u _json_key --password-stdin https://gcr.io <<< '${{ secrets.GCE_SA_KEY }}'
+            sudo docker pull gcr.io/${GCE_PROJECT_ID}/${IMAGE_NAME}:${IMAGE_TAG}
+
+            IMAGE_TAG=${IMAGE_TAG} sudo docker-compose up -d ${IMAGE_NAME}
