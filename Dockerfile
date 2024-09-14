@@ -33,7 +33,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build
 
 # 2. Nginx를 사용하여 정적 파일 서빙
-FROM nginx:alpine
+FROM nginx
 
 # Nginx 설정 파일 복사
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
