@@ -29,7 +29,7 @@ jobs:
         uses: "google-github-actions/get-secretmanager-secrets@v2"
         with:
           secrets: |-
-            test: ${{ secrets.GCE_PROJECT_ID }}/secrets/test
+            test: ${{ secrets.GCE_PROJECT_ID }}/test
 
       - name: Secrets 출력
         run: echo ${{ steps.secrets.outputs.test }}
