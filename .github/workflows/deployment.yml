@@ -25,23 +25,20 @@ jobs:
       - name: Docker를 위한 gcloud 인증 설정
         run: gcloud auth configure-docker --quiet
 
-      - id: 'test'
+      - id: 'secrets'
         name: Google Secret Manager에서 환경변수 가져오기
         uses: "google-github-actions/get-secretmanager-secrets@v2"
         with:
           secrets: |-
-            test:${{ secrets.GCE_PROJECT_ID }}/test
+            env:${{ secrets.GCE_PROJECT_ID }}/env-fe
+            
+      - name: env 파일에 Secret 저장
+        run: echo ${{ steps.secrets.outputs.env }} >> ".env"
 
       - name: Docker 이미지 빌드 및 푸시
         run: |
           docker build \
-            --build-arg REACT_APP_SENTRY_DSN=${{ secrets.REACT_APP_SENTRY_DSN }} \
-            --build-arg REACT_APP_WEB_DOMAIN=${{ secrets.REACT_APP_WEB_DOMAIN }} \
-            --build-arg REACT_APP_KAKAO_SHARE_DOMAIN=${{ secrets.REACT_APP_KAKAO_SHARE_DOMAIN }} \
-            --build-arg REACT_APP_KAKAO_SDK_KEY=${{ secrets.REACT_APP_KAKAO_SDK_KEY }} \
-            --build-arg REACT_APP_KAKAO_TEMPLATE_ID=${{ secrets.REACT_APP_KAKAO_TEMPLATE_ID }} \
-            --build-arg REACT_APP_IMAGE_FILE_LIMITATION=${{ secrets.REACT_APP_IMAGE_FILE_LIMITATION }} \
-            --build-arg REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }} \
+            --env-file ./.env \
             -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
           docker push gcr.io/${{ secrets.GCE_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
