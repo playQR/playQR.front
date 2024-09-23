@@ -54,7 +54,7 @@ jobs:
       IMAGE_NAME: play-qr-fe
       IMAGE_TAG: ${{ github.sha }}
       DEPLOY_PATH: ${{ secrets.DEPLOY_SERVER_PATH }}
-      TEST: ${steps.test.outputs.test}
+      TEST: steps.test.outputs.test
 
     steps:
       - name: 배포 서버에 SSH로 연결하여 배포
