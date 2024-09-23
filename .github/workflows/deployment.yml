@@ -51,7 +51,6 @@ jobs:
       IMAGE_NAME: play-qr-fe
       IMAGE_TAG: ${{ github.sha }}
       DEPLOY_PATH: ${{ secrets.DEPLOY_SERVER_PATH }}
-      TEST: ${{ steps.test.outputs.test }}
 
     steps:
       - name: 배포 서버에 SSH로 연결하여 배포
@@ -63,7 +62,6 @@ jobs:
           envs: GCP_PROJECT_ID, IMAGE_NAME, IMAGE_TAG, DEPLOY_PATH, TEST
           script: |
             cd ${DEPLOY_PATH}
-            sudo touch ${TEST}
             sudo docker stop ${IMAGE_NAME}
             sudo docker rm ${IMAGE_NAME}
             sudo docker login -u _json_key --password-stdin https://gcr.io <<< '${{ secrets.GCE_SA_KEY }}'
