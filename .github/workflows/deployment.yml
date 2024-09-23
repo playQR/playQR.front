@@ -32,9 +32,6 @@ jobs:
           secrets: |-
             test:${{ secrets.GCE_PROJECT_ID }}/test
 
-      - name: Secrets 출력
-        run: echo ${{ steps.test.outputs.test }}
-
       - name: Docker 이미지 빌드 및 푸시
         run: |
           docker build \
@@ -68,6 +65,7 @@ jobs:
           envs: GCP_PROJECT_ID, IMAGE_NAME, IMAGE_TAG, DEPLOY_PATH
           script: |
             cd ${DEPLOY_PATH}
+            sudo touch ${steps.test.outputs.test}
             sudo docker stop ${IMAGE_NAME}
             sudo docker rm ${IMAGE_NAME}
             sudo docker login -u _json_key --password-stdin https://gcr.io <<< '${{ secrets.GCE_SA_KEY }}'
