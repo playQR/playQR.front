@@ -27,9 +27,6 @@ jobs:
 
       - name: Google Secret Manager에서 환경변수 가져오기
         uses: "google-github-actions/get-secretmanager-secrets@v2"
-        with:
-          secrets: |-
-            test: ${{ secrets.GCE_PROJECT_ID }}/test
 
       - name: Secrets 출력
         run: echo ${{ steps.secrets.outputs.test }}
