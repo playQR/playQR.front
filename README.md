@@ -1,1 +1,1 @@
-# BandIT
+# PlayQR
